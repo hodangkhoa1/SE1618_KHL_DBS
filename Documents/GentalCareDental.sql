@@ -1,7 +1,7 @@
-CREATE DATABASE GentalCareDental
+CREATE DATABASE GentalCareDentals
 GO
 
-USE GentalCareDental
+USE GentalCareDentals
 GO
 
 CREATE TABLE Account
@@ -74,6 +74,7 @@ CREATE TABLE Slot
 	SlotID VARCHAR(10) PRIMARY KEY,
 	SlotStart TIME,
 	SlotEnd TIME,
+	SlotStatus INT DEFAULT '0',
 )
 
 CREATE TABLE [Services]
@@ -92,7 +93,7 @@ CREATE TABLE ServiceSlot
 	SlotServiceID VARCHAR(10) PRIMARY KEY,
 	SlotStart TIME,
 	SlotEnd TIME,
-	SlotStatus INT DEFAULT '0',
+	SSlotStatus INT DEFAULT '0',
 	ServiceID VARCHAR(10) FOREIGN KEY REFERENCES [Services](ServiceID),
 	SlotID VARCHAR(10) FOREIGN KEY REFERENCES Slot(SlotID)
 )
