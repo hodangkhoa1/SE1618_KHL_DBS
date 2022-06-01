@@ -1,0 +1,102 @@
+/******************************* INSTRUCTION__INFORMATION *******************************/
+.instruction__information {
+    padding: 3rem 0 1rem 0;
+}
+
+.instruction__information .footer__logo {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    font-weight: 800;
+}
+
+.instruction__information .footer__logo .logo-title{
+    color: #fff;
+    font-size: 25px;
+    line-height: unset;
+    margin-bottom: 0;
+}
+
+.instruction__information ol, ul {
+    padding-left: 0 !important;
+}
+
+.instruction__information h3 {
+    font-size: 24px;
+    color: #ff4f81;
+    position: relative;
+    margin-bottom: 1.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.instruction__information p {
+    color: #8b8b96;
+    line-height: 2.7rem;
+    margin-bottom: 2em;
+    font-size: 15px;
+}
+
+.instruction__information li {
+    list-style-type: none;
+    display: block;
+    margin-bottom: 2rem;
+    color: #8b8b96;
+}
+
+.instruction__information .list i {
+    color: #ff4f81;
+    padding-right: 2rem;
+}
+
+.instruction__information a {
+    text-decoration: none;
+    color: #8b8b96;
+    transition: all 0.5s;
+}
+
+.instruction__information a:hover {
+    color: #fff;
+}
+
+.instruction__information .addess i {
+    margin-right: 2rem;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.instruction__information .addess span {
+    display: block;
+    margin-left: 4.4rem;
+    letter-spacing: 1px;
+    font-size: 14.4px;
+}
+
+/******************************* END INSTRUCTION__INFORMATION *******************************/
+
+/******************************* FOOTER *******************************/
+footer {
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+footer p {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+footer .footer__content a {
+    text-decoration: none;
+    color: #ff4f81;
+    transition: all 0.5s;
+}
+
+footer a:hover {
+    color: #fff;
+}
+/******************************* END INSTRUCTION__FOOTER *******************************/

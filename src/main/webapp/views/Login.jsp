@@ -19,17 +19,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login | Gentle Dental Care</title>
         <!-- TẠO ICON TRÊN THANH WEB -->
-        <link rel="icon" href="./images/icon.png" type="image/png" sizes="200x138" />
+        <link rel="icon" href="./images/favicon-100x100.png" type="image/png" sizes="200x138" />
         <!-- LINK BOXICONS -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <!-- LINK FONTAWESOME -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
         <!-- LINK STYLE -->
-        <link rel="stylesheet" href="./css/user/Loader.css" />
-        <link rel="stylesheet" href="./css/Login.css"/>
+        <link href="./css/user/Loader.css" rel="stylesheet" type="text/css"/>
+        <link href="./css/Login.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="./../layouts/user/Loader.html"></jsp:include>
         
         <div class="page-container" id="page-container">
             <!-- FORM SECTION -->
@@ -37,7 +37,7 @@
                 <!-- SIGN UP -->
                 <div class="container-col align-items-center flex-col sign-up">
                     <div class="form-wrapper align-items-center">
-                        <form action="" method="post" class="sign-up">
+                        <form action="${pageContext.request.contextPath}/register" method="post" class="sign-up">
                             <div class="input-group">
                                 <i class='bx bxs-user'></i>
                                 <input type="text" placeholder="Full Name" name="fullname" id="fullname" oninput="CheckSignUpFullname()" onblur="CheckSignUpFullname()">

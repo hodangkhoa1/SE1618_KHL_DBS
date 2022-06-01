@@ -1,0 +1,189 @@
+.support-online {
+    position: fixed;
+    z-index: 102;
+    left: 25px;
+    bottom: 40px;
+}
+
+.support-online .support-content {
+    padding-left: 0;
+}
+
+.support-online a {
+    position: relative;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.support-online a.support_booking {
+    background-color: #4EB625;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.support-online a.support_facebook {
+    background-color: #0084ff;
+    color: #fff;
+    margin-bottom: 14px;
+}
+
+.support-online a span {
+    text-align: center;
+    background: #2c6ff4;
+    padding: 6px 5px 6px 0;
+    display: none;
+    width: 140px;
+    margin-left: 20px;
+    position: absolute;
+    color: #fff;
+    z-index: 999;
+    top: 0.3em;
+    left: 43px;
+    transition: all .2s ease-in-out;
+    -moz-animation: headerAnimation .7s 1;
+    -webkit-animation: headerAnimation .7s 1;
+    -o-animation: headerAnimation .7s 1;
+    animation: headerAnimation .7s 1;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+
+.support-online a:hover span {
+    display: block;
+}
+
+.support-online a span:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 18px 18px 18px 0;
+    border-color: transparent #2c6ff4 transparent transparent;
+    position: absolute;
+    left: -18px;
+    top: 0px;
+}
+
+.support-online .support_phone .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.support-online .support_phone .animated.infinite {
+    animation-iteration-count: infinite;
+}
+
+.support-online .support_phone .zoomIn {
+    animation-name: zoomInBackgroundPhone;
+}
+
+@keyframes zoomInBackgroundPhone {
+    from {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+.support-online .support_phone .alo-circle {
+    width: 60px;
+    height: 60px;
+    top: -7px;
+    left: -7px;
+    position: absolute;
+    background-color: transparent;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid rgba(30, 30, 30, .4);
+    border-color: #2c6ff4;
+    opacity: .5;
+}
+
+.support-online .support_phone .pulse {
+    animation-name: pulse;
+}
+
+.support-online .support_phone .alo-circle-fill {
+    width: 65px;
+    height: 65px;
+    top: -10px;
+    left: -10px;
+    position: absolute;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+    background-color: #2c6ff4bd;
+    opacity: .75;
+}
+
+.support-online a .support_phone-icon {
+    background-color: #2c6ff4;
+    position: relative;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+.support-online a .support_phone-icon>svg {
+    margin-top: 0.7em;
+    -webkit-animation: quick-alo-circle-img-anim 1s infinite ease-in-out;
+    -moz-animation: quick-alo-circle-img-anim 1s infinite ease-in-out;
+    -ms-animation: quick-alo-circle-img-anim 1s infinite ease-in-out;
+    -o-animation: quick-alo-circle-img-anim 1s infinite ease-in-out;
+    animation: quick-alo-circle-img-anim 1s infinite ease-in-out;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+@keyframes quick-alo-circle-img-anim {
+    0% {
+        -webkit-transform: rotate(0) scale(1) skew(1deg)
+    }
+
+    10% {
+        -webkit-transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+
+    20% {
+        -webkit-transform: rotate(25deg) scale(1) skew(1deg)
+    }
+
+    30% {
+        -webkit-transform: rotate(-25deg) scale(1) skew(1deg)
+    }
+
+    40% {
+        -webkit-transform: rotate(25deg) scale(1) skew(1deg)
+    }
+
+    50% {
+        -webkit-transform: rotate(0) scale(1) skew(1deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(0) scale(1) skew(1deg)
+    }
+}
