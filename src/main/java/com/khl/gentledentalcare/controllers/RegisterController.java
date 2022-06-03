@@ -34,11 +34,10 @@ public class RegisterController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            String getFullName = request.getParameter("signupUsername");
-            String getEmail = request.getParameter("signupEmail");
-            String getPassword = request.getParameter("signupPassword");
-            String getConfirmPassword = request.getParameter("confirmPassword");
-            String newPassword = DigestUtils.md5Hex(getPassword);
+            String getFullName = request.getParameter("fullname");
+            String getEmail = request.getParameter("email");
+            String getPassword = request.getParameter("password");
+            String getConfirmPassword = request.getParameter("confirmpassword");
             String userID = FunctionRandom.randomID(10);
             
             Account account;
@@ -47,7 +46,13 @@ public class RegisterController extends HttpServlet {
             AccountFacade accountFacade = new AccountFacade();
             boolean hasError = false;
             
-            if(getFullName.equals("")) {
+            if (getFullName.equals("") && getEmail.equals("") && getPassword.equals("") && getConfirmPassword.equals("")) {
+                hasError = true;
+                accountError.setFullNameError("Please enter your full name!");
+                accountError.setEmailError("Please enter your email!");
+                accountError.setPasswordError("Please enter your password!");
+                accountError.setConfirmPasswordError("Please enter your confirm password!");
+            } else if(getFullName.equals("")) {
                 hasError = true;
                 accountError.setFullNameError("Please enter your full name!");
             } else if(getEmail.equals("")) {
@@ -64,6 +69,7 @@ public class RegisterController extends HttpServlet {
                 accountError.setConfirmPasswordError("Password does not match!");
             } else {
                 String colorAvatar = FunctionRandom.colorAvatar();
+                String newPassword = DigestUtils.md5Hex(getPassword);
                 char getFirstCharacter = getFullName.charAt(0);
                 
                 account = new Account();

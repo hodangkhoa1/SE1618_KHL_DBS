@@ -56,7 +56,6 @@ public class LoginController extends HttpServlet {
         try {
             String getEmail = request.getParameter("email");
             String getPassword = request.getParameter("password");
-            String hashPassword = DigestUtils.md5Hex(getPassword);
             String rememberMeString = request.getParameter("rememberMe");
             boolean rememberMe = "Y".equals(rememberMeString);
 
@@ -76,6 +75,8 @@ public class LoginController extends HttpServlet {
                 hasError = true;
                 accountError.setPasswordError("Please enter your password!");
             } else {
+                String hashPassword = DigestUtils.md5Hex(getPassword);
+                
                 AccountFacade checkLogin = new AccountFacade();
                 account = checkLogin.checkAccount(getEmail);
                 if (account == null) {

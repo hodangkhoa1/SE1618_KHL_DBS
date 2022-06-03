@@ -6,11 +6,19 @@ header.header-top {
     z-index: 103;
 }
 
-.header-top.header-background {
-    background: #ffffff47;
+header.header-background {
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    font-size: 1.4rem;
 }
 
-header.header-top.active {
+header.active {
     background: #fff;
     position: fixed;
     top: 0;
@@ -454,16 +462,23 @@ header .header__action-user .user-name {
     color: #9930ad;
 }
 
-header .header__action-user .user-avatar {
+header .header__action-user .user-avatar .img-user {
     border-radius: 50%;
     height: 60px;
     width: 60px;
     border: 1px #d4d4d4 solid;
     overflow: hidden;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-header .user-avatar img {
+header .header__action-user .user-avatar .img-user p {
+    margin-bottom: 0;
+}
+
+header .header__action-user .user-avatar .img-user img {
     width: 100%;
 }
 

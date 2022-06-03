@@ -45,7 +45,7 @@
                                 <i class='bx bx-error-circle signup_fullname_icon_error' id="signup_fullname_icon_error"></i>
                             </div>
                             <div class="message">
-                                <span class="error_message" id="fullname_error_signup"></span>
+                                <span class="error_message" id="fullname_error_signup"><%=signupAccountError.getFullNameError()%></span>
                             </div>
                             <div class="input-group">
                                 <i class='bx bx-mail-send'></i>
@@ -54,7 +54,7 @@
                                 <i class='bx bx-error-circle signup_email_icon_error' id="signup_email_icon_error"></i>
                             </div>
                             <div class="message">
-                                <span class="error_message" id="email_error_signup"></span>
+                                <span class="error_message" id="email_error_signup"><%=signupAccountError.getEmailError()%></span>
                             </div>
                             <div class="input-group">
                                 <i class='bx bxs-lock-alt'></i>
@@ -64,7 +64,7 @@
                                 <i class='bx bx-error-circle signup_password_icon_error' id="signup_password_icon_error"></i>
                             </div>
                             <div class="message">
-                                <span class="error_message" id="password_error_signup"></span>
+                                <span class="error_message" id="password_error_signup"><%=signupAccountError.getPasswordError()%></span>
                             </div>
                             <div class="input-group">
                                 <i class='bx bxs-lock-alt'></i>
@@ -74,7 +74,7 @@
                                 <i class='bx bx-error-circle signup_confirmpassword_icon_error' id="signup_confirmpassword_icon_error"></i>
                             </div>
                             <div class="message">
-                                <span class="error_message" id="confirmpassword_error_signup"></span>
+                                <span class="error_message" id="confirmpassword_error_signup"><%=signupAccountError.getConfirmPasswordError()%></span>
                             </div>
                             <button type="submit" class="form-button">Sign up</button>
                             <p class="social_text">Or Sign up with social platforms</p>

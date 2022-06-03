@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,16 +20,14 @@ public class AccountFacade extends AbstractAccount<Account> {
 
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    private static final String SQL_LOGIN = "SELECT * FROM Account WHERE Email = ?";
+    private static final String SQL_LOGIN = "SELECT * FROM Account WHERE UserEmail = ?";
     private static final String SQL_GET_ALL_ACCOUNT = "SELECT * FROM Account ORDER BY UserID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
     private static final String SQL_REGISTER_USER = "INSERT INTO Account(UserID, FullName, UserPassword, UserEmail, DefaultAvatar, ColorAvatar) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String SQL_DISABLE_ACCOUNT = "UPDATE Account SET DisableAccount = 1 WHERE UserID = ?";
-    private static final String SQL_UN_DISABLE_ACCOUNT = "UPDATE Account SET DisableAccount = 0 WHERE UserID = ?";
-    private static final String SQL_EDIT_PROFILE = "UPDATE Account SET UserName = ?, Sex = ?, DateOfBirth = ?, PhoneNumber = ?, ImageAvatar = ?, UserAddress = ? WHERE Email = ?";
-    private static final String SQL_CHANGE_PASSWORD = "UPDATE Account SET PasswordHash = ? WHERE Email = ?";
-    private static final String SQL_ACTIVE_ACCOUNT = "UPDATE Account SET Active = '1' WHERE Email = ?";
+    private static final String SQL_USER_STATUS = "UPDATE Account SET UserStatus = ? WHERE UserEmail = ?";
+    private static final String SQL_EDIT_PROFILE = "UPDATE Account SET FullName = ?, Gender = ?, DateOfBirth = ?, UserPhone = ?, ImageAvatar = ?, UserAddress = ? WHERE UserEmail = ?";
+    private static final String SQL_CHANGE_PASSWORD = "UPDATE Account SET UserPassword = ? WHERE UserEmail = ?";
     private static final String SQL_GET_TOTAL_ACCOUNT = "SELECT COUNT(*) FROM Account";
-    private static final String SQL_SEARCH_ACCOUNT_BY_NAME = "SELECT * FROM Account WHERE UserName LIKE ?";
+    private static final String SQL_SEARCH_ACCOUNT_BY_NAME = "SELECT * FROM Account WHERE FullName LIKE ?";
 
     private Account getInfoAccountFromSQL(ResultSet resultSet) throws SQLException {
         String getUserID = resultSet.getString("UserID");
@@ -38,7 +37,7 @@ public class AccountFacade extends AbstractAccount<Account> {
         Date getDateOfBirth = resultSet.getDate("DateOfBirth");
         String getUserAddress = resultSet.getString("UserAddress");
         String getUserPhone = resultSet.getString("UserPhone");
-        String getSex = resultSet.getString("Sex");
+        String getSex = resultSet.getString("Gender");
         byte[] getImageAvatar = resultSet.getBytes("ImageAvatar");
         String getColorAvatar = resultSet.getString("ColorAvatar");
         String getDefaultAvatar = resultSet.getString("DefaultAvatar");
@@ -80,13 +79,84 @@ public class AccountFacade extends AbstractAccount<Account> {
     }
 
     @Override
-    protected boolean updateAccount(Connection connection, Account t, Object object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    protected boolean updateAccount(Connection connection, Account account, Object object) throws SQLException {
+        try {
+            if (connection != null) {
+                switch (object.toString()) {
+                    case "Disable":
+                        preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
+                        preparedStatement.setString(1, "2");
+                        preparedStatement.setString(2, account.getUserEmail());
+                        break;
+                    case "ActiveAccount":
+                        preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
+                        preparedStatement.setString(1, "1");
+                        preparedStatement.setString(2, account.getUserEmail());
+                        break;
+                    case "EditProfile":
+                        preparedStatement = connection.prepareStatement(SQL_EDIT_PROFILE);
+                        preparedStatement.setString(1, account.getFullName());
+                        preparedStatement.setString(2, account.getGender());
+                        preparedStatement.setDate(3, account.getDateOfBirth());
+                        preparedStatement.setString(4, account.getUserPhone());
+                        preparedStatement.setBytes(5, Base64.decode(account.getImageAvatar()));
+                        preparedStatement.setString(6, account.getUserAddress());
+                        preparedStatement.setString(7, account.getUserEmail());
+                        break;
+                    case "ChangePassword":
+                        preparedStatement = connection.prepareStatement(SQL_CHANGE_PASSWORD);
+                        preparedStatement.setString(1, account.getUserPassword());
+                        preparedStatement.setString(2, account.getUserEmail());
+                        break;
+                }
+
+                preparedStatement.executeUpdate();
+                return true;
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return false;
     }
 
     @Override
-    protected List<Account> getAccount(Connection connection, Object object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    protected List<Account> getAccount(Connection connection, Object object, Object action) throws SQLException {
+        ArrayList<Account> accountList = new ArrayList<>();
+
+        try {
+            if (connection != null) {
+                switch (action.toString()) {
+                    case "SearchAccount":
+                        preparedStatement = connection.prepareStatement(SQL_SEARCH_ACCOUNT_BY_NAME);
+                        preparedStatement.setString(1, "%" + object.toString() + "%");
+                        break;
+                    case "PagingAccount":
+                        preparedStatement = connection.prepareStatement(SQL_GET_ALL_ACCOUNT);
+                        preparedStatement.setInt(1, ((int) object - 1) * 5);
+                        break;
+                }
+
+                resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Account account = getInfoAccountFromSQL(resultSet);
+                    accountList.add(account);
+                }
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return accountList;
     }
 
     @Override

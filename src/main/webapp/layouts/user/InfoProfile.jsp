@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newjsp
-    Created on : Jun 1, 2022, 10:39:32 PM
-    Author     : LamHung
+    Document   : InfoProfile
+    Created on : Jun 3, 2022, 11:43:31 AM
+    Author     : ASUS
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

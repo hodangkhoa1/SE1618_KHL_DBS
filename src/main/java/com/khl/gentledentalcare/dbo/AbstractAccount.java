@@ -19,7 +19,7 @@ public abstract class AbstractAccount<T> {
 
     protected abstract boolean updateAccount(Connection connection, T t, Object object) throws SQLException;
 
-    protected abstract List<T> getAccount(Connection connection, Object object) throws SQLException;
+    protected abstract List<T> getAccount(Connection connection, Object object, Object action) throws SQLException;
 
     protected abstract T checkAccount(Connection connection, Object object) throws SQLException;
 
@@ -72,16 +72,17 @@ public abstract class AbstractAccount<T> {
      * Paging account in admin page
      *
      * @param object
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAccount(Object object) throws SQLException {
+    public List<T> getAccount(Object object, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAccount(connection, object);
+            list = getAccount(connection, object, action);
         } finally {
             connection.close();
         }

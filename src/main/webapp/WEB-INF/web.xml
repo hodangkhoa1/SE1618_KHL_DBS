@@ -64,4 +64,12 @@
         <servlet-name>AboutUsController</servlet-name>
         <url-pattern>/about</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>EditProfileController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.EditProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProfileController</servlet-name>
+        <url-pattern>/edit-profile</url-pattern>
+    </servlet-mapping>
 </web-app>

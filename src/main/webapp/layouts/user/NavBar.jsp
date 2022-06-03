@@ -16,10 +16,10 @@
                     <a href="#">Service</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Booking</a>
+                    <a href="#">Knowledge</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Services</a>
+                    <a href="#">Booking</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/about">About us</a>
@@ -94,21 +94,26 @@
             <c:if test="${sessionScope.LOGIN_USER != null}">
                 <div class="header__action-user">
                     <div onclick="menuToggle()" class="user-avatar">
-                        <img src="./images/user.jpg" />
+                        <c:if test="${sessionScope.LOGIN_USER.imageAvatar != null}">
+                            <div class="img-user">
+                                <img src="data:image/png;base64,${sessionScope.LOGIN_USER.imageAvatar}" />
+                            </div>
+                        </c:if>
+                        <c:if test="${sessionScope.LOGIN_USER.imageAvatar == null}">
+                            <div class="img-user" style="background: ${sessionScope.LOGIN_USER.colorAvatar}">
+                                <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                            </div>
+                        </c:if>
                     </div>
                     <div class="user-menu">
                         <ul>
-                            <li>
-                                <i class="uil uil-language"></i>
-                                <a href="#">English</a>
-                            </li>
                             <li>
                                 <i class="uil uil-user-circle"></i>
                                 <a href="#">My Profile</a>
                             </li>
                             <li>
                                 <i class="uil uil-edit"></i>
-                                <a href="#">Edit Profile</a>
+                                <a href="${pageContext.request.contextPath}/edit-profile">Edit Profile</a>
                             </li>
                             <li>
                                 <i class="uil uil-padlock"></i>
@@ -237,10 +242,19 @@
                 <c:if test="${sessionScope.LOGIN_USER != null}">
                     <div class="header__action-user">
                         <div class="user-avatar">
-                            <img src="./images/user.jpg" />
+                            <c:if test="${sessionScope.LOGIN_USER.imageAvatar != null}">
+                                <div class="img-user">
+                                    <img src="data:image/png;base64,${sessionScope.LOGIN_USER.imageAvatar}" />
+                                </div>
+                            </c:if>
+                            <c:if test="${sessionScope.LOGIN_USER.imageAvatar == null}">
+                                <div class="img-user" style="background: ${sessionScope.LOGIN_USER.colorAvatar}">
+                                    <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="user-name">
-                            <h4>Lê Th? Kim Cúc</h4>
+                            <h4>${sessionScope.LOGIN_USER.fullName}</h4>
                         </div>
                     </div>
                 </c:if>
@@ -260,7 +274,7 @@
                     </li>
 
                     <li class="user__mobile-item">
-                        <a href="#" class="user__mobile-link">
+                        <a href="${pageContext.request.contextPath}/edit-profile" class="user__mobile-link">
                             <i class="fa-solid fa-user-pen"></i>
                             <span class="user__mobile-name">Edit Profile</span>
                         </a>
