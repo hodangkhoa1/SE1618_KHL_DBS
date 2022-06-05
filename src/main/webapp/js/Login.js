@@ -7,7 +7,7 @@ function toggle() {
 }
 
 function CheckURL(urlPage) {
-    if (window.location.href.includes(urlPage)) {
+    if (urlPage.includes("VALUE_LOGIN")) {
         setTimeout(() => {
             container.classList.add("sign-in");
         }, 200);

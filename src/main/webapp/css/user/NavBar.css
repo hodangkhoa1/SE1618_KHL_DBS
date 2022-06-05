@@ -30,7 +30,7 @@ header.active {
     box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
 }
 
-.header-top .navbar {
+header .navbar {
     width: 90%;
     display: flex;
     margin: 5px auto 0 auto;
@@ -38,40 +38,39 @@ header.active {
     justify-content: space-between;
 }
 
-.header-top .logo {
+header .logo {
     height: 60px;
 }
 
-.header-top .header__menu {
+header .header__menu {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 20px;
 }
 
-.header-top .logo img {
+header .logo img {
     height: 100%;
     width: 100%;
     object-fit: contain;
 }
 
-.header-top .menu {
+header .menu {
     display: flex;
 }
 
-.header-top .menu li {
+header .menu li {
     list-style: none;
     margin: 0 10px;
 }
 
-.header-top .menu a {
+header .menu a {
     color: #2c3e50;
     font-size: 20px;
     font-weight: 500;
     text-decoration: none;
     transition: all .5s;
 }
-
 
 /* BUTTON VIER */
 header .menu .nav-item.active a {
@@ -476,6 +475,7 @@ header .header__action-user .user-avatar .img-user {
 
 header .header__action-user .user-avatar .img-user p {
     margin-bottom: 0;
+    color: #fff;
 }
 
 header .header__action-user .user-avatar .img-user img {

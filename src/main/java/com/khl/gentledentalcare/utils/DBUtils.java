@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.khl.gentledentalcare.utils;
 
 import java.sql.Connection;
@@ -18,7 +14,7 @@ public class DBUtils {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String urlDataConnection = "jdbc:sqlserver://localhost;databaseName=GentalCareDentals";
+            String urlDataConnection = "jdbc:sqlserver://localhost;databaseName=GentalCareDental";
 
             Connection dataConn = DriverManager.getConnection(urlDataConnection, "sa", Encrypt.decrypt("u+X+On2XQDymkX7xtpuohQ==", "ssshhhhhhhhhhh!!!!"));
 

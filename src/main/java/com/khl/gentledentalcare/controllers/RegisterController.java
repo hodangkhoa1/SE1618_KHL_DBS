@@ -29,6 +29,7 @@ public class RegisterController extends HttpServlet {
     private static final String SECRET_KEY = "ssshhhhhhhhhhh!!!!";
     private static final String USERNAME_REGISTER = "USERNAME_REGISTER";
     private static final String EMAIL_REGISTER = "USERNAME_REGISTER";
+    private static final String VALUE_LOGIN = "VALUE_LOGIN";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -44,6 +45,7 @@ public class RegisterController extends HttpServlet {
             Notification notification;
             AccountError accountError = new AccountError();
             AccountFacade accountFacade = new AccountFacade();
+            HttpSession session = request.getSession();
             boolean hasError = false;
             
             if (getFullName.equals("") && getEmail.equals("") && getPassword.equals("") && getConfirmPassword.equals("")) {
@@ -97,6 +99,7 @@ public class RegisterController extends HttpServlet {
                 request.setAttribute(SIGN_UP_ACCOUNT_ERROR, accountError);
                 request.setAttribute(USERNAME_REGISTER, getFullName);
                 request.setAttribute(EMAIL_REGISTER, getEmail);
+                session.setAttribute(VALUE_LOGIN, "VALUE_REGISTER");
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Login.jsp");
                 requestDispatcher.forward(request, response);
             } else {
@@ -108,7 +111,6 @@ public class RegisterController extends HttpServlet {
                 boolean addNotificationDone = checkNotification.addNotification(notification);
                 if(addNotificationDone) {
                     String encryptedUsername = Encrypt.encrypt(getFullName, SECRET_KEY);
-                    HttpSession session = request.getSession();
                     session.setAttribute(INTRO_USER, encryptedUsername);
                     session.setAttribute(WELCOME_USER, encryptedUsername);
                     session.setMaxInactiveInterval(500);

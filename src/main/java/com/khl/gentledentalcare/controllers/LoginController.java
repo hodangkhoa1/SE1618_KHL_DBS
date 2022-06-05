@@ -39,11 +39,15 @@ public class LoginController extends HttpServlet {
     private static final String SECRET_KEY = "ssshhhhhhhhhhh!!!!";
     private static final int TIME_COOKIE = 60 * 60 * 24;
     private static final String EMAIL = "EMAIL";
+    private static final String VALUE_LOGIN = "VALUE_LOGIN";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        HttpSession session = request.getSession();
+        session.setAttribute(VALUE_LOGIN, "VALUE_LOGIN");
+        
         RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Login.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -57,10 +61,12 @@ public class LoginController extends HttpServlet {
             String getEmail = request.getParameter("email");
             String getPassword = request.getParameter("password");
             String rememberMeString = request.getParameter("rememberMe");
+            String hashPassword = DigestUtils.md5Hex(getPassword);
             boolean rememberMe = "Y".equals(rememberMeString);
 
             Account account = null;
             AccountError accountError = new AccountError();
+            HttpSession session = request.getSession();
             boolean hasError = false;
             Cookie cookieUserName;
 
@@ -75,17 +81,15 @@ public class LoginController extends HttpServlet {
                 hasError = true;
                 accountError.setPasswordError("Please enter your password!");
             } else {
-                String hashPassword = DigestUtils.md5Hex(getPassword);
-                
                 AccountFacade checkLogin = new AccountFacade();
                 account = checkLogin.checkAccount(getEmail);
                 if (account == null) {
                     hasError = true;
                     accountError.setEmailError("Account does not exist!");
-                } else if (account.getUserStatus()== 0) {
+                } else if (account.getUserStatus() == 0) {
                     hasError = true;
                     accountError.setEmailError("Account not activated!");
-                } else if (account.getUserStatus() == 1) {
+                } else if (account.getUserStatus() == 2) {
                     hasError = true;
                     accountError.setEmailError("Your account has been locked!");
                 } else if (!hashPassword.equals(account.getUserPassword())) {
@@ -97,11 +101,10 @@ public class LoginController extends HttpServlet {
             if (hasError) {
                 request.setAttribute(LOGIN_ACCOUNT_ERROR, accountError);
                 request.setAttribute(EMAIL, getEmail);
+                session.setAttribute(VALUE_LOGIN, "VALUE_LOGIN");
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Login.jsp");
                 requestDispatcher.forward(request, response);
             } else {
-                HttpSession session = request.getSession();
-
                 if (rememberMe) {
                     String encryptedUsername = Encrypt.encrypt(getEmail, SECRET_KEY);
                     cookieUserName = new Cookie(REMEMBER_USER, encryptedUsername);
@@ -113,11 +116,7 @@ public class LoginController extends HttpServlet {
                 response.addCookie(cookieUserName);
 
                 switch (account.getUserRole()) {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
+                    case 0:
                         NotificationFacade checkNotification = new NotificationFacade();
                         List<Notification> notificationList = checkNotification.getAllNotification(account.getUserID());
 
@@ -141,6 +140,7 @@ public class LoginController extends HttpServlet {
                         }
 
                         session.setAttribute(LOGIN_USER, account);
+                        session.removeAttribute(VALUE_LOGIN);
                         session.setMaxInactiveInterval(500);
                         String uri = (String) session.getAttribute("uri");
                         if (uri != null) {
@@ -148,6 +148,10 @@ public class LoginController extends HttpServlet {
                         } else {
                             response.sendRedirect(request.getContextPath() + "/home");
                         }
+                        break;
+                    case 1:
+                        break;
+                    case 2:
                         break;
                 }
             }

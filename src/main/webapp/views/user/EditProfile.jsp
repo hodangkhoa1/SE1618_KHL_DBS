@@ -39,10 +39,12 @@
         <link rel="stylesheet" href="./css/user/EditProfile.css">
         <link rel="stylesheet" href="./css/user/FooterPage.css">
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
+        <link rel="stylesheet" href="./css/UploadImagePopup.css">
     </head>
     <body>
         <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
+        <jsp:include page="../../layouts/UploadImagePopup.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
         <header class="header-background">
@@ -59,20 +61,33 @@
                                 <div class="account-settings">
                                     <div class="user-profile">
                                         <div class="user-avatar">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                alt="Maxwell Admin">
+                                            <div class="setting-avatar_photo" style="background: ${sessionScope.LOGIN_USER.imageAvatar == null ? sessionScope.LOGIN_USER.colorAvatar : ""}">
+                                                <c:choose>
+                                                    <c:when test = "${sessionScope.LOGIN_USER.imageAvatar == null}">
+                                                       <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                                                    </c:when>
+                                                       
+                                                    <c:when test = "${sessionScope.LOGIN_USER.imageAvatar != null}">
+                                                       <img src="data:image/png;base64,${sessionScope.LOGIN_USER.imageAvatar}" />
+                                                    </c:when>
+                                                       
+                                                    <c:when test = "${IMAGE_AVATAR != null}">
+                                                        <img src="${fileURL}" alt="" >
+                                                        <input type="hidden" value="${fileURL}" name="imageAvatar">
+                                                    </c:when>
+                                                    <c:when test = "${IMAGE_AVATAR == null}">
+                                                        <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                                                    </c:when>
+                                                </c:choose>
+                                            </div>
                                         </div>
                                         <h5 class="user-name">${sessionScope.LOGIN_USER.fullName}</h5>
                                         <h6 class="user-email">${sessionScope.LOGIN_USER.userEmail}</h6>
                                     </div>
                                     <div class="button-action row">
                                         <div
-                                            class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6 d-flex justify-content-lg-center justify-content-end">
+                                            class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-lg-center justify-content-center">
                                             <button type="button" class="change-avatar">Change Avatar</button>
-                                        </div>
-                                        <div
-                                            class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-6 d-flex justify-content-lg-center pt-lg-2 pt-xl-0">
-                                            <button type="button" class="button-delete">Delete Account</button>
                                         </div>
                                     </div>
                                 </div>

@@ -109,7 +109,7 @@
                         <ul>
                             <li>
                                 <i class="uil uil-user-circle"></i>
-                                <a href="#">My Profile</a>
+                                <a href="${pageContext.request.contextPath}/info-profile">My Profile</a>
                             </li>
                             <li>
                                 <i class="uil uil-edit"></i>
@@ -267,7 +267,7 @@
             <ul class="user__mobile-list">
                 <c:if test="${sessionScope.LOGIN_USER != null}">
                     <li class="user__mobile-item">
-                        <a href="#" class="user__mobile-link">
+                        <a href="${pageContext.request.contextPath}/info-profile" class="user__mobile-link">
                             <i class="fa-solid fa-user"></i>
                             <span class="user__mobile-name">My Profile</span>
                         </a>

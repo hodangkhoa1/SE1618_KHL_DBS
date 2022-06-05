@@ -189,7 +189,7 @@
         
         <script src="./js/Login.js"></script>
         <script>
-            CheckURL("<%=request.getRequestURI()%>");
+            CheckURL("${sessionScope.VALUE_LOGIN}");
         </script>
     </body>
 </html>

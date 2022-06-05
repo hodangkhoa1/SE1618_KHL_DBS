@@ -46,7 +46,7 @@
                                                             </p>
 
                                                             <h2>
-                                                                Hey SmilesDavis,
+                                                                Hey ${sessionScope.LOGIN_USER.fullName},
                                                             </h2>
                                                             <p>
                                                                 Wowwee! Thanks for registering an account with Discord!
@@ -63,7 +63,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <button onclick="window.location.href = ''" type="button" class="button-verify">
+                                                                        <button onclick="window.location.href = '${pageContext.request.contextPath}/login'" type="button" class="button-verify">
                                                                             Verify Email
                                                                         </button>
                                                                     </td>
