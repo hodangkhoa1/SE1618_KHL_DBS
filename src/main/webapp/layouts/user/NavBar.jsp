@@ -185,7 +185,7 @@
                             </li>
                             <li>
                                 <i class="uil uil-padlock"></i>
-                                <a href="#">Change Password</a>
+                                <a href="${pageContext.request.contextPath}/change-password">Change Password</a>
                             </li>
                             <li>
                                 <i class="uil uil-signout"></i>
@@ -353,7 +353,7 @@
                     </li>
 
                     <li class="user__mobile-item item-border">
-                        <a href="#" class="user__mobile-link">
+                        <a href="${pageContext.request.contextPath}/change-password" class="user__mobile-link">
                             <i class="fa-solid fa-lock"></i>
                             <span class="user__mobile-name">Change Password</span>
                         </a>

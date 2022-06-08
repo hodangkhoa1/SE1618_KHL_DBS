@@ -104,4 +104,12 @@
         <servlet-name>EditProfileController</servlet-name>
         <url-pattern>/edit-profile</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ChangePasswordController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <url-pattern>/change-password</url-pattern>
+    </servlet-mapping>
 </web-app>
