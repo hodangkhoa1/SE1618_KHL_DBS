@@ -218,5 +218,6 @@
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
         <script src="./js/user/EditProfile.js"></script>
+        <script src="./js/user/UploadImagePopup.js"></script>
     </body>
 </html>

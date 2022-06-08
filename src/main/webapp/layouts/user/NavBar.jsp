@@ -16,7 +16,7 @@
                     <a href="#">Service</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Knowledge</a>
+                    <a href="${pageContext.request.contextPath}/news">News</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Booking</a>
@@ -32,7 +32,7 @@
                 <div class="button-search">
                     <i class="btn-search fa-solid fa-magnifying-glass"></i>
                 </div>
-                <input class="search-place" type="text" placeholder="Search service">
+                <input oninput="searchName(this, '${pageContext.request.contextPath}/product')" onfocusout="showLoadMoreButton()" class="search-place" type="text" placeholder="Search service">
                     <button onclick="showMicrophoneBox()" type="button" class="button-mic">
                         <svg class="goxjub" focusable="false" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
@@ -76,6 +76,74 @@
                             <div id="microphone-footer-label" class="microphone-footer-label"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+                
+        <div class="header__notify">
+            <div class="notification has-notification">
+                <div style="position: relative;">
+                    <div class="bell" id="bell">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <c:if test="${sessionScope.LOGIN_USER != null}">
+                        <c:if test="${sessionScope.NOTIFICATION_LIST != null}">
+                            <div class="bell-number" id="bell-number">${sessionScope.COUNT_NOTIFICATION_NOT_READ}</div>
+                        </c:if>
+                    </c:if>
+                </div>
+                <div class="notification-box">
+                    <div class="notification-box-header">
+                        <h3>Notification</h3>
+                    </div>
+                    <c:if test="${sessionScope.LOGIN_USER == null}">
+                        <div class="notification-item">
+                            <div class="notification-content">
+                                <img src="./images/notification.png" alt="Notification" class="notification-img">
+                                <div class="notification-info">
+                                    <span class="notification-message">Sign in to see notifications</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-footer">
+                            <button type="button"
+                                onclick="window.location.href = '${pageContext.request.contextPath}/login';"
+                                class="footer-registration">Registration</button>
+                            <button type="button"
+                                onclick="window.location.href = '${pageContext.request.contextPath}/login';"
+                                class="footer-login">Login</button>
+                        </div>
+                    </c:if>
+                    <c:if test="${sessionScope.LOGIN_USER != null}">
+                        <c:if test="${sessionScope.NOTIFICATION_LIST == null}">
+                            <div class="notification-empty">
+                                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_buhby0ug.json" background="transparent" speed="1" loop autoplay class="notification-empty_image"></lottie-player>
+                            </div>
+                        </c:if>
+                        <c:if test="${sessionScope.NOTIFICATION_LIST != null}">
+                            <div class="notification-box-body">
+                                <ul>
+                                    <c:forEach items="${sessionScope.NOTIFICATION_LIST}" var="notification">
+                                        <c:if test="${notification.notifyType.equals('NewAccount')}">
+                                            <li id="notification-box-list">
+                                                <div class="notification-logo">
+                                                    <img src="./images/favicon-100x100.png" alt="logo">
+                                                </div>
+                                                <div class="notification-message-wrapper">
+                                                    <div>
+                                                        Welcome <span class="name">${sessionScope.LOGIN_USER.fullName}</span> to Gentle Dental Care.
+                                                        Always be passionate, persistent and pursue your goals
+                                                        together ❤️
+                                                    </div>
+                                                    <div class="notification-created">${sessionScope.TIME_NOTIFICATION}</div>
+                                                </div>
+                                            </li>
+                                        </c:if>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </c:if>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -174,7 +242,11 @@
                 <div class="bell" id="bell">
                     <i class="fas fa-bell"></i>
                 </div>
-                <div class="bell-number" id="bell-number">99+</div>
+                <c:if test="${sessionScope.LOGIN_USER != null}">
+                    <c:if test="${sessionScope.NOTIFICATION_LIST != null}">
+                        <div class="bell-number" id="bell-number">${sessionScope.COUNT_NOTIFICATION_NOT_READ}</div>
+                    </c:if>
+                </c:if>
             </div>
         </div>
         <div id="searchBox" class="d-lg-none container-fluid">
@@ -303,9 +375,9 @@
                 </li>
 
                 <li class="user__mobile-item">
-                    <a href="#" class="user__mobile-link">
+                    <a href="${pageContext.request.contextPath}/news" class="user__mobile-link">
                         <i class="fa-solid fa-brain"></i>
-                        <span class="user__mobile-name">Knowledge</span>
+                        <span class="user__mobile-name">News</span>
                     </a>
                 </li>
 

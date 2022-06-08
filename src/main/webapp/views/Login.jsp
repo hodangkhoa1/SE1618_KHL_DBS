@@ -126,7 +126,7 @@
                                     <label for="rememberMe">Remember me</label>
                                 </div>
                                 <div class="forgot_link">
-                                    <a href="#">Forgot password</a>
+                                    <a href="${pageContext.request.contextPath}/forgot-password">Forgot password</a>
                                 </div>
                             </div>
                             <button type="submit" class="form-button">Sign in</button>

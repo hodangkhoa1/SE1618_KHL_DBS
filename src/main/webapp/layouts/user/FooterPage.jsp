@@ -26,7 +26,7 @@
 
                     <li>
                         <i class="fas fa-chevron-right"></i>
-                        <a href="">Knowledge</a>
+                        <a href="${pageContext.request.contextPath}/news">News</a>
                     </li>
 
                     <li>

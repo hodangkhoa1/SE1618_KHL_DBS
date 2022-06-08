@@ -127,3 +127,26 @@ function hideMicrophoneBoxMobile() {
     microphoneWrapper.classList.remove("active");
     bodyForMicrophoneBox.style.overflowY = "scroll";
 }
+
+function searchName(valueSearch, urlServlet) {
+    const textSearch = valueSearch.value;
+    const viewMore = document.querySelector(".view-more");
+
+    $.ajax({
+        url: urlServlet,
+        type: "get",
+        data: {
+            search: textSearch
+        },
+        success: function (data) {
+            const newsList = document.querySelector("#return-list");
+            newsList.innerHTML = data;
+            viewMore.style.display = "none";
+        }
+    });
+}
+
+function showLoadMoreButton() {
+    const viewMore = document.querySelector(".view-more");
+    viewMore.style.display = "block";
+}

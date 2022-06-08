@@ -71,7 +71,6 @@ public class FunctionSendEmail {
             email.send();
             return true;
         } catch (EmailException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -133,7 +132,6 @@ public class FunctionSendEmail {
             email.send();
             return true;
         } catch (EmailException e) {
-            e.printStackTrace();
             return false;
         }
     }

@@ -5,10 +5,6 @@ import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- *
- * @author ASUS
- */
 @Getter
 @Setter
 public class Account {

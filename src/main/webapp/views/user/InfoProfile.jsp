@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="user-sidenav">
                                     <div class="user-sidenav__url">
-                                        <button type="button" class="sidenav-url__title">Delete Account</button>
+                                        <button onclick="DeleteAccount('${pageContext.request.contextPath}/info-profile', '${sessionScope.LOGIN_USER.userEmail}')" type="button" class="sidenav-url__title">Delete Account</button>
                                     </div>
                                 </div>
                             </div>
@@ -134,10 +134,13 @@
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <!-- Malihu Custom Scrollbar -->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js'></script>
+        <!-- SWEETALERT2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- LINK JS -->
         <script src="./js/user/UserRoot.js"></script>
         <script src="./js/ScrollBackToTop.js"></script>
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
+        <script src="./js/user/InfoProfile.js"></script>
     </body>
 </html>

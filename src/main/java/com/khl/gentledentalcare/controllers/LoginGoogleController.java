@@ -2,52 +2,49 @@ package com.khl.gentledentalcare.controllers;
 
 import com.khl.gentledentalcare.dbo.AccountFacade;
 import com.khl.gentledentalcare.models.Account;
+import com.khl.gentledentalcare.models.GoogleAccount;
+import com.khl.gentledentalcare.services.RestGoogle;
+import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author ASUS
- */
-public class InfoProfileController extends HttpServlet {
+public class LoginGoogleController extends HttpServlet {
 
-    private static final String REMEMBER_USER = "USER_GDC";
+    private static final String LOGIN_USER = "LOGIN_USER";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            String userEmail = request.getParameter("userEmail");
+            String googleCode = request.getParameter("code");
+            String accessToken = RestGoogle.getGoogleToken(googleCode);
+            GoogleAccount googleAccount = RestGoogle.getGoogleUserInfo(accessToken);
 
-            HttpSession session = request.getSession(true);
-            Cookie cookieUserName;
             AccountFacade accountFacade = new AccountFacade();
-            Account account = new Account();
+            HttpSession session = request.getSession();
 
-            if (userEmail != null) {
-                account.setUserEmail(userEmail);
-                boolean checkDeleteAccount = accountFacade.updateAccount(account, "DeleteAccount");
-                if (checkDeleteAccount) {
-                    if (session != null) {
-                        cookieUserName = new Cookie(REMEMBER_USER, null);
-                        cookieUserName.setMaxAge(0);
-                        response.addCookie(cookieUserName);
-                        session.invalidate();
-                    }
-                    response.sendRedirect(request.getContextPath() + "/home");
-                }
+            Account checkLearnerAccount = accountFacade.checkAccount(googleAccount.getEmail());
+
+            if (checkLearnerAccount == null) {
+                Account account = new Account();
+
+                account.setUserID(FunctionRandom.randomID(10));
+                account.setUserEmail(googleAccount.getEmail());
+                accountFacade.registerAccount(account);
+
+                session.setAttribute(LOGIN_USER, account);
             } else {
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/InfoProfile.jsp");
-                requestDispatcher.forward(request, response);
+                session.setAttribute(LOGIN_USER, checkLearnerAccount);
             }
-        } catch (IOException | SQLException | ServletException e) {
+
+            response.sendRedirect(request.getContextPath() + "/home");
+
+        } catch (IOException | SQLException e) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }

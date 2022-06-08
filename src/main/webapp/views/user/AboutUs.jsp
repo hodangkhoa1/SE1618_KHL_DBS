@@ -37,7 +37,7 @@
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
-        <header class="header-top header-background">
+        <header class="header-background">
             <jsp:include page="../../layouts/user/NavBar.jsp"></jsp:include>
         </header>
         

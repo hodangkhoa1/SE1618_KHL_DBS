@@ -116,7 +116,6 @@ public class EditProfileController extends HttpServlet {
             }
 
         } catch (IOException | SQLException | ServletException e) {
-            e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }
