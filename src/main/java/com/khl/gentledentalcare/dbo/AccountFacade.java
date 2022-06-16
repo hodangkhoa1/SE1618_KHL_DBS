@@ -12,10 +12,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author ASUS
- */
 public class AccountFacade extends AbstractAccount<Account> {
 
     private PreparedStatement preparedStatement = null;
