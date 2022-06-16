@@ -15,7 +15,7 @@ public abstract class AbstractHospital<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllHospital(Connection connection) throws SQLException;
+    protected abstract List<T> getAllHospital(Connection connection, Object object, Object action, Object status) throws SQLException;
 
     protected abstract boolean addHospital(Connection connection, T hospital) throws SQLException;
 
@@ -27,16 +27,19 @@ public abstract class AbstractHospital<T> {
      * *
      * Get all hospital
      *
+     * @param object
+     * @param action
+     * @param status
      * @return
      * @throws SQLException
      */
-    public List<T> getAllHospital() throws SQLException {
+    public List<T> getAllHospital(Object object, Object action, Object status) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllHospital(connection);
+            list = getAllHospital(connection, object, action, status);
         } finally {
             connection.close();
         }

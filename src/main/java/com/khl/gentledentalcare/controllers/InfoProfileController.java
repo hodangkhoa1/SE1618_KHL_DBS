@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 public class InfoProfileController extends HttpServlet {
 
     private static final String REMEMBER_USER = "USER_GDC";
+    private static final String LOGIN_ADMIN = "LOGIN_ADMIN";
+    private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,21 +33,25 @@ public class InfoProfileController extends HttpServlet {
             AccountFacade accountFacade = new AccountFacade();
             Account account = new Account();
 
-            if (userEmail != null) {
-                account.setUserEmail(userEmail);
-                boolean checkDeleteAccount = accountFacade.updateAccount(account, "DeleteAccount");
-                if (checkDeleteAccount) {
-                    if (session != null) {
+            if (session.getAttribute(LOGIN_ADMIN) != null) {
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/InfoProfile.jsp");
+                requestDispatcher.forward(request, response);
+            } else {
+                if (userEmail != null) {
+                    account.setUserEmail(userEmail);
+                    boolean checkDeleteAccount = accountFacade.updateAccount(account, "DeleteAccount");
+                    if (checkDeleteAccount) {
                         cookieUserName = new Cookie(REMEMBER_USER, null);
                         cookieUserName.setMaxAge(0);
                         response.addCookie(cookieUserName);
                         session.invalidate();
+                        response.sendRedirect(request.getContextPath() + "/home");
                     }
-                    response.sendRedirect(request.getContextPath() + "/home");
+                } else {
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/InfoProfile.jsp");
+                    requestDispatcher.forward(request, response);
                 }
-            } else {
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/InfoProfile.jsp");
-                requestDispatcher.forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {
             response.sendRedirect(request.getContextPath() + "/error");

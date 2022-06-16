@@ -4,9 +4,12 @@ import com.khl.gentledentalcare.dbo.AccountFacade;
 import com.khl.gentledentalcare.dbo.NotificationFacade;
 import com.khl.gentledentalcare.models.Account;
 import com.khl.gentledentalcare.models.AccountError;
+import com.khl.gentledentalcare.models.GoogleAccount;
 import com.khl.gentledentalcare.models.Notification;
+import com.khl.gentledentalcare.services.RestGoogle;
 import com.khl.gentledentalcare.utils.CalculatorTime;
 import com.khl.gentledentalcare.utils.Encrypt;
+import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -45,11 +48,39 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession();
-        session.setAttribute(VALUE_LOGIN, "VALUE_LOGIN");
-        
-        RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Login.jsp");
-        requestDispatcher.forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            String googleCode = request.getParameter("code");
+
+            if (googleCode != null) {
+                String accessToken = RestGoogle.getGoogleToken(googleCode);
+                GoogleAccount googleAccount = RestGoogle.getGoogleUserInfo(accessToken);
+
+                AccountFacade accountFacade = new AccountFacade();
+                Account checkLearnerAccount = accountFacade.checkAccount(googleAccount.getEmail());
+
+                if (checkLearnerAccount == null) {
+                    Account account = new Account();
+
+                    account.setUserID(FunctionRandom.randomID(10));
+                    account.setUserEmail(googleAccount.getEmail());
+                    accountFacade.registerAccount(account);
+
+                    session.setAttribute(LOGIN_USER, account);
+                } else {
+                    session.setAttribute(LOGIN_USER, checkLearnerAccount);
+                }
+
+                response.sendRedirect(request.getContextPath() + "/home");
+            } else {
+                session.setAttribute(VALUE_LOGIN, "VALUE_LOGIN");
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Login.jsp");
+                requestDispatcher.forward(request, response);
+            }
+
+        } catch (IOException | SQLException | ServletException e) {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
     }
 
     @Override
@@ -150,6 +181,9 @@ public class LoginController extends HttpServlet {
                         }
                         break;
                     case 1:
+                        session.setAttribute(LOGIN_ADMIN, account);
+                        session.setMaxInactiveInterval(500);
+                        response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                         break;
                     case 2:
                         break;

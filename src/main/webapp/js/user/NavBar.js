@@ -9,6 +9,18 @@ $(document).ready(function () {
     });
 });
 
+function setActiveMenuBar() {
+    const navLink = document.querySelectorAll(".nav-link");
+    document.querySelectorAll(".nav-item").forEach((item) => {
+        item.classList.remove("active");
+    });
+    navLink.forEach((item) => {
+        if (item.getAttribute("href") === window.location.pathname) {
+            item.parentElement.classList.add("active");
+        }
+    });
+}
+
 function menuToggle() {
     const toggleMenu = document.querySelector(".user-menu");
     toggleMenu.classList.toggle("active");

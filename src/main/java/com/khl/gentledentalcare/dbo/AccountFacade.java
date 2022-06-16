@@ -21,7 +21,7 @@ public class AccountFacade extends AbstractAccount<Account> {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private static final String SQL_LOGIN = "SELECT * FROM Account WHERE UserEmail = ?";
-    private static final String SQL_GET_ALL_ACCOUNT = "SELECT * FROM Account ORDER BY UserID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
+    private static final String SQL_GET_ALL_ACCOUNT = "SELECT * FROM Account WHERE UserRole = ? ORDER BY UserID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
     private static final String SQL_REGISTER_USER = "INSERT INTO Account(UserID, FullName, UserPassword, UserEmail, DefaultAvatar, ColorAvatar) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_USER_STATUS = "UPDATE Account SET UserStatus = ? WHERE UserEmail = ?";
     private static final String SQL_EDIT_PROFILE = "UPDATE Account SET FullName = ?, Gender = ?, DateOfBirth = ?, UserPhone = ?, ImageAvatar = ?, UserAddress = ? WHERE UserEmail = ?";
@@ -130,7 +130,7 @@ public class AccountFacade extends AbstractAccount<Account> {
     }
 
     @Override
-    protected List<Account> getAccount(Connection connection, Object object, Object action) throws SQLException {
+    protected List<Account> getAccount(Connection connection, Object object, Object action, Object status) throws SQLException {
         ArrayList<Account> accountList = new ArrayList<>();
 
         try {
@@ -142,7 +142,8 @@ public class AccountFacade extends AbstractAccount<Account> {
                         break;
                     case "PagingAccount":
                         preparedStatement = connection.prepareStatement(SQL_GET_ALL_ACCOUNT);
-                        preparedStatement.setInt(1, ((int) object - 1) * 5);
+                        preparedStatement.setString(1, status.toString());
+                        preparedStatement.setInt(2, ((int) object - 1) * 5);
                         break;
                 }
 

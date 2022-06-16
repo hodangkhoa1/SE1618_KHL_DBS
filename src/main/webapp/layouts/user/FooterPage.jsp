@@ -21,7 +21,7 @@
 
                     <li>
                         <i class="fas fa-chevron-right"></i>
-                        <a href="">Service</a>
+                        <a href="${pageContext.request.contextPath}/service">Service</a>
                     </li>
 
                     <li>
@@ -31,7 +31,7 @@
 
                     <li>
                         <i class="fas fa-chevron-right"></i>
-                        <a href="">Booking</a>
+                        <a href="${pageContext.request.contextPath}/booking">Booking</a>
                     </li>
 
                     <li>
@@ -46,7 +46,7 @@
                 <ul class="list">
                     <li>
                         <i class="fas fa-chevron-right"></i>
-                        <a href="">FAQ</a>
+                        <a href="${pageContext.request.contextPath}/faq">FAQ</a>
                     </li>
 
                     <li>

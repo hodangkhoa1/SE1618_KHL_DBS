@@ -15,31 +15,54 @@ public abstract class AbstractServices<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllServices(Connection connection) throws SQLException;
+    protected abstract List<T> getServices(Connection connection, Object value, Object action) throws SQLException;
+
+    protected abstract T getServicesDetail(Connection connection, Object serviceID) throws SQLException;
 
     protected abstract boolean addServices(Connection connection, T service) throws SQLException;
 
-    protected abstract boolean updateServices(Connection connection, Object serviceID) throws SQLException;
+    protected abstract boolean updateServices(Connection connection, T serviceID, Object object) throws SQLException;
 
     protected abstract int countServices(Connection connection) throws SQLException;
 
     /**
      * Get all services
      *
+     * @param value
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAllServices() throws SQLException {
+    public List<T> getServices(Object value, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllServices(connection);
+            list = getServices(connection, value, action);
         } finally {
             connection.close();
         }
         return list;
+    }
+
+    /**
+     * Get services Detail
+     *
+     * @param serviceID
+     * @return
+     * @throws SQLException
+     */
+    public T getServicesDetail(Object serviceID) throws SQLException {
+        T t = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            t = getServicesDetail(connection, serviceID);
+        } finally {
+            connection.close();
+        }
+        return t;
     }
 
     /**
@@ -65,16 +88,17 @@ public abstract class AbstractServices<T> {
     /**
      * Update service
      *
-     * @param serviceID
+     * @param service
+     * @param object
      * @return
      * @throws SQLException
      */
-    public boolean updateServices(Object serviceID) throws SQLException {
+    public boolean updateServices(T service, Object object) throws SQLException {
         boolean check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = updateServices(connection, serviceID);
+            check = updateServices(connection, service, object);
         } finally {
             connection.close();
         }

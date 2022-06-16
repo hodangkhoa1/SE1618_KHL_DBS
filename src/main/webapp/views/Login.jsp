@@ -40,7 +40,7 @@
                         <form action="${pageContext.request.contextPath}/register" method="post" class="sign-up">
                             <div class="input-group">
                                 <i class='bx bxs-user'></i>
-                                <input type="text" placeholder="Full Name" name="fullname" id="fullname" oninput="CheckSignUpFullname()" onblur="CheckSignUpFullname()">
+                                <input type="text" placeholder="Full Name" name="fullname" id="fullname" oninput="CheckSignUpFullname()" onblur="CheckSignUpFullname()" value="${USERNAME_REGISTER != null ? USERNAME_REGISTER : ""}">
                                 <i class='bx bx-check-circle signup_fullname_icon_check' id="signup_fullname_icon_check"></i>
                                 <i class='bx bx-error-circle signup_fullname_icon_error' id="signup_fullname_icon_error"></i>
                             </div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="input-group">
                                 <i class='bx bx-mail-send'></i>
-                                <input type="email" placeholder="Email" name="email" id="email" oninput="CheckSignUpEmail()" onblur="CheckSignUpEmail()">
+                                <input type="email" placeholder="Email" name="email" id="email" oninput="CheckSignUpEmail()" onblur="CheckSignUpEmail()" value="${EMAIL_REGISTER != null ? EMAIL_REGISTER : ""}">
                                 <i class='bx bx-check-circle signup_email_icon_check' id="signup_email_icon_check"></i>
                                 <i class='bx bx-error-circle signup_email_icon_error' id="signup_email_icon_error"></i>
                             </div>
@@ -79,7 +79,7 @@
                             <button type="submit" class="form-button">Sign up</button>
                             <p class="social_text">Or Sign up with social platforms</p>
                             <div class="social_media sign-up">
-                                <a href="#" class="social_icon">
+                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
                                     <i class='bx bxl-google'></i>
                                 </a>
                                 <a href="#" class="social_icon">
@@ -103,7 +103,7 @@
                         <form action="${pageContext.request.contextPath}/login" method="post" class="sign-in">
                             <div class="input-group">
                                 <i class='bx bx-mail-send'></i>
-                                <input type="email" placeholder="Email" name="email" id="signin_email" oninput="CheckSignInEmail()" onblur="CheckSignInEmail()">
+                                <input type="email" placeholder="Email" name="email" id="signin_email" oninput="CheckSignInEmail()" onblur="CheckSignInEmail()" value="${EMAIL != null ? EMAIL : ""}">
                                 <i class='bx bx-check-circle signin_email_icon_check' id="signin_email_icon_check"></i>
                                 <i class='bx bx-error-circle signin_email_icon_error' id="signin_email_icon_error"></i>
                             </div>
@@ -132,7 +132,7 @@
                             <button type="submit" class="form-button">Sign in</button>
                             <p class="social_text">Or Sign in with social platforms</p>
                             <div class="social_media sign-in">
-                                <a href="#" class="social_icon">
+                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
                                     <i class='bx bxl-google'></i>
                                 </a>
                                 <a href="#" class="social_icon">

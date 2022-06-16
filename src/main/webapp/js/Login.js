@@ -324,7 +324,7 @@ function PasswordSignUpKeyUp() {
 
 // Function show hide confirm password in sign up
 function ConfirmPasswordSignUpKeyUp() {
-    const inputSignUpConfirmPassword = document.querySelector("#password"),
+    const inputSignUpConfirmPassword = document.querySelector("#confirmpassword"),
             showSignUpConfirmPasswordIcon = document.querySelector(
                     "#show-signup-confirm-password-icon"
                     );

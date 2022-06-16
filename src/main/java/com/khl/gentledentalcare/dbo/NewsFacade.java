@@ -13,7 +13,7 @@ public class NewsFacade extends AbstractNews<News> {
     private static final String SQL_GET_TOP_8_NEWS = "SELECT TOP 8 * FROM News WHERE PostDate < GETDATE() ORDER BY PostDate DESC";
     private static final String SQL_GET_NEXT_8_NEWS = "SELECT * FROM News ORDER BY NewsID OFFSET ? ROWS FETCH NEXT 8 ROWS ONLY;";
     private static final String SQL_SEARCH_NEWS_BY_NAME = "SELECT * FROM News WHERE NameOfNews LIKE ?";
-    private static final String SQL_ADD_NEWS = "INSERT INTO News(NewsID, NameOfNews, ImageNews, SubtitleNews) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_ADD_NEWS = "INSERT INTO News(NewsID, NameOfNews, ImageNews, SubtitleNews) VALUES(?, ?, ?, ?)";
     private static final String SQL_EDIT_NEWS = "UPDATE News SET NameOfNews = ?, ImageNews = ?, SubtitleNews = ? WHERE NewsID = ?";
     private static final String SQL_NEWS_STATUS = "UPDATE News SET StatusNews = ? WHERE NewsID = ?";
     private static final String SQL_GET_TOTAL_NEWS = "SELECT COUNT(*) FROM News";
@@ -99,8 +99,8 @@ public class NewsFacade extends AbstractNews<News> {
                 switch (object.toString()) {
                     case "DeleteNews":
                         preparedStatement = connection.prepareStatement(SQL_NEWS_STATUS);
-                        preparedStatement.setInt(1, 2);
-                        preparedStatement.setInt(2, news.getStatusNews());
+                        preparedStatement.setInt(1, news.getStatusNews());
+                        preparedStatement.setString(2, news.getNewsID());
                         break;
                     case "EditNews":
                         preparedStatement = connection.prepareStatement(SQL_EDIT_NEWS);

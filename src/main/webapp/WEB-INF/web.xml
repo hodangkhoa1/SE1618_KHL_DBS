@@ -89,6 +89,14 @@
         <url-pattern>/news</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ServiceController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ServiceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiceController</servlet-name>
+        <url-pattern>/service</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>InfoProfileController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.InfoProfileController</servlet-class>
     </servlet>
@@ -111,5 +119,69 @@
     <servlet-mapping>
         <servlet-name>ChangePasswordController</servlet-name>
         <url-pattern>/change-password</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BookingController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.BookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingController</servlet-name>
+        <url-pattern>/booking</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FAQController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.FAQController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FAQController</servlet-name>
+        <url-pattern>/faq</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DashBoardController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.DashBoardController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DashBoardController</servlet-name>
+        <url-pattern>/admin/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>InfoProfileAdminController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.InfoProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InfoProfileAdminController</servlet-name>
+        <url-pattern>/admin/info-profile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CustomerManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.CustomerManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CustomerManagementController</servlet-name>
+        <url-pattern>/admin/customer-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DentistManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.DentistManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DentistManagementController</servlet-name>
+        <url-pattern>/admin/dentist-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HospitalManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HospitalManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HospitalManagementController</servlet-name>
+        <url-pattern>/admin/hospital-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServiceManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ServiceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiceManagementController</servlet-name>
+        <url-pattern>/admin/service-management</url-pattern>
     </servlet-mapping>
 </web-app>

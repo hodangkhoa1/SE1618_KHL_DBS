@@ -55,8 +55,8 @@
                                                     alt="Maxwell Admin">
                                             </div>
                                         </div>
-                                        <h5 class="user-name">Yuki Hayashi</h5>
-                                        <h6 class="user-email">yuki@Maxwell.com</h6>
+                                        <h5 class="user-name">${sessionScope.LOGIN_USER.fullName}</h5>
+                                        <h6 class="user-email">${sessionScope.LOGIN_USER.userEmail}</h6>
                                     </div>
                                 </div>
                             </div>

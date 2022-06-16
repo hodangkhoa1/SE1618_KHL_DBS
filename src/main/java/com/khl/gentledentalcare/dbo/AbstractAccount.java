@@ -19,7 +19,7 @@ public abstract class AbstractAccount<T> {
 
     protected abstract boolean updateAccount(Connection connection, T t, Object object) throws SQLException;
 
-    protected abstract List<T> getAccount(Connection connection, Object object, Object action) throws SQLException;
+    protected abstract List<T> getAccount(Connection connection, Object object, Object action, Object status) throws SQLException;
 
     protected abstract T checkAccount(Connection connection, Object object) throws SQLException;
 
@@ -73,16 +73,17 @@ public abstract class AbstractAccount<T> {
      *
      * @param object
      * @param action
+     * @param status
      * @return
      * @throws SQLException
      */
-    public List<T> getAccount(Object object, Object action) throws SQLException {
+    public List<T> getAccount(Object object, Object action, Object status) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAccount(connection, object, action);
+            list = getAccount(connection, object, action, status);
         } finally {
             connection.close();
         }

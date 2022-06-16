@@ -1,11 +1,14 @@
 package com.khl.gentledentalcare.controllers;
 
+import com.khl.gentledentalcare.dbo.ViewerFacade;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -16,8 +19,19 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/Home.jsp");
-        requestDispatcher.forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            ViewerFacade viewerFacade = new ViewerFacade();
+
+            if (session.isNew()) {
+                viewerFacade.updateViewer();
+            }
+
+            RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/Home.jsp");
+            requestDispatcher.forward(request, response);
+        } catch (IOException | SQLException | ServletException e) {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

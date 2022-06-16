@@ -10,19 +10,19 @@
         <div class="header__menu">
             <ul class="menu">
                 <li class="nav-item active">
-                    <a href="${pageContext.request.contextPath}/home">Home</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Service</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/service">Service</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/news">News</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/news">News</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Booking</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/booking">Booking</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/about">About us</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/about">About us</a>
                 </li>
             </ul>
         </div>

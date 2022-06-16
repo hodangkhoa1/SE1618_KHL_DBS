@@ -391,5 +391,8 @@
         <script src="./js/ScrollBackToTop.js"></script>
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
+        <script>
+            setActiveMenuBar();
+        </script>
     </body>
 </html>

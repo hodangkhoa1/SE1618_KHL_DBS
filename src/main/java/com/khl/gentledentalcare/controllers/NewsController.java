@@ -22,7 +22,7 @@ public class NewsController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            String newstAmount = request.getParameter("newsExits");
+            String newsAmount = request.getParameter("newsExits");
             String textSearch = request.getParameter("search");
             PrintWriter printWriter = response.getWriter();
 
@@ -30,8 +30,8 @@ public class NewsController extends HttpServlet {
 
             List<News> newsList;
 
-            if (newstAmount != null) {
-                int newsAmountInt = Integer.parseInt(newstAmount);
+            if (newsAmount != null) {
+                int newsAmountInt = Integer.parseInt(newsAmount);
                 newsList = newsFacade.getNews(newsAmountInt, "GetNext8Course");
                 returnPrintWriter(newsList, printWriter, request);
             } else if (textSearch != null) {
