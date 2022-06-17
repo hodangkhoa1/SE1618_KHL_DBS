@@ -1,0 +1,643 @@
+.chat {
+    position: fixed;
+    right: 30px;
+    bottom: 0;
+    width: 300px;
+    max-height: 500px;
+    z-index: 11;
+    overflow: hidden;
+    -webkit-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    background: linear-gradient(135deg, #5D76E3, #E356F4);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-animation: open 1s forwards;
+    animation: open 1s forwards;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.before-chat {
+    position: fixed;
+    right: 30px;
+    bottom: 0;
+    width: 300px;
+    height: 30vh;
+    max-height: 500px;
+    z-index: 11;
+    overflow: hidden;
+    -webkit-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    background: linear-gradient(135deg, #5D76E3, #E356F4);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-animation: close 1s forwards;
+    animation: close 1s forwards;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.chat-box__click:checked~.chat {
+    opacity: 1;
+    bottom: 95px;
+    pointer-events: all;
+}
+
+.chat-box__click:checked~.before-chat {
+    opacity: 1;
+    bottom: 95px;
+    pointer-events: all;
+}
+
+.chat-box .chat .chat-title {
+    flex: 0 1 45px;
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 10px 10px 50px;
+}
+
+.chat-box .chat .chat-title h1,
+.chat-box .chat .chat-title h2 {
+    font-weight: normal;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-box .chat .chat-title h2 {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 8px;
+    letter-spacing: 1px;
+}
+
+.chat-title .avatar {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 9px;
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+}
+
+.chat-title .avatar img {
+    width: 100%;
+}
+
+.bot-avatar {
+    top: 19px !important;
+    left: 20px !important;
+    border-radius: 60px !important;
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.bot-name {
+    color: #fff !important;
+}
+
+.icon-minus {
+    top: 7px !important;
+    left: 225px !important;
+    border-radius: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.icon-exit {
+    top: 7px !important;
+    left: 263px !important;
+    border-radius: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.chat-box .chat .messages {
+    flex: 1 1 auto;
+    color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.messages .messages-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 101%;
+    width: 100%;
+}
+
+.content-before {
+    top: 100px !important;
+    height: 73% !important;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+.messages .message-button {
+    float: left;
+    padding: 6px 10px 7px;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-left: 35px;
+    position: relative;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    width: 190px;
+    margin-top: 5px;
+    color: #fff;
+}
+
+.timestamp-personal-message {
+    position: absolute;
+    bottom: -15px;
+    right: 5px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.messages .message-button.new {
+    transform: scale(0);
+    transform-origin: 0 0;
+    -webkit-animation: bounce 500ms linear both;
+    animation: bounce 500ms linear both;
+}
+
+.messages .message {
+    color: #fff;
+    clear: both;
+    float: left;
+    padding: 6px 10px 7px;
+    border-radius: 10px 10px 10px 0;
+    background: rgba(0, 0, 0, 0.5);
+    margin: 8px 0;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-left: 35px;
+    position: relative;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.messages .message .timestamp {
+    position: absolute;
+    bottom: -15px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.messages .message::before {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    left: 0;
+    border-right: 7px solid transparent;
+}
+
+.messages .message .avatar {
+    position: absolute;
+    z-index: 1;
+    bottom: -15px;
+    left: -35px;
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+}
+
+.messages .message .avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.messages .message.message-personal {
+    float: right;
+    color: #fff;
+    text-align: right;
+    background: linear-gradient(120deg, #5D76E3, #E356F4);
+    border-radius: 10px 10px 0 10px;
+}
+
+.messages .message.message-personal::before {
+    left: auto;
+    right: 0;
+    border-right: none;
+    border-left: 5px solid transparent;
+    border-top: 4px solid #E356F4;
+    bottom: -4px;
+}
+
+.messages .message:last-child {
+    margin-bottom: 30px;
+}
+
+.messages .message.new {
+    transform: scale(0);
+    transform-origin: 0 0;
+    -webkit-animation: bounce 500ms linear both;
+    animation: bounce 500ms linear both;
+}
+
+.messages .message.loading::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    border: none;
+    -webkit-animation-delay: 0.15s;
+    animation-delay: 0.15s;
+}
+
+.messages .message.loading span {
+    display: block;
+    font-size: 0;
+    width: 20px;
+    height: 10px;
+    position: relative;
+}
+
+.messages .message.loading span::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    margin-left: -7px;
+}
+
+.messages .message.loading span::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    margin-left: 7px;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+.message-box {
+    flex: 0 1 40px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    position: relative;
+}
+
+.message-box .message-input {
+    background: none;
+    border: none;
+    outline: none !important;
+    resize: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    height: 17px;
+    margin: 0;
+    padding-right: 20px;
+    width: 265px;
+}
+
+.message-box textarea::placeholder {
+    color: white;
+}
+
+.message-box .message-submit {
+    position: absolute;
+    z-index: 1;
+    top: 9px;
+    right: 10px;
+    color: #fff;
+    border: none;
+    background: #5D76E3;
+    font-size: 10px;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 10px;
+    outline: none !important;
+    transition: background 0.2s ease;
+}
+
+.message-start-chat {
+    z-index: 1;
+    color: #fff !important;
+    border: none;
+    background: linear-gradient(120deg, #5D76E3, #E356F4);
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 6px 10px;
+    outline: none !important;
+    transition: background 0.2s ease;
+}
+
+.message-box .message-submit:hover {
+    transition: 0.5s;
+    background: #E356F4;
+}
+
+.mCSB_scrollTools {
+    margin: 1px -3px 1px 0;
+    opacity: 0;
+}
+
+.mCSB_inside>.mCSB_container {
+    margin-right: 0px;
+    padding: 0 10px;
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.btnFloat {
+    background: none;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btnFloat:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 190px;
+    height: 30px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    z-index: -1;
+}
+
+.btnBlueGreen.btnFloat:before {
+    background: linear-gradient(120deg, #5D76E3, #E356F4);
+}
+
+.btnFloat:before {
+    -webkit-box-shadow: 4px 4px 10px -1px rgb(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px -1px rgb(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px -1px rgb(0, 0, 0, 0.4);
+}
+
+.btnFloat:hover:before {
+    margin-top: -2px;
+    margin-left: 0px;
+    transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+}
+
+.chat-box .chat-box__control .chat-box__label {
+    position: fixed;
+    right: 32px;
+    bottom: 30px;
+    height: 55px;
+    width: 55px;
+    background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+    text-align: center;
+    line-height: 55px;
+    border-radius: 50%;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.chat-box__label .chat-box__icon-messenger,
+.chat-box__label .chat-box__icon-times {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.chat-box__label .chat-box__icon-times {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.chat-box__click:checked~.chat-box__icon-times {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.chat-box__click:checked~.chat-box__icon-messenger {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+@-webkit-keyframes open {
+    0% {
+        height: 30vh;
+    }
+
+    100% {
+        height: 80vh;
+    }
+}
+
+@keyframes open {
+    0% {
+        height: 30vh;
+    }
+
+    100% {
+        height: 80vh;
+    }
+}
+
+@-webkit-keyframes close {
+    0% {
+        height: 80vh;
+    }
+
+    100% {
+        height: 30vh;
+    }
+}
+
+@keyframes close {
+    0% {
+        height: 80vh;
+    }
+
+    100% {
+        height: 30vh;
+    }
+}
+
+@-webkit-keyframes bounce {
+    0% {
+        transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    4.7% {
+        transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    9.41% {
+        transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    14.11% {
+        transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    18.72% {
+        transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    24.32% {
+        transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    29.93% {
+        transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    35.54% {
+        transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    41.04% {
+        transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    52.15% {
+        transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    63.26% {
+        transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    85.49% {
+        transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    100% {
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    4.7% {
+        transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    9.41% {
+        transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    14.11% {
+        transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    18.72% {
+        transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    24.32% {
+        transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    29.93% {
+        transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    35.54% {
+        transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    41.04% {
+        transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    52.15% {
+        transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    63.26% {
+        transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    85.49% {
+        transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    100% {
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+}
+
+@-webkit-keyframes ball {
+    from {
+        transform: translateY(0) scaleY(0.8);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes ball {
+    from {
+        transform: translateY(0) scaleY(0.8);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}

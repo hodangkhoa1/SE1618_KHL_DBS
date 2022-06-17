@@ -1,0 +1,59 @@
+.hero-header {
+    background-size: cover;
+}
+
+.section-title h5::before {
+    position: absolute;
+    content: "";
+    width: 45px;
+    height: 3px;
+    right: -55px;
+    bottom: 11px;
+    background: #06A3DA;
+}
+
+.section-title h5::after {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 3px;
+    right: -75px;
+    bottom: 11px;
+    background: #F57E57;
+}
+
+.section-title h1 {
+    font-weight: 700;
+}
+
+.service-item img,
+.service-item .bg-light,
+.service-item .bg-light h5 {
+    transition: .5s;
+}
+
+.service-item:hover img {
+    transform: scale(1.15);
+}
+
+.service-item .bg-light::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    border-radius: 100px / 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .7);
+    opacity: 0;
+    transition: .5s;
+    z-index: -1;
+}
+
+.service-item:hover .bg-light::after {
+    opacity: 1;
+}
+
+.service-image {
+    height: 276px;
+}

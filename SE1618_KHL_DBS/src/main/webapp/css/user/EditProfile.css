@@ -1,0 +1,254 @@
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-settings .user-profile .user-avatar .setting-avatar_photo {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.account-settings .user-profile .user-avatar .setting-avatar_photo img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.account-settings .user-profile .user-avatar .setting-avatar_photo p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 25px;
+}
+
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+
+.account-settings .button-action button {
+    color: white;
+    border: none;
+    border-radius: 2px;
+    z-index: 1;
+    overflow: hidden;
+    position: relative;
+    width: 131px;
+    height: 40px;
+}
+
+.account-settings .button-action button.change-avatar {
+    background-color: #0d6efd;
+}
+
+.account-settings .button-action button.button-delete {
+    background-color: #ff4757;
+}
+
+.account-settings .button-action button::after,
+.account-settings .button-action button::before {
+    content: "";
+    z-index: -1;
+    background-color: hsla(0, 0%, 100%, 0.2);
+    position: absolute;
+    top: -50%;
+    bottom: -50%;
+    width: 1.25em;
+}
+
+.account-settings .button-action button::after {
+    transform: translate3d(-1050%, 0, 0) rotate(35deg);
+}
+
+.account-settings .button-action button:hover::after {
+    transition: transform 0.55s ease-in-out;
+    transform: translate3d(200%, 0, 0) rotate(35deg);
+}
+
+.account-settings .button-action button::before {
+    transform: translate3d(950%, 0, 0) rotate(35deg);
+}
+
+.account-settings .button-action button:not(:hover)::before {
+    transition: transform 0.55s ease-in-out;
+    transform: translate3d(-310%, 0, 0) rotate(35deg);
+}
+
+.setting-form_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.setting-form_content .setting-form_label {
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
+
+.setting-form_content .title {
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 5px;
+    margin: 0;
+}
+
+.setting-form_content .select-date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.select-box .select-content {
+    width: 110px;
+    height: 28px;
+    margin-left: 10px;
+    border: 1px solid rgba(209, 213, 219, 1);
+    border-radius: 2px;
+    padding-left: 8px;
+}
+
+.setting-form_content .radio-box {
+    display: flex;
+    align-items: center;
+}
+
+.setting-form_content .radio-box .radio-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 30px;
+}
+
+.setting-form_content .radio-box .radio-container:nth-child(2) {
+    padding-left: 15px;
+}
+
+.setting-form_content .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.setting-form_content .radio-container .checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    transform: translate(-250%, -50%);
+}
+
+.setting-form_content .radio-container:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+.setting-form_content .radio-container input:checked~.checkmark {
+    background-color: #2196f3;
+}
+
+.setting-form_content .radio-container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.setting-form_content .radio-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.setting-form_content .radio-container .checkmark:after {
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    transform: translate(-50%, -50%);
+}
+
+.setting-form_content .message {
+    margin-top: 5px;
+    font-size: 16px;
+    color: red;
+    font-weight: 500;
+}
+
+.setting-form_content .setting-form_input {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.setting-form_input i {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+}
+
+.setting-form_input input {
+    width: 100%;
+    font-size: 15px;
+    height: 35px;
+    border: 1px solid rgba(209, 213, 219, 1);
+    border-radius: 7px;
+    padding-left: 10px;
+}
+
+.setting-form_input input:focus {
+    border: 1px solid rgb(99 102 241);
+}
+
+.setting-form_input #fullName-icon-check,
+.setting-form_input #phoneNumber-icon-check,
+.setting-form_input #address-icon-check {
+    display: none;
+    color: #23ad5c;
+}
+
+.setting-form_input #fullName-icon-error,
+.setting-form_input #phoneNumber-icon-error,
+.setting-form_input #address-icon-error {
+    display: none;
+    color: #ff4757;
+}
+
+.card {
+    background: #f9f9f9;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}

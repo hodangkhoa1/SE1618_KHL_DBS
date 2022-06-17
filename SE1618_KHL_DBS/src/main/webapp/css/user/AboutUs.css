@@ -1,0 +1,272 @@
+/************************** ABOUT US__BG ***********************************/
+.aboutUs .aboutUs__bg {
+    position: relative;
+}
+
+.aboutUs .aboutUs__bg--img {
+    height: 21.7rem;
+}
+
+.aboutUs .aboutUs__bg--img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.aboutUs .aboutUs__bg--overlay {
+    background-color: rgba(0, 0, 255, 0.415);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.aboutUs .aboutUs__bg--title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    color: #fff;
+}
+
+.aboutUs__bg--title h1 {
+    font-size: 65px;
+    font-weight: 800;
+    text-align: center;
+}
+/************************ END ABOUT US__BG *********************************/
+
+/************************ ABOUT US__KEEP ***********************************/
+.about__keep {
+    margin: 6rem 0;
+}
+
+.about__keep--content {
+    margin-left: 6rem;
+    margin-right: 6rem;
+}
+
+.about__keep--content .sub-title {
+    color: #d0368a;
+    font-size: 22px;
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+}
+
+.about__keep--content .title {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.34615;
+    margin-bottom: 31px;
+    color: #3f4199;
+}
+
+.about__keep--content .title span {
+    color: #d0368a;
+}
+
+.about__keep--content .note-info {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.7;
+    margin-bottom: 39px;
+    margin-top: 21px;
+    color: #3f4199;
+}
+
+.about__keep--content .desc {
+    font-size: 20px;
+}
+
+.about__keep .about__keep--img img {
+    width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+    .about__keep--content {
+        margin-left: unset !important;
+        margin-right: unset !important;
+    }
+}
+
+.about__keep .about-btn-link {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: -8px;
+    margin-right: 48px;
+    position: relative;
+    color: #d0368a;
+    text-decoration: revert;
+}
+/************************ END ABOUT US__KEEP *******************************/
+
+/************************ ABOUT US__TEETH **********************************/
+.about__teeth {
+    margin: 5rem 0;
+}
+
+.about__teeth .service-list-item {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.about__teeth .price-number {
+    color: #3f4199;
+    font-family: "Shippori Mincho", serif;
+}
+/************************ END ABOUT US__TEETH ******************************/
+
+/************************ ABOUT US__WHY ************************************/
+.about__why {
+    margin: 6rem 0;
+}
+
+.about__why .img-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about__why .inner-content {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.about__why .feature-box .content h4 {
+    color: #3f4199;
+    font-weight: 700;
+}
+/************************ END ABOUT US__WHY ********************************/
+
+/************************ ABOUT US__MEET ***********************************/
+.about__meet {
+    margin-bottom: 5rem;
+}
+
+.about__meet .card-doctor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about__meet .team-item .inner-content {
+    -webkit-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+}
+
+.about__meet .thumb img {
+    width: 100%;
+}
+
+.about__meet .team-item .content {
+    background-color: #f9f9ff;
+    padding: 21px 20px 25px;
+}
+
+.about__meet .team-item .content .staff-info .title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 13px;
+}
+
+.about__meet .team-item .content .staff-info .sub-title {
+    color: #009640;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.75px;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+.about__meet .team-item .inner-content .content-footer {
+    border-top: 1px solid #e8e8e8;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 18px;
+    padding-top: 19px;
+}
+
+.about__meet .team-item .inner-content .content .meta-rating {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.team-item .inner-content .content .meta-rating i {
+    background-color: rgba(0, 150, 64, 0.15);
+    border-radius: 10px;
+    color: #009640;
+    display: inline-block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+}
+
+.team-item .inner-content .content .meta-rating span {
+    color: #333;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    margin-left: 12px;
+}
+
+.team-item .inner-content .content .meta-time {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: 26px;
+}
+
+.team-item .inner-content .content .meta-time i {
+    background-color: rgba(63, 65, 153, 0.15);
+    border-radius: 10px;
+    color: #3f4199;
+    display: inline-block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+}
+
+.team-item .inner-content .content .meta-time span {
+    color: #333;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    margin-left: 11px;
+}
+/************************ END ABOUT US__MEET *******************************/
+
+/************************ ABOUT US__LOGO ***********************************/
+.about__logo .brand-logo-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/************************ END ABOUT US__LOGO *******************************/
