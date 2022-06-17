@@ -14,7 +14,7 @@ public class DBUtils {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String urlDataConnection = "jdbc:sqlserver://localhost;databaseName=GentalCareDentals";
+            String urlDataConnection = "jdbc:sqlserver://localhost;databaseName=GentalCareDental";
 
             Connection dataConn = DriverManager.getConnection(urlDataConnection, "sa", Encrypt.decrypt("u+X+On2XQDymkX7xtpuohQ==", "ssshhhhhhhhhhh!!!!"));
 

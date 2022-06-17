@@ -28,7 +28,7 @@ public class RegisterController extends HttpServlet {
     private static final String SIGN_UP_ACCOUNT_ERROR = "SIGN_UP_ACCOUNT_ERROR";
     private static final String SECRET_KEY = "ssshhhhhhhhhhh!!!!";
     private static final String USERNAME_REGISTER = "USERNAME_REGISTER";
-    private static final String EMAIL_REGISTER = "USERNAME_REGISTER";
+    private static final String EMAIL_REGISTER = "EMAIL_REGISTER";
     private static final String VALUE_LOGIN = "VALUE_LOGIN";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
