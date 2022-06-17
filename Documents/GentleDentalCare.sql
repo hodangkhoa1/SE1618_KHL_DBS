@@ -1,7 +1,7 @@
-CREATE DATABASE GentalCareDentals
+CREATE DATABASE GentalCareDental
 GO
 
-USE GentalCareDentals
+USE GentalCareDental
 GO
 
 CREATE TABLE Account
@@ -126,4 +126,39 @@ CREATE TABLE FeedBack
 	FeedBackContent NVARCHAR(MAX) NOT NULL,
 	FeedBackStatus INT DEFAULT '0',
 	FeedBackCreated DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+
+CREATE TABLE News
+(
+	NewsID VARCHAR(10) PRIMARY KEY,
+	NameOfNews NVARCHAR(MAX),
+	ImageNews VARBINARY(MAX),
+	SubtitleNews NVARCHAR(MAX),
+	StatusNews INT DEFAULT '0',
+	PostDate DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+
+CREATE TABLE NewsDetail
+(
+	NewsDetailID VARCHAR(10) PRIMARY KEY,
+	NewsID VARCHAR(10) FOREIGN KEY REFERENCES News(NewsID),
+	NewsDetailContent NTEXT,
+	ImageNewsDetail VARBINARY(MAX)
+)
+
+CREATE TABLE Viewer
+(
+	Viewed INT NOT NULL
+)
+
+CREATE TABLE Dentist
+(   
+	DentistID VARCHAR(50),
+	NameDentist VARCHAR(50),
+	NumberPhoneDentist CHAR(10),
+	DetailDentist NVARCHAR (MAX),
+	ImageDentist VARBINARY(MAX),
+	DentistDescription NVARCHAR(MAX),
+	AcademicRank NVARCHAR(MAX),
+	TitleDentist VARCHAR(MAX)
 )
