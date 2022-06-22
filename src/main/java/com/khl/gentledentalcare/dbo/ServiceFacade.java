@@ -17,7 +17,7 @@ public class ServiceFacade extends AbstractServices<Services> {
     private static final String SQL_GET_TOP_6_SERVICES = "SELECT TOP 6 * FROM [Services]";
     private static final String SQL_PAGING_SERVICES = "SELECT * FROM [Services] ORDER BY ServiceID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
     private static final String SQL_GET_NEXT_6_SERVICES = "SELECT * FROM [Services] ORDER BY ServiceID OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
-    private static final String SQL_ADD_SERVICES = "INSERT INTO [Services](ServiceID, ServiceName, ServicePrice, ImageService, DescriptionService, ServiceStatus, ServiceTypeID) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_ADD_SERVICES = "INSERT INTO [Services](ServiceID, ServiceName, ServicePrice, ImageService, DescriptionService, ServiceStatus) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_TOTAL_SERVICES = "SELECT COUNT(*) FROM [Services]";
     private static final String SQL_SERVICES_STATUS = "UPDATE [Services] SET ServiceStatus = ? WHERE ServiceID = ?";
     private static final String SQL_EDIT_SERVICES = "UPDATE [Services] SET ServiceName = ?, ServicePrice = ?, ImageService = ?, DescriptionService = ? WHERE ServiceID = ?";
@@ -30,9 +30,8 @@ public class ServiceFacade extends AbstractServices<Services> {
         byte[] getImageService = resultSet.getBytes("ImageService");
         String getDescriptionService = resultSet.getString("DescriptionService");
         int getServiceStatus = resultSet.getInt("ServiceStatus");
-        String getServiceTypeID = resultSet.getString("ServiceTypeID");
 
-        return new Services(getServiceID, getServiceName, Base64.encode(getImageService), getDescriptionService, getServiceTypeID, getServicePrice, getServiceStatus);
+        return new Services(getServiceID, getServiceName, Base64.encode(getImageService), getDescriptionService, getServicePrice, getServiceStatus);
     }
 
     @Override
@@ -92,7 +91,6 @@ public class ServiceFacade extends AbstractServices<Services> {
                 preparedStatement.setBytes(4, Base64.decode(service.getImageService()));
                 preparedStatement.setString(5, service.getDescriptionService());
                 preparedStatement.setInt(6, service.getServiceStatus());
-                preparedStatement.setString(7, service.getServiceTypeID());
                 preparedStatement.executeUpdate();
                 return true;
             }

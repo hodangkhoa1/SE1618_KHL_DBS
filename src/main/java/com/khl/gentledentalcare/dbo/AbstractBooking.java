@@ -15,27 +15,29 @@ public abstract class AbstractBooking<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllBooking(Connection connection) throws SQLException;
+    protected abstract List<T> getAllBooking(Connection connection, Object action, Object status) throws SQLException;
 
     protected abstract boolean addBooking(Connection connection, T booking) throws SQLException;
 
-    protected abstract boolean updateBooking(Connection connection, Object bookingID) throws SQLException;
+    protected abstract boolean updateBooking(Connection connection, T booking) throws SQLException;
 
     protected abstract int countBooking(Connection connection) throws SQLException;
 
     /**
      * Get all booking
      *
+     * @param action
+     * @param status
      * @return
      * @throws SQLException
      */
-    public List<T> getAllBooking() throws SQLException {
+    public List<T> getAllBooking(Object action, Object status) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllBooking(connection);
+            list = getAllBooking(connection, action, status);
         } finally {
             connection.close();
         }
@@ -69,12 +71,12 @@ public abstract class AbstractBooking<T> {
      * @return
      * @throws SQLException
      */
-    public boolean updateBooking(Object bookingID) throws SQLException {
+    public boolean updateBooking(T booking) throws SQLException {
         boolean check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = updateBooking(connection, bookingID);
+            check = updateBooking(connection, booking);
         } finally {
             connection.close();
         }

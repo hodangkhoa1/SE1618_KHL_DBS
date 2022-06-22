@@ -79,19 +79,9 @@ public class AccountFacade extends AbstractAccount<Account> {
         try {
             if (connection != null) {
                 switch (object.toString()) {
-                    case "Disable":
+                    case "EditStatus":
                         preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
-                        preparedStatement.setInt(1, 2);
-                        preparedStatement.setString(2, account.getUserEmail());
-                        break;
-                    case "ActiveAccount":
-                        preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
-                        preparedStatement.setInt(1, 1);
-                        preparedStatement.setString(2, account.getUserEmail());
-                        break;
-                    case "DeleteAccount":
-                        preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
-                        preparedStatement.setInt(1, 3);
+                        preparedStatement.setInt(1, account.getUserStatus());
                         preparedStatement.setString(2, account.getUserEmail());
                         break;
                     case "EditProfile":

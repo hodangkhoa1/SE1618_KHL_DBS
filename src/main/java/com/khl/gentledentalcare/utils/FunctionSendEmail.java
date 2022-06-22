@@ -117,7 +117,7 @@ public class FunctionSendEmail {
                     + "                <div class=\"confirm-btn\" style=\"display: flex;\n"
                     + "                justify-content: center;\n"
                     + "                align-items: center;\">\n"
-                    + "                    <a href=\"http://localhost:8080/GentleDentalCare/verify?uid=" + Encrypt.encrypt(account.getUserEmail(), SECRET_KEY) + "\" class=\"btn-reset\" style=\"background-color: #8412c0;\n"
+                    + "                    <a href=\"http://localhost:8080/GentleDentalCare/verify?uid=" + account.getUserEmail() + "\" class=\"btn-reset\" style=\"background-color: #8412c0;\n"
                     + "                    color: white;\n"
                     + "                    border: none;\n"
                     + "                    border-radius: 2px;\n"

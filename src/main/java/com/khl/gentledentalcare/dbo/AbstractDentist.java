@@ -21,6 +21,8 @@ public abstract class AbstractDentist<T> {
 
     protected abstract boolean updateDentist(Connection connection, T dentist) throws SQLException;
 
+    protected abstract T getDentistDetail(Connection connection, Object dentistID) throws SQLException;
+
     protected abstract int countDentist(Connection connection) throws SQLException;
 
     /**
@@ -105,5 +107,24 @@ public abstract class AbstractDentist<T> {
         }
 
         return check;
+    }
+
+    /**
+     * Get dentist Detail
+     *
+     * @param dentistID
+     * @return
+     * @throws SQLException
+     */
+    public T getDentistDetail(Object dentistID) throws SQLException {
+        T t = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            t = getDentistDetail(connection, dentistID);
+        } finally {
+            connection.close();
+        }
+        return t;
     }
 }

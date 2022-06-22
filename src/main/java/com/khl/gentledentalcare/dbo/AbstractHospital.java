@@ -16,10 +16,12 @@ public abstract class AbstractHospital<T> {
     private Connection connection;
 
     protected abstract List<T> getAllHospital(Connection connection, Object object, Object action, Object status) throws SQLException;
+    
+    protected abstract T getHospital(Connection connection, Object hospitalID) throws SQLException;
 
     protected abstract boolean addHospital(Connection connection, T hospital) throws SQLException;
 
-    protected abstract boolean updateHospital(Connection connection, Object hospitalID) throws SQLException;
+    protected abstract boolean updateHospital(Connection connection, T hospital, Object object) throws SQLException;
 
     protected abstract int countHospital(Connection connection) throws SQLException;
 
@@ -44,6 +46,25 @@ public abstract class AbstractHospital<T> {
             connection.close();
         }
         return list;
+    }
+    
+    /**
+     * Get services Detail
+     *
+     * @param hospitalID
+     * @return
+     * @throws SQLException
+     */
+    public T getHospital(Object hospitalID) throws SQLException {
+        T t = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            t = getHospital(connection, hospitalID);
+        } finally {
+            connection.close();
+        }
+        return t;
     }
 
     /**
@@ -71,16 +92,17 @@ public abstract class AbstractHospital<T> {
      * *
      * Update hospital
      *
-     * @param hospitalID
+     * @param hospital
+     * @param object
      * @return
      * @throws SQLException
      */
-    public boolean updateHospital(Object hospitalID) throws SQLException {
+    public boolean updateHospital(T hospital, Object object) throws SQLException {
         boolean check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = updateHospital(connection, hospitalID);
+            check = updateHospital(connection, hospital, object);
         } finally {
             connection.close();
         }

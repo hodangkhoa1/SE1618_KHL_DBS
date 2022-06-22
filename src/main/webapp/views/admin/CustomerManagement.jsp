@@ -66,7 +66,7 @@
                             <td>{{customer.userStatus == 0 ? "Not Active" : (customer.userStatus == 1 ? "Not disabled" : "Disabled")}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <button type="button" class="users-control btn btn-danger">Disable</button>
+                                    <button ng-click="disable(customer.userID, customer.userStatus === 0 ? 'Active' : (customer.userStatus === 1 ? 'Disabled' : 'UnDisabled'))" type="button" class="users-control btn btn-danger">{{customer.userStatus == 0 ? "Active" : (customer.userStatus == 1 ? "Disabled" : "UnDisabled")}}</button>
                                 </div>
                             </td>
                         </tr>
@@ -117,7 +117,7 @@
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/CustomerManagement.js"></script>
         <script>
-            ManageUserAPI(${ACCOUNT_LIST});
+            ManageUserAPI("${pageContext.request.contextPath}/admin/customer-management", ${ACCOUNT_LIST});
             activeSidebarLink();
         </script>
     </body>

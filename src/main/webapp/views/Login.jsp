@@ -79,7 +79,7 @@
                             <button type="submit" class="form-button">Sign up</button>
                             <p class="social_text">Or Sign up with social platforms</p>
                             <div class="social_media sign-up">
-                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
+                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login-google&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
                                     <i class='bx bxl-google'></i>
                                 </a>
                                 <a href="#" class="social_icon">
@@ -132,7 +132,7 @@
                             <button type="submit" class="form-button">Sign in</button>
                             <p class="social_text">Or Sign in with social platforms</p>
                             <div class="social_media sign-in">
-                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
+                                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/GentleDentalCare/login-google&response_type=code&client_id=636259858750-9k9sn13vat21svptl6ov9ugcb3n42s3f.apps.googleusercontent.com&approval_prompt=force" class="social_icon">
                                     <i class='bx bxl-google'></i>
                                 </a>
                                 <a href="#" class="social_icon">

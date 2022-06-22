@@ -1,0 +1,73 @@
+.history .history--title {
+    margin-bottom: 3rem;
+}
+
+.history .history--title h2 {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.history .history__card p {
+    margin-bottom: unset;
+}
+
+.history .card--top {
+    padding: 5px 0;
+    background-color: #f7f7f7;
+    border: 1px solid #f2f1f6;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 12px;
+}
+
+.history .card--top .top--content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+.history .card--top .top--content .maId {
+    color: #326e51;
+}
+
+.history .card--bottom {
+    border: 1px solid #f2f1f6;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.history .card--bottom .cb__img {
+    width: 120px;
+}
+
+.history .card--bottom .cb__img img {
+    width: 100%;
+}
+
+.history .card--bottom .cb__content .name {
+    color: #ff6600;
+}
+
+.history .status--cover {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.history .status {
+    width: 7rem;
+    height: 27px;
+    background-color: #ff6600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 4px;
+}

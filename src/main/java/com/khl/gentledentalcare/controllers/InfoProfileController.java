@@ -40,14 +40,15 @@ public class InfoProfileController extends HttpServlet {
             } else {
                 if (userEmail != null) {
                     account.setUserEmail(userEmail);
-                    boolean checkDeleteAccount = accountFacade.updateAccount(account, "DeleteAccount");
+                    account.setUserStatus(3);
+                    boolean checkDeleteAccount = accountFacade.updateAccount(account, "EditStatus");
                     if (checkDeleteAccount) {
                         cookieUserName = new Cookie(REMEMBER_USER, null);
                         cookieUserName.setMaxAge(0);
                         response.addCookie(cookieUserName);
                         session.invalidate();
-                        response.sendRedirect(request.getContextPath() + "/home");
                     }
+                    response.sendRedirect(request.getContextPath() + "/home");
                 } else {
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/InfoProfile.jsp");
                     requestDispatcher.forward(request, response);
