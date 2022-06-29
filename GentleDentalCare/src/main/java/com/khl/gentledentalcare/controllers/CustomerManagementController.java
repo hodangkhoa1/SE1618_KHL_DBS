@@ -35,7 +35,16 @@ public class CustomerManagementController extends HttpServlet {
             List<Account> accountList;
 
             if (userID != null) {
+                String actionButton = request.getParameter("Action");
+                account.setUserID(userID);
 
+                if (actionButton.equals("Active") || actionButton.equals("UnDisabled")) {
+                    account.setUserStatus(1);
+                } else if (actionButton.equals("Disabled")) {
+                    account.setUserStatus(2);
+                }
+                
+                accountFacade.updateAccount(account, "EditStatus");
             } else {
                 int countAccount = accountFacade.countAccount();
                 int endPage = countAccount / 5;

@@ -36,15 +36,15 @@
                 <ul class="breadcrumbs">
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Gentle Dental Care</a></li>
                     <li class="divider">/</li>
-                    <li><a href="${pageContext.request.contextPath}/admin/hospital-management" class="active">Service Management</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/service-management" class="active">Service Management</a></li>
                 </ul>
 
                 <div class="management-button">
                     <button ng-click="exportToExcel('#tableToExport')" type="button" class="button-export">
                         <i class="fa-solid fa-file-excel"></i>Export Excel
                     </button>
-                    <button type="button" class="button-export button-add">
-                        <i class="fa-solid fa-user-plus"></i>Add Hospital
+                    <button onclick="window.location.href='${pageContext.request.contextPath}/admin/add-service'" type="button" class="button-export button-add">
+                        <i class="fa-solid fa-user-plus"></i>Add Service
                     </button>
                 </div>
 
@@ -65,7 +65,8 @@
                             <td>{{service.serviceStatus == 0 ? "Not disabled" : "Disabled"}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <button type="button" class="users-control btn btn-danger">Disable</button>
+                                    <a href="${pageContext.request.contextPath}/admin/edit-service?sid={{service.serviceID}}" class="users-control btn btn-primary">Edit</a>
+                                    <button ng-click="disable(service.serviceID, service.serviceStatus === 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{service.serviceStatus == 0 ? "Disable" : "UnDisable"}}</button>
                                 </div>
                             </td>
                         </tr>
@@ -78,19 +79,19 @@
                         <ul>
                             <c:if test="${CURRENT_PAGE > 1}">
                                 <li class="pagination-button button-prev">
-                                    <a href="${pageContext.request.contextPath}/admin/hospital-management?page=${CURRENT_PAGE - 1}">
+                                    <a href="${pageContext.request.contextPath}/admin/service-management?page=${CURRENT_PAGE - 1}">
                                         <i class="fas fa-angle-left"></i> Prev
                                     </a>
                                 </li>
                             </c:if>
                             <c:forEach begin="1" end="${END_PAGE}" var="i">
                                 <li class="pagination-number ${CURRENT_PAGE == i ? "active" : ""}">
-                                    <a href="${pageContext.request.contextPath}/admin/hospital-management?page=${i}" class="pagination-link">${i}</a>
+                                    <a href="${pageContext.request.contextPath}/admin/service-management?page=${i}" class="pagination-link">${i}</a>
                                 </li>
                             </c:forEach>
                             <c:if test="${CURRENT_PAGE < END_PAGE}">
                                 <li class="pagination-button button-next">
-                                    <a href="${pageContext.request.contextPath}/admin/hospital-management?page=${CURRENT_PAGE + 1}">
+                                    <a href="${pageContext.request.contextPath}/admin/service-management?page=${CURRENT_PAGE + 1}">
                                         Next <i class="fas fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -116,7 +117,7 @@
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/ServiceManagement.js"></script>
         <script>
-            ManageServiceAPI(${SERVICE_LIST});
+            ManageServiceAPI("${pageContext.request.contextPath}/admin/service-management", ${SERVICE_LIST});
             activeSidebarLink();
         </script>
     </body>

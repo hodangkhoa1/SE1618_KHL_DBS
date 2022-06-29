@@ -1,9 +1,9 @@
 package com.khl.gentledentalcare.controllers;
 
-import com.khl.gentledentalcare.dbo.HospitalFacade;
 import com.khl.gentledentalcare.dbo.ServiceFacade;
-import com.khl.gentledentalcare.models.Hospital;
 import com.khl.gentledentalcare.models.Services;
+import com.khl.gentledentalcare.models.ServicesError;
+import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,20 +22,44 @@ public class ServiceController extends HttpServlet {
     private static final String NOT_EMPTY = "NOT_EMPTY";
     private static final String END_PAGE = "END_PAGE";
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
+    private static final String SERVICE_ACTION = "SERVICE_ACTION";
+    private static final String ACTION_URL = "ACTION_URL";
+    private static final String SERVICE_NAME = "SERVICE_NAME";
+    private static final String SERVICE_PRICE = "SERVICE_PRICE";
+    private static final String SERVICE_IMAGE = "SERVICE_IMAGE";
+    private static final String SERVICE_DESCRIPTION = "SERVICE_DESCRIPTION";
+    private static final String SERVICE_ERROR = "SERVICE_ERROR";
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void returnPrintWriter(List<Services> servicesList, PrintWriter printWriter, HttpServletRequest request) {
+        for (Services services : servicesList) {
+            printWriter.println("<div class=\"col-md-4 service-item\" data-aos=\"fade-up\" data-aos-duration=\"1000\">\n"
+                    + "                                <a href=\"" + request.getContextPath() + "/service-detail?sid=" + services.getServiceID() + "\">\n"
+                    + "                                    <div class=\"rounded-top overflow-hidden service-image\">\n"
+                    + "                                        <img class=\"img-fluid\" src=\"data:image/png;base64," + services.getImageService() + "\" alt=\"" + services.getServiceName() + "\">\n"
+                    + "                                    </div>\n"
+                    + "                                    <div class=\"position-relative bg-light rounded-bottom text-center p-4\">\n"
+                    + "                                        <h5 class=\"m-0\">" + services.getServiceName() + "</h5>\n"
+                    + "                                    </div>\n"
+                    + "                                </a>\n"
+                    + "                            </div>");
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            String serviceAmount = request.getParameter("serviceExits");
             String urlServlet = request.getServletPath();
-            PrintWriter printWriter = response.getWriter();
 
+            PrintWriter printWriter = response.getWriter();
             ServiceFacade serviceFacade = new ServiceFacade();
 
             List<Services> servicesList;
 
             if (urlServlet.equals("/service")) {
+                String serviceAmount = request.getParameter("serviceExits");
+
                 if (serviceAmount != null) {
                     int serviceAmountInt = Integer.parseInt(serviceAmount);
                     servicesList = serviceFacade.getServices(serviceAmountInt, "GetNext6Course");
@@ -50,9 +74,29 @@ public class ServiceController extends HttpServlet {
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/Service.jsp");
                     requestDispatcher.forward(request, response);
                 }
+            } else if (urlServlet.equals("/admin/add-service")) {
+                request.setAttribute(SERVICE_ACTION, "Add Service");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-service");
+
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
+                requestDispatcher.forward(request, response);
+            } else if (urlServlet.equals("/admin/edit-service")) {
+                String serviceID = request.getParameter("sid");
+
+                Services services = serviceFacade.getServicesDetail(serviceID);
+
+                request.setAttribute(SERVICE_NAME, services.getServiceName());
+                request.setAttribute(SERVICE_PRICE, services.getServicePrice());
+                request.setAttribute(SERVICE_IMAGE, services.getImageService());
+                request.setAttribute(SERVICE_DESCRIPTION, services.getDescriptionService());
+                request.setAttribute(SERVICE_ACTION, "Edit Service");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service");
+
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
+                requestDispatcher.forward(request, response);
             } else {
                 String indexPage = request.getParameter("page");
-                String serviceID = request.getParameter("serviceID");
+                String serviceID = request.getParameter("ServiceID");
 
                 if (indexPage == null) {
                     indexPage = "1";
@@ -60,7 +104,18 @@ public class ServiceController extends HttpServlet {
                 int index = Integer.parseInt(indexPage);
 
                 if (serviceID != null) {
-
+                    String actionButton = request.getParameter("Action");
+                    
+                    Services services = new Services();
+                    services.setServiceID(serviceID);
+                    
+                    if (actionButton.equals("Disable")) {
+                        services.setServiceStatus(1);
+                    } else {
+                        services.setServiceStatus(0);
+                    }
+                    
+                    serviceFacade.updateServices(services, "DeleteServices");
                 } else {
                     int countService = serviceFacade.countServices();
                     int endPage = countService / 5;
@@ -83,64 +138,144 @@ public class ServiceController extends HttpServlet {
                     requestDispatcher.forward(request, response);
                 }
             }
-
         } catch (IOException | NumberFormatException | SQLException | ServletException e) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }
 
-    private void returnPrintWriter(List<Services> servicesList, PrintWriter printWriter, HttpServletRequest request) {
-        for (Services services : servicesList) {
-            printWriter.println("<div class=\"col-md-4 service-item\" data-aos=\"fade-up\" data-aos-duration=\"1000\">\n"
-                    + "                                <a href=\"" + request.getContextPath() + "/service-detail?sid=" + services.getServiceID() + "\">\n"
-                    + "                                    <div class=\"rounded-top overflow-hidden service-image\">\n"
-                    + "                                        <img class=\"img-fluid\" src=\"data:image/png;base64," + services.getImageService() + "\" alt=\"" + services.getServiceName() + "\">\n"
-                    + "                                    </div>\n"
-                    + "                                    <div class=\"position-relative bg-light rounded-bottom text-center p-4\">\n"
-                    + "                                        <h5 class=\"m-0\">" + services.getServiceName() + "</h5>\n"
-                    + "                                    </div>\n"
-                    + "                                </a>\n"
-                    + "                            </div>");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        try {
+            String urlServlet = request.getServletPath();
+
+            Services services;
+            ServiceFacade serviceFacade = new ServiceFacade();
+
+            if (urlServlet.equals("/admin/add-service")) {
+                String serviceID = FunctionRandom.randomID(10);
+                String getServiceName = request.getParameter("serviceName");
+                String getServicePrice = request.getParameter("servicePrice");
+                String getServiceImage = request.getParameter("serviceImage");
+                String getServiceDescription = request.getParameter("serviceDescription");
+
+                ServicesError servicesError = new ServicesError();
+                boolean hasError = false;
+
+                if (getServiceName.equals("") && getServicePrice.equals("") && getServiceImage.equals("") && getServiceDescription.equals("")) {
+                    hasError = true;
+                    servicesError.setServiceNameError("Please enter service name!");
+                    servicesError.setServicePriceError("Please enter service price!");
+                    servicesError.setImageServiceError("Please choose image service!");
+                    servicesError.setDescriptionServiceError("Please enter service description!");
+                } else if (getServiceName.equals("")) {
+                    hasError = true;
+                    servicesError.setServiceNameError("Please enter service name!");
+                } else if (getServicePrice.equals("")) {
+                    hasError = true;
+                    servicesError.setServicePriceError("Please enter service price!");
+                } else if (getServiceImage.equals("")) {
+                    hasError = true;
+                    servicesError.setImageServiceError("Please choose image service!");
+                } else if (getServiceDescription.equals("")) {
+                    hasError = true;
+                    servicesError.setDescriptionServiceError("Please enter service description!");
+                }
+
+                if (hasError) {
+                    request.setAttribute(SERVICE_NAME, getServiceName);
+                    request.setAttribute(SERVICE_PRICE, getServicePrice);
+                    if (getServiceImage != null) {
+                        String[] cutCodeImage = getServiceImage.split("\\,");
+                        request.setAttribute(SERVICE_IMAGE, cutCodeImage[1]);
+                    }
+                    request.setAttribute(SERVICE_DESCRIPTION, getServiceDescription);
+                    request.setAttribute(SERVICE_ERROR, servicesError);
+                    request.setAttribute(SERVICE_ACTION, "Add Service");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-service");
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
+                    requestDispatcher.forward(request, response);
+                } else {
+                    services = new Services();
+                    services.setServiceID(serviceID);
+                    services.setServiceName(getServiceName);
+                    services.setServicePrice(Integer.parseInt(getServicePrice));
+                    if (getServiceImage != null) {
+                        String[] cutCodeImage = getServiceImage.split("\\,");
+                        services.setImageService(cutCodeImage[1]);
+                    }
+                    services.setDescriptionService(getServiceDescription);
+                    serviceFacade.addServices(services);
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/ServiceManagement.jsp");
+                    requestDispatcher.forward(request, response);
+                }
+            } else {
+                String serviceID = request.getParameter("sid");
+                String getServiceName = request.getParameter("serviceName");
+                String getServicePrice = request.getParameter("servicePrice");
+                String getServiceImage = request.getParameter("serviceImage");
+                String getServiceDescription = request.getParameter("serviceDescription");
+
+                ServicesError servicesError = new ServicesError();
+                boolean hasError = false;
+
+                if (getServiceName.equals("") && getServicePrice.equals("") && getServiceImage.equals("") && getServiceDescription.equals("")) {
+                    hasError = true;
+                    servicesError.setServiceNameError("Please enter service name!");
+                    servicesError.setServicePriceError("Please enter service price!");
+                    servicesError.setImageServiceError("Please choose image service!");
+                    servicesError.setDescriptionServiceError("Please enter service description!");
+                } else if (getServiceName.equals("")) {
+                    hasError = true;
+                    servicesError.setServiceNameError("Please enter service name!");
+                } else if (getServicePrice.equals("")) {
+                    hasError = true;
+                    servicesError.setServicePriceError("Please enter service price!");
+                } else if (getServiceImage.equals("")) {
+                    hasError = true;
+                    servicesError.setImageServiceError("Please choose image service!");
+                } else if (getServiceDescription.equals("")) {
+                    hasError = true;
+                    servicesError.setDescriptionServiceError("Please enter service description!");
+                }
+
+                if (hasError) {
+                    request.setAttribute(SERVICE_NAME, getServiceName);
+                    request.setAttribute(SERVICE_PRICE, getServicePrice);
+                    if (getServiceImage != null) {
+                        String[] cutCodeImage = getServiceImage.split("\\,");
+                        request.setAttribute(SERVICE_IMAGE, cutCodeImage[1]);
+                    }
+                    request.setAttribute(SERVICE_DESCRIPTION, getServiceDescription);
+                    request.setAttribute(SERVICE_ERROR, servicesError);
+                    request.setAttribute(SERVICE_ACTION, "Edit Service");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service");
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
+                    requestDispatcher.forward(request, response);
+                } else {
+                    services = new Services();
+                    services.setServiceID(serviceID);
+                    services.setServiceName(getServiceName);
+                    services.setServicePrice(Integer.parseInt(getServicePrice));
+                    if (getServiceImage != null) {
+                        String[] cutCodeImage = getServiceImage.split("\\,");
+                        services.setImageService(cutCodeImage[1]);
+                    }
+                    services.setDescriptionService(getServiceDescription);
+                    serviceFacade.updateServices(services, "EditServices");
+                    
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/ServiceManagement.jsp");
+                    requestDispatcher.forward(request, response);
+                }
+            }
+
+        } catch (IOException | NumberFormatException | SQLException | ServletException e) {
+            response.sendRedirect(request.getContextPath() + "/error");
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

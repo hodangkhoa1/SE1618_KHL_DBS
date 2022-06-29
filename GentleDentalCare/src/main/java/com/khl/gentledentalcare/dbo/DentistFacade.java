@@ -15,21 +15,20 @@ public class DentistFacade extends AbstractDentist<Dentist> {
     private ResultSet resultSet = null;
     private static final String SQL_GET_ALL_DENTIST = "SELECT * FROM Dentist";
     private static final String SQL_PAGING_DENTIST = "SELECT * FROM Dentist ORDER BY DentistID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
-    private static final String SQL_ADD_DENTIST = "INSERT INTO Dentist(DentistID, NameDentist, NumberPhoneDentist, DetailDentist, ImageDentist, DentistDescription, AcademicRank, TitleDentist) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE_DENTIST = "UPDATE Dentist SET NameDentist = ?, NumberPhoneDentist = ?, DetailDentist = ?, ImageDentist = ?, DentistDescription = ?, AcademicRank = ?, TitleDentist = ? WHERE DentistID = ?";
+    private static final String SQL_ADD_DENTIST = "INSERT INTO Dentist(DentistID, NameDentist, NumberPhoneDentist, ImageDentist, DentistDescription, AcademicRank) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE_DENTIST = "UPDATE Dentist SET NameDentist = ?, NumberPhoneDentist = ?, ImageDentist = ?, DentistDescription = ?, AcademicRank = ? WHERE DentistID = ?";
     private static final String SQL_GET_TOTAL_DENTIST = "SELECT COUNT(*) FROM Dentist";
+    private static final String SQL_GET_DENTIST_DETAIL_BY_ID = "SELECT * FROM Dentist WHERE DentistID = ?";
 
     private Dentist getInfoDentistFromSQL(ResultSet resultSet) throws SQLException {
         String getDentistID = resultSet.getString("DentistID");
         String getNameDentist = resultSet.getString("NameDentist");
         String getNumberPhoneDentist = resultSet.getString("NumberPhoneDentist");
-        String getDetailDentist = resultSet.getString("DetailDentist");
         byte[] getImageDentist = resultSet.getBytes("ImageDentist");
         String getDentistDescription = resultSet.getString("DentistDescription");
         String getAcademicRank = resultSet.getString("AcademicRank");
-        String getTitleDentist = resultSet.getString("TitleDentist");
 
-        return new Dentist(getDentistID, getNameDentist, getNumberPhoneDentist, getDetailDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank, getTitleDentist);
+        return new Dentist(getDentistID, getNameDentist, getNumberPhoneDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank);
     }
 
     @Override
@@ -75,11 +74,9 @@ public class DentistFacade extends AbstractDentist<Dentist> {
                 preparedStatement.setString(1, dentist.getDentistID());
                 preparedStatement.setString(2, dentist.getNameDentist());
                 preparedStatement.setString(3, dentist.getNumberPhoneDentist());
-                preparedStatement.setString(4, dentist.getDetailDentist());
-                preparedStatement.setBytes(5, Base64.decode(dentist.getImageDentist()));
-                preparedStatement.setString(6, dentist.getDentistDescription());
-                preparedStatement.setString(7, dentist.getAcademicRank());
-                preparedStatement.setString(8, dentist.getTitleDentist());
+                preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
+                preparedStatement.setString(5, dentist.getDentistDescription());
+                preparedStatement.setString(6, dentist.getAcademicRank());
                 preparedStatement.executeUpdate();
                 return true;
             }
@@ -101,12 +98,10 @@ public class DentistFacade extends AbstractDentist<Dentist> {
                 preparedStatement = connection.prepareStatement(SQL_UPDATE_DENTIST);
                 preparedStatement.setString(1, dentist.getNameDentist());
                 preparedStatement.setString(2, dentist.getNumberPhoneDentist());
-                preparedStatement.setString(3, dentist.getDetailDentist());
-                preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
-                preparedStatement.setString(5, dentist.getDentistDescription());
-                preparedStatement.setString(6, dentist.getAcademicRank());
-                preparedStatement.setString(7, dentist.getTitleDentist());
-                preparedStatement.setString(8, dentist.getDentistID());
+                preparedStatement.setBytes(3, Base64.decode(dentist.getImageDentist()));
+                preparedStatement.setString(4, dentist.getDentistDescription());
+                preparedStatement.setString(5, dentist.getAcademicRank());
+                preparedStatement.setString(6, dentist.getDentistID());
                 preparedStatement.executeUpdate();
                 return true;
             }
@@ -143,6 +138,32 @@ public class DentistFacade extends AbstractDentist<Dentist> {
             }
         }
         return 0;
+    }
+
+    @Override
+    protected Dentist getDentistDetail(Connection connection, Object dentistID) throws SQLException {
+        try {
+            if (connection != null) {
+                preparedStatement = connection.prepareStatement(SQL_GET_DENTIST_DETAIL_BY_ID);
+                preparedStatement.setString(1, dentistID.toString());
+                resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    return getInfoDentistFromSQL(resultSet);
+                }
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
     }
 
 }

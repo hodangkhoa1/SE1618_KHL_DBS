@@ -180,6 +180,10 @@
                                 <a href="${pageContext.request.contextPath}/info-profile">My Profile</a>
                             </li>
                             <li>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <a href="">History Booking</a>
+                            </li>
+                            <li>
                                 <i class="uil uil-edit"></i>
                                 <a href="${pageContext.request.contextPath}/edit-profile">Edit Profile</a>
                             </li>

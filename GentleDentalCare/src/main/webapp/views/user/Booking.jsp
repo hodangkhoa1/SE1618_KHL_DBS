@@ -41,7 +41,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Service Details</h4>
-                        <button type="button" class="close btn btn-danger" data-bs-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -59,30 +59,34 @@
                                 <input class="form-control" id="dateService" type="date" required>
                             </div>
                             <div class="mb-3">
-                                <span class="form-label">Slot</span>
-                                <select class="form-control" id="slotService" required>
-                                    <option value="" selected disabled>Please choose slot time</option>
-                                    <option value="1">Slot 1</option>
-                                    <option value="2">Slot 2</option>
-                                    <option value="3">Slot 3</option>
-                                    <option value="4">Slot 4</option>
-                                </select>
+                                <span class="form-label d-block">Slot</span>
+                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
+                                    value="07:00 - 08:00"
+                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
+                                <label id="slot" class="btn btn-outline-primary" for="success-outlined">07:00 -
+                                    08:00</label>
+
+                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined1"
+                                    value="08:00 - 09:00"
+                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
+                                <label id="slot1" class="btn btn-outline-primary" for="success-outlined1">08:00 -
+                                    09:00</label>
+
+                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined2"
+                                    value="09:00 - 10:00"
+                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
+                                <label id="slot2" class="btn btn-outline-primary" for="success-outlined2">09:00 -
+                                    10:00</label>
+
+                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined3"
+                                    value="10:00 - 11:00"
+                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
+                                <label id="slot3" class="btn btn-outline-primary" for="success-outlined3">10:00 -
+                                    11:00</label>
                             </div>
-                            <div class="mb-3">
-                                <span class="form-label">Dentist</span>
-                                <select class="form-control Dentist" id="dentistService" required
-                                    onclick="change_Book(this,'buttonSubmit','selService','dateService','slotService')">
-                                    <option value="" selected disabled>Please choose your Dentist</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                    <option value="4">Option 4</option>
-                                    <option value="5">Option 5</option>
-                                </select>
-                            </div>
+                            <div id="slotCatch" class="bg-danger text-white mb-2 pl-2"></div>
                             <div class="modal-footer">
-                                <button disabled id="buttonSubmit" type="button" class="btn btn-primary"
-                                    data-bs-dismiss="modal" onclick="addLi()">Book Now</button>
+                                <button disabled id="buttonSubmit" type="button" class="btn btn-primary" onclick="addLi()">Book Now</button>
                             </div>
                         </form>
                     </div>
@@ -106,19 +110,19 @@
                             <form action="${pageContext.request.contextPath}/booking" method="post">
                                 <div class="form-group">
                                     <span class="form-label">Full Name</span>
-                                    <input class="form-control" type="text" value="${sessionScope.LOGIN_USER.fullName}">
+                                    <input class="form-control" type="text" name="fullName" readonly value="${sessionScope.LOGIN_USER.fullName}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Email</span>
-                                    <input class="form-control" type="email" value="${sessionScope.LOGIN_USER.userEmail}">
+                                    <input class="form-control" type="email" name="email" readonly value="${sessionScope.LOGIN_USER.userEmail}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Phone</span>
-                                    <input class="form-control" type="tel" value="${sessionScope.LOGIN_USER.userPhone}">
+                                    <input class="form-control" type="tel" readonly value="${sessionScope.LOGIN_USER.userPhone}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Address</span>
-                                    <input class="form-control" type="text" value="${sessionScope.LOGIN_USER.userAddress}">
+                                    <input class="form-control" type="text" readonly value="${sessionScope.LOGIN_USER.userAddress}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Hospital</span>
@@ -169,6 +173,7 @@
         <script src="./js/ScrollBackToTop.js"></script>
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
+        <script src="./js/user/Booking.js"></script>
         <script>
             setActiveMenuBar();
         </script>

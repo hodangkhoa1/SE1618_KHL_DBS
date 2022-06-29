@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<footer>
+<footer class="pt-5">
     <div class="container">
         <div class="footer__content">
             <p>

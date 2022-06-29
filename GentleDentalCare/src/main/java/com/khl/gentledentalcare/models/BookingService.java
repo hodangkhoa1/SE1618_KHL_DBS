@@ -14,17 +14,15 @@ public class BookingService {
 
     private String bookingServiceID, serviceID, bookingID, slotServiceID;
     private Date bookingDate;
-    private int bsStatus;
 
     public BookingService() {
     }
 
-    public BookingService(String bookingServiceID, String serviceID, String bookingID, String slotServiceID, Date bookingDate, int bsStatus) {
+    public BookingService(String bookingServiceID, String serviceID, String bookingID, String slotServiceID, Date bookingDate) {
         this.bookingServiceID = bookingServiceID;
         this.serviceID = serviceID;
         this.bookingID = bookingID;
         this.slotServiceID = slotServiceID;
         this.bookingDate = bookingDate;
-        this.bsStatus = bsStatus;
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.khl.gentledentalcare.utils;
 
 import java.nio.charset.StandardCharsets;
@@ -33,6 +29,7 @@ public class Encrypt {
             key = Arrays.copyOf(key, 16);
             secretKey = new SecretKeySpec(key, "AES");
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 

@@ -43,7 +43,7 @@
                     <button ng-click="exportToExcel('#tableToExport')" type="button" class="button-export">
                         <i class="fa-solid fa-file-excel"></i>Export Excel
                     </button>
-                    <button type="button" class="button-export button-add">
+                    <button onclick="window.location.href='${pageContext.request.contextPath}/admin/add-dentist'" type="button" class="button-export button-add">
                         <i class="fa-solid fa-user-plus"></i>Add Dentist
                     </button>
                 </div>
@@ -54,18 +54,20 @@
                             <th>STT</th>
                             <th>Dentist Name</th>
                             <th>Phone Number</th>
-                            <th>Dentist Detail</th>
                             <th>Academic Rank</th>
-                            <th>Title Dentist</th>
+                            <th>Actions</th>
                         </tr>
 
                         <tr ng-repeat="dentist in listDentist | filter: searching">
                             <td>{{$index + 1}}</td>
                             <td>{{dentist.nameDentist}}</td>
                             <td>{{dentist.numberPhoneDentist}}</td>
-                            <td>{{dentist.detailDentist}}</td>
                             <td>{{dentist.academicRank}}</td>
-                            <td>{{dentist.titleDentist}}</td>
+                            <td>
+                                <div class="table-action-button">
+                                    <a href="${pageContext.request.contextPath}/admin/edit-dentist?did={{dentist.dentistID}}" class="users-control btn btn-primary">Edit</a>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>

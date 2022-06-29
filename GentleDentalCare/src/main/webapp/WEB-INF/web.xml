@@ -18,7 +18,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>LoginGoogleController</servlet-name>
-        <servlet-class>com.khl.gentledentalcare.controllers.LoginGoogleController</servlet-class>
+        <servlet-class>com.khl.gentledentalcare.controllers.LoginController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginGoogleController</servlet-name>
@@ -169,6 +169,22 @@
         <url-pattern>/admin/dentist-management</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>AddDentistController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.DentistManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddDentistController</servlet-name>
+        <url-pattern>/admin/add-dentist</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EditDentistController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.DentistManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditDentistController</servlet-name>
+        <url-pattern>/admin/edit-dentist</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>HospitalManagementController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.HospitalManagementController</servlet-class>
     </servlet>
@@ -177,11 +193,43 @@
         <url-pattern>/admin/hospital-management</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>AddHospitalController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HospitalManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddHospitalController</servlet-name>
+        <url-pattern>/admin/add-hospital</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EditHospitalController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HospitalManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditHospitalController</servlet-name>
+        <url-pattern>/admin/edit-hospital</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ServiceManagementController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.ServiceController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServiceManagementController</servlet-name>
         <url-pattern>/admin/service-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddServiceController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ServiceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddServiceController</servlet-name>
+        <url-pattern>/admin/add-service</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EditServiceController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ServiceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditServiceController</servlet-name>
+        <url-pattern>/admin/edit-service</url-pattern>
     </servlet-mapping>
 </web-app>

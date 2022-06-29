@@ -1,40 +1,27 @@
 package com.khl.gentledentalcare.controllers;
 
-import com.khl.gentledentalcare.dbo.AccountFacade;
-import com.khl.gentledentalcare.models.Account;
+import com.khl.gentledentalcare.dbo.BookingFacade;
+import com.khl.gentledentalcare.dbo.BookingServiceFacade;
+import com.khl.gentledentalcare.models.Booking;
 import java.io.IOException;
-import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author ASUS
- */
-public class VerifyController extends HttpServlet {
+public class HistoryBookingController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
         try {
-            String userId = request.getParameter("uid");
-
-            if (userId != null) {
-                AccountFacade accountFacade = new AccountFacade();
-                Account account = new Account();
-                account.setUserEmail(userId);
-                account.setUserStatus(1);
-                accountFacade.updateAccount(account, "EditStatus");
-                response.sendRedirect(request.getContextPath() + "/verify");
-            } else {
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Verify.jsp");
-                requestDispatcher.forward(request, response);
-            }
-        } catch (IOException | SQLException | ServletException e) {
-            response.sendRedirect(request.getContextPath() + "/error");
+            BookingFacade bookingFacade = new BookingFacade();
+            BookingServiceFacade bookingServiceFacade = new BookingServiceFacade();
+            
+            List<Booking> bookingList = bookingFacade.getAllBooking("GetBookingWithStatus", "0");
+            
+        } catch (Exception e) {
         }
     }
 

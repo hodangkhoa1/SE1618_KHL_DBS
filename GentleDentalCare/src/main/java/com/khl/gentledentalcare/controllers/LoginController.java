@@ -94,6 +94,7 @@ public class LoginController extends HttpServlet {
             String rememberMeString = request.getParameter("rememberMe");
             String hashPassword = DigestUtils.md5Hex(getPassword);
             boolean rememberMe = "Y".equals(rememberMeString);
+            int countBlock = 0;
 
             Account account = null;
             AccountError accountError = new AccountError();
@@ -124,8 +125,12 @@ public class LoginController extends HttpServlet {
                     hasError = true;
                     accountError.setEmailError("Your account has been locked!");
                 } else if (!hashPassword.equals(account.getUserPassword())) {
+                    countBlock++;
                     hasError = true;
                     accountError.setPasswordError("Wrong password, please try again!");
+                } else if (countBlock == 5) {
+                    hasError = true;
+                    accountError.setEmailError("You entered the wrong password more than 5 times. Please re-enter after 30 seconds!");
                 }
             }
 

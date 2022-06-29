@@ -15,6 +15,10 @@ public class HospitalFacade extends AbstractHospital<Hospital> {
     private static final String SQL_GET_ALL_HOSPITAL = "SELECT * FROM Hospital WHERE HospitalStatus = ?";
     private static final String SQL_GET_TOTAL_HOSPITAL = "SELECT COUNT(*) FROM Hospital";
     private static final String SQL_PAGING_HOSPITAL = "SELECT * FROM Hospital ORDER BY HospitalID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
+    private static final String SQL_ADD_HOSPITAL = "INSERT INTO Hospital(HospitalID, HospitalName, HospitalPhone, HospitalAddress) VALUES(?, ?, ?, ?)";
+    private static final String SQL_EDIT_HOSPITAL = "UPDATE Hospital SET HospitalName = ?, HospitalPhone = ?, HospitalAddress = ? WHERE HospitalID = ?";
+    private static final String SQL_EDIT_STATUS = "UPDATE Hospital SET HospitalStatus = ? WHERE HospitalID = ?";
+    private static final String SQL_GET_HOSPITAL_BY_ID = "SELECT * FROM Hospital WHERE HospitalID = ?";
 
     private Hospital getInfoHospitalFromSQL(ResultSet resultSet) throws SQLException {
         String getHospitalID = resultSet.getString("HospitalID");
@@ -63,12 +67,59 @@ public class HospitalFacade extends AbstractHospital<Hospital> {
 
     @Override
     protected boolean addHospital(Connection connection, Hospital hospital) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            if (connection != null) {
+                preparedStatement = connection.prepareStatement(SQL_ADD_HOSPITAL);
+
+                preparedStatement.setString(1, hospital.getHospitalID());
+                preparedStatement.setString(2, hospital.getHospitalName());
+                preparedStatement.setString(3, hospital.getHospitalPhone());
+                preparedStatement.setString(4, hospital.getHospitalAddress());
+                preparedStatement.executeUpdate();
+                return true;
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return false;
     }
 
     @Override
-    protected boolean updateHospital(Connection connection, Object hospitalID) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    protected boolean updateHospital(Connection connection, Hospital hospital, Object action) throws SQLException {
+        try {
+            if (connection != null) {
+                switch (action.toString()) {
+                    case "EditStatus":
+                        preparedStatement = connection.prepareStatement(SQL_EDIT_STATUS);
+                        preparedStatement.setInt(1, hospital.getHospitalStatus());
+                        preparedStatement.setString(2, hospital.getHospitalID());
+                        break;
+                    case "EditHospital":
+                        preparedStatement = connection.prepareStatement(SQL_EDIT_HOSPITAL);
+                        preparedStatement.setString(1, hospital.getHospitalName());
+                        preparedStatement.setString(2, hospital.getHospitalPhone());
+                        preparedStatement.setString(3, hospital.getHospitalAddress());
+                        preparedStatement.setString(4, hospital.getHospitalID());
+                        break;
+                }
+
+                preparedStatement.executeUpdate();
+                return true;
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return false;
     }
 
     @Override
@@ -93,6 +144,32 @@ public class HospitalFacade extends AbstractHospital<Hospital> {
             }
         }
         return 0;
+    }
+
+    @Override
+    protected Hospital getHospital(Connection connection, Object hospitalID) throws SQLException {
+        try {
+            if (connection != null) {
+                preparedStatement = connection.prepareStatement(SQL_GET_HOSPITAL_BY_ID);
+                preparedStatement.setString(1, hospitalID.toString());
+                resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    return getInfoHospitalFromSQL(resultSet);
+                }
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
     }
 
 }
