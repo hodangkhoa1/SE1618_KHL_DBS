@@ -106,6 +106,9 @@ public class ForgotPasswordController extends HttpServlet {
                         request.setAttribute(CHANGE_PAGE_PASSWORD, CHANGE_PAGE_PASSWORD);
                     }
                     
+                    
+                    
+                    
                     request.removeAttribute(CURRENT_PAGE);
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/ForgotPassword.jsp");
                     requestDispatcher.forward(request, response);
