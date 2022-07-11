@@ -8,18 +8,19 @@ import lombok.Setter;
 @Setter
 public class News {
 
-    private String newsID, nameOfNews, imageNews, subtitleNews;
+    private String newsID, nameOfNews, imageNews, subtitleNews, newsDetailContent;
     private int statusNews;
     private Timestamp postDate;
 
     public News() {
     }
 
-    public News(String newsID, String nameOfNews, String imageNews, String subtitleNews, int statusNews, Timestamp postDate) {
+    public News(String newsID, String nameOfNews, String imageNews, String subtitleNews, String newsDetailContent, int statusNews, Timestamp postDate) {
         this.newsID = newsID;
         this.nameOfNews = nameOfNews;
         this.imageNews = imageNews;
         this.subtitleNews = subtitleNews;
+        this.newsDetailContent = newsDetailContent;
         this.statusNews = statusNews;
         this.postDate = postDate;
     }

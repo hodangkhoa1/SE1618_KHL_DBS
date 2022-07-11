@@ -13,14 +13,13 @@ import lombok.Setter;
 public class Slot {
 
     private String slotID;
-    private Time slotStart, slotEnd;
+    private Time slotStart;
 
     public Slot() {
     }
 
-    public Slot(String slotID, Time slotStart, Time slotEnd) {
+    public Slot(String slotID, Time slotStart) {
         this.slotID = slotID;
         this.slotStart = slotStart;
-        this.slotEnd = slotEnd;
     }
 }

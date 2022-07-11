@@ -7,14 +7,15 @@ import lombok.Setter;
 @Setter
 public class Dentist {
 
-    private String dentistID, nameDentist, numberPhoneDentist, imageDentist, dentistDescription, academicRank;
+    private String dentistID, nameDentist, subtitleDentist, numberPhoneDentist, imageDentist, dentistDescription, academicRank;
 
     public Dentist() {
     }
 
-    public Dentist(String dentistID, String nameDentist, String numberPhoneDentist, String imageDentist, String dentistDescription, String academicRank) {
+    public Dentist(String dentistID, String nameDentist, String subtitleDentist, String numberPhoneDentist, String imageDentist, String dentistDescription, String academicRank) {
         this.dentistID = dentistID;
         this.nameDentist = nameDentist;
+        this.subtitleDentist = subtitleDentist;
         this.numberPhoneDentist = numberPhoneDentist;
         this.imageDentist = imageDentist;
         this.dentistDescription = dentistDescription;

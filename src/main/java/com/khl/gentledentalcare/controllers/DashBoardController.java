@@ -1,6 +1,8 @@
 package com.khl.gentledentalcare.controllers;
 
+import com.khl.gentledentalcare.dbo.BookingFacade;
 import com.khl.gentledentalcare.dbo.FeedBackFacade;
+import com.khl.gentledentalcare.dbo.ServiceFacade;
 import com.khl.gentledentalcare.dbo.ViewerFacade;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +16,8 @@ public class DashBoardController extends HttpServlet {
     
     private static final String TOTAL_VIEWER = "TOTAL_VIEWER";
     private static final String TOTAL_FEEDBACK = "TOTAL_FEEDBACK";
+    private static final String TOTAL_BOOKING = "TOTAL_BOOKING";
+    private static final String TOTAL_SERVICE = "TOTAL_SERVICE";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -21,9 +25,13 @@ public class DashBoardController extends HttpServlet {
         try {
             ViewerFacade viewerFacade = new ViewerFacade();
             FeedBackFacade feedBackFacade = new FeedBackFacade();
+            BookingFacade bookingFacade = new BookingFacade();
+            ServiceFacade serviceFacade = new ServiceFacade();
             
             request.setAttribute(TOTAL_VIEWER, viewerFacade.getViewer());
             request.setAttribute(TOTAL_FEEDBACK, feedBackFacade.countFeedBack());
+            request.setAttribute(TOTAL_BOOKING, bookingFacade.countBooking(null, "CountAllBooking"));
+            request.setAttribute(TOTAL_SERVICE, serviceFacade.countServices());
             
             RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/DashBoard.jsp");
             requestDispatcher.forward(request, response);

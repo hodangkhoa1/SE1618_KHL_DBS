@@ -66,6 +66,9 @@ public class EditProfileController extends HttpServlet {
             } else if (phoneNumber.equals("")) {
                 hasError = true;
                 accountError.setPhoneNumberError("Please enter your phone number!");
+            } else if (phoneNumber.length() < 10 || phoneNumber.length() > 10) {
+                hasError = true;
+                accountError.setPhoneNumberError("Phone number must have 10 digits!");
             } else if (address.equals("")) {
                 hasError = true;
                 accountError.setAddressError("Please enter your address!");
@@ -109,7 +112,7 @@ public class EditProfileController extends HttpServlet {
 
                 boolean checkAddProduct = accountFacade.updateAccount(account, "EditProfile");
                 if (checkAddProduct) {
-                    session.setAttribute(LOGIN_USER, accountFacade.checkAccount(email));
+                    session.setAttribute(LOGIN_USER, accountFacade.checkAccount(account, "Login"));
                 }
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/info-profile");
                 requestDispatcher.forward(request, response);

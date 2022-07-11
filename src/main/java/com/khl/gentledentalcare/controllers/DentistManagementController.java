@@ -19,14 +19,18 @@ public class DentistManagementController extends HttpServlet {
     private static final String DENTIST_LIST = "DENTIST_LIST";
     private static final String END_PAGE = "END_PAGE";
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
-    private static final String DENTIST_ACTION = "DENTIST_ACTION";
+    private static final String BUTTON_ACTION = "BUTTON_ACTION";
     private static final String NAME_DENTIST = "NAME_DENTIST";
+    private static final String SUBTITLE_DENTIST = "SUBTITLE_DENTIST";
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
     private static final String DENTIST_IMAGE = "DENTIST_IMAGE";
     private static final String DENTIST_DESCRIPTION = "DENTIST_DESCRIPTION";
     private static final String DENTIST_ERROR = "DENTIST_ERROR";
     private static final String ACADEMIC_RANK = "ACADEMIC_RANK";
     private static final String ACTION_URL = "ACTION_URL";
+    private static final String SEARCH = "SEARCH";
+    private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
+    private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,7 +42,9 @@ public class DentistManagementController extends HttpServlet {
             DentistFacade dentistFacade = new DentistFacade();
 
             if (urlServlet.equals("/admin/add-dentist")) {
-                request.setAttribute(DENTIST_ACTION, "Add Dentist");
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(BUTTON_ACTION, "Add Dentist");
                 request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-dentist");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddDentist.jsp");
@@ -49,13 +55,15 @@ public class DentistManagementController extends HttpServlet {
                 Dentist dentist = dentistFacade.getDentistDetail(dentistID);
 
                 request.setAttribute(NAME_DENTIST, dentist.getNameDentist());
+                request.setAttribute(SUBTITLE_DENTIST, dentist.getSubtitleDentist());
                 request.setAttribute(PHONE_NUMBER, dentist.getNumberPhoneDentist());
                 request.setAttribute(DENTIST_IMAGE, dentist.getImageDentist());
                 request.setAttribute(DENTIST_DESCRIPTION, dentist.getDentistDescription());
                 request.setAttribute(ACADEMIC_RANK, dentist.getAcademicRank());
-
-                request.setAttribute(DENTIST_ACTION, "Edit Dentist");
-                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-dentist");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
+                request.setAttribute(BUTTON_ACTION, "Edit Dentist");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-dentist?did=" + dentistID + "");
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddDentist.jsp");
                 requestDispatcher.forward(request, response);
             } else {
@@ -83,6 +91,7 @@ public class DentistManagementController extends HttpServlet {
 
                 request.setAttribute(END_PAGE, endPage);
                 request.setAttribute(CURRENT_PAGE, index);
+                request.setAttribute(SEARCH, "nameDentist");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/DentistManagement.jsp");
                 requestDispatcher.forward(request, response);
@@ -103,8 +112,9 @@ public class DentistManagementController extends HttpServlet {
             Dentist dentist;
             DentistFacade dentistFacade = new DentistFacade();
 
-            if (urlServlet.equals("/admin/add-service")) {
+            if (urlServlet.equals("/admin/add-dentist")) {
                 String getFullName = request.getParameter("fullName");
+                String getSubtitleDentist = request.getParameter("subtitleDentist");
                 String getPhoneNumber = request.getParameter("phoneNumber");
                 String getDentistImage = request.getParameter("dentistImage");
                 String getAcademicRank = request.getParameter("academicRank");
@@ -114,9 +124,10 @@ public class DentistManagementController extends HttpServlet {
                 DentistError dentistError = new DentistError();
                 boolean hasError = false;
 
-                if (getFullName.equals("") && getPhoneNumber.equals("") && getDentistImage.equals("") && getAcademicRank.equals("") && getDentistDescription.equals("")) {
+                if (getFullName.equals("") && getSubtitleDentist.equals("") && getPhoneNumber.equals("") && getDentistImage.equals("") && getAcademicRank.equals("") && getDentistDescription.equals("")) {
                     hasError = true;
                     dentistError.setNameDentistError("Please enter full name!");
+                    dentistError.setSubtitleDentist("Please enter subtitle dentist!");
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
                     dentistError.setImageDentistError("Please choose image avatar!");
                     dentistError.setAcademicRankError("Please enter academic rank!");
@@ -124,6 +135,9 @@ public class DentistManagementController extends HttpServlet {
                 } else if (getFullName.equals("")) {
                     hasError = true;
                     dentistError.setNameDentistError("Please enter full name!");
+                } else if (getSubtitleDentist.equals("")) {
+                    hasError = true;
+                    dentistError.setSubtitleDentist("Please enter subtitle dentist!");
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
@@ -140,6 +154,7 @@ public class DentistManagementController extends HttpServlet {
 
                 if (hasError) {
                     request.setAttribute(NAME_DENTIST, getFullName);
+                    request.setAttribute(SUBTITLE_DENTIST, getSubtitleDentist);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
                     if (getDentistImage != null) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
@@ -148,7 +163,7 @@ public class DentistManagementController extends HttpServlet {
                     request.setAttribute(DENTIST_DESCRIPTION, getDentistDescription);
                     request.setAttribute(ACADEMIC_RANK, getAcademicRank);
                     request.setAttribute(DENTIST_ERROR, dentistError);
-                    request.setAttribute(DENTIST_ACTION, "Add Dentist");
+                    request.setAttribute(BUTTON_ACTION, "Add Dentist");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-dentist");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddDentist.jsp");
@@ -157,6 +172,7 @@ public class DentistManagementController extends HttpServlet {
                     dentist = new Dentist();
                     dentist.setDentistID(dentistID);
                     dentist.setNameDentist(getFullName);
+                    dentist.setSubtitleDentist(getSubtitleDentist);
                     dentist.setNumberPhoneDentist(getPhoneNumber);
                     if (getDentistImage != null) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
@@ -164,14 +180,13 @@ public class DentistManagementController extends HttpServlet {
                     }
                     dentist.setDentistDescription(getDentistDescription);
                     dentist.setAcademicRank(getAcademicRank);
-
                     dentistFacade.addDentist(dentist);
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/admin/dentist-management");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/dentist-management");
                 }
             } else {
                 String dentistID = request.getParameter("did");
                 String getFullName = request.getParameter("fullName");
+                String getSubtitleDentist = request.getParameter("subtitleDentist");
                 String getPhoneNumber = request.getParameter("phoneNumber");
                 String getDentistImage = request.getParameter("dentistImage");
                 String getAcademicRank = request.getParameter("academicRank");
@@ -180,9 +195,10 @@ public class DentistManagementController extends HttpServlet {
                 DentistError dentistError = new DentistError();
                 boolean hasError = false;
 
-                if (getFullName.equals("") && getPhoneNumber.equals("") && getDentistImage.equals("") && getAcademicRank.equals("") && getDentistDescription.equals("")) {
+                if (getFullName.equals("") && getSubtitleDentist.equals("") && getPhoneNumber.equals("") && getDentistImage.equals("") && getAcademicRank.equals("") && getDentistDescription.equals("")) {
                     hasError = true;
                     dentistError.setNameDentistError("Please enter full name!");
+                    dentistError.setSubtitleDentist("Please enter subtitle dentist!");
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
                     dentistError.setImageDentistError("Please choose image avatar!");
                     dentistError.setAcademicRankError("Please enter academic rank!");
@@ -190,6 +206,9 @@ public class DentistManagementController extends HttpServlet {
                 } else if (getFullName.equals("")) {
                     hasError = true;
                     dentistError.setNameDentistError("Please enter full name!");
+                } else if (getSubtitleDentist.equals("")) {
+                    hasError = true;
+                    dentistError.setSubtitleDentist("Please enter subtitle dentist!");
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
@@ -206,6 +225,7 @@ public class DentistManagementController extends HttpServlet {
 
                 if (hasError) {
                     request.setAttribute(NAME_DENTIST, getFullName);
+                    request.setAttribute(SUBTITLE_DENTIST, getSubtitleDentist);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
                     if (getDentistImage != null) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
@@ -214,8 +234,8 @@ public class DentistManagementController extends HttpServlet {
                     request.setAttribute(DENTIST_DESCRIPTION, getDentistDescription);
                     request.setAttribute(ACADEMIC_RANK, getAcademicRank);
                     request.setAttribute(DENTIST_ERROR, dentistError);
-                    request.setAttribute(DENTIST_ACTION, "Edit Dentist");
-                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-dentist");
+                    request.setAttribute(BUTTON_ACTION, "Edit Dentist");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-dentist?did=" + dentistID + "");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddDentist.jsp");
                     requestDispatcher.forward(request, response);
@@ -223,6 +243,7 @@ public class DentistManagementController extends HttpServlet {
                     dentist = new Dentist();
                     dentist.setDentistID(dentistID);
                     dentist.setNameDentist(getFullName);
+                    dentist.setSubtitleDentist(getSubtitleDentist);
                     dentist.setNumberPhoneDentist(getPhoneNumber);
                     if (getDentistImage != null) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
@@ -231,9 +252,7 @@ public class DentistManagementController extends HttpServlet {
                     dentist.setDentistDescription(getDentistDescription);
                     dentist.setAcademicRank(getAcademicRank);
                     dentistFacade.updateDentist(dentist);
-                    
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/admin/dentist-management");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/dentist-management");
                 }
             }
         } catch (IOException | SQLException | ServletException e) {

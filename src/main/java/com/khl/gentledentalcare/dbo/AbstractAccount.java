@@ -16,14 +16,16 @@ public abstract class AbstractAccount<T> {
     private Connection connection;
 
     protected abstract String registerAccount(Connection connection, T t) throws SQLException;
+    
+    protected abstract boolean addAccount(Connection connection, T t, Object action) throws SQLException;
 
     protected abstract boolean updateAccount(Connection connection, T t, Object object) throws SQLException;
 
     protected abstract List<T> getAccount(Connection connection, Object object, Object action, Object status) throws SQLException;
 
-    protected abstract T checkAccount(Connection connection, Object object) throws SQLException;
+    protected abstract T checkAccount(Connection connection, T account, Object action) throws SQLException;
 
-    protected abstract int countAccount(Connection connection) throws SQLException;
+    protected abstract int countAccount(Connection connection, Object role) throws SQLException;
 
     /**
      * *
@@ -45,6 +47,28 @@ public abstract class AbstractAccount<T> {
         return tmp;
     }
 
+    /**
+     * *
+     * Add Information Account
+     *
+     * @param t
+     * @param action
+     * @return
+     * @throws SQLException
+     */
+    public boolean addAccount(T t, Object action) throws SQLException {
+        boolean check;
+
+        try {
+            connection = DBUtils.makeConnection();
+            check = addAccount(connection, t, action);
+        } finally {
+            connection.close();
+        }
+
+        return check;
+    }
+    
     /**
      * *
      * Update Information Account
@@ -94,16 +118,17 @@ public abstract class AbstractAccount<T> {
      * *
      * Check if the account exists
      *
-     * @param object
+     * @param account
+     * @param action
      * @return
      * @throws SQLException
      */
-    public T checkAccount(Object object) throws SQLException {
+    public T checkAccount(T account, Object action) throws SQLException {
         T t = null;
 
         try {
             connection = DBUtils.makeConnection();
-            t = checkAccount(connection, object);
+            t = checkAccount(connection, account, action);
         } finally {
             connection.close();
         }
@@ -114,15 +139,16 @@ public abstract class AbstractAccount<T> {
      * *
      * Count how many accounts in the list
      *
+     * @param role
      * @return
      * @throws SQLException
      */
-    public int countAccount() throws SQLException {
+    public int countAccount(Object role) throws SQLException {
         int check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = countAccount(connection);
+            check = countAccount(connection, role);
         } finally {
             connection.close();
         }

@@ -20,11 +20,11 @@
         <!-- LINK BOOTSTRAP 5 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- LINK STYLE -->
-        <link href="./css/user/Loader.css" rel="stylesheet" type="text/css"/>
+        <link href="./css/Loader.css" rel="stylesheet" type="text/css"/>
         <link href="./css/ForgotPassword.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <jsp:include page="./../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="./../layouts/Loader.html"></jsp:include>
         
         <div class="container forgot-password" style="margin-top: ${CHANGE_PAGE_PASSWORD != null ? '1%' : '8%'}">
             <img src="./images/forgot_password_background.png" alt="" class="forgot-password__triangle">

@@ -15,27 +15,25 @@ public abstract class AbstractBookingService<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllBookingService(Connection connection) throws SQLException;
+    protected abstract List<T> getAllBookingService(Connection connection, T bookingService, Object action) throws SQLException;
 
     protected abstract boolean addBookingService(Connection connection, T bookingService) throws SQLException;
-
-    protected abstract boolean updateBookingService(Connection connection, Object bookingServiceID) throws SQLException;
-
-    protected abstract int countBookingService(Connection connection) throws SQLException;
 
     /**
      * Get all booking service
      *
+     * @param bookingService
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAllBookingService() throws SQLException {
+    public List<T> getAllBookingService(T bookingService, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllBookingService(connection);
+            list = getAllBookingService(connection, bookingService, action);
         } finally {
             connection.close();
         }
@@ -55,46 +53,6 @@ public abstract class AbstractBookingService<T> {
         try {
             connection = DBUtils.makeConnection();
             check = addBookingService(connection, bookingService);
-        } finally {
-            connection.close();
-        }
-
-        return check;
-    }
-
-    /**
-     * Update booking service
-     *
-     * @param bookingServiceID
-     * @return
-     * @throws SQLException
-     */
-    public boolean updateBookingService(Object bookingServiceID) throws SQLException {
-        boolean check;
-
-        try {
-            connection = DBUtils.makeConnection();
-            check = updateBookingService(connection, bookingServiceID);
-        } finally {
-            connection.close();
-        }
-
-        return check;
-    }
-
-    /**
-     * *
-     * Count how many booking service in the list
-     *
-     * @return
-     * @throws SQLException
-     */
-    public int countBookingService() throws SQLException {
-        int check;
-
-        try {
-            connection = DBUtils.makeConnection();
-            check = countBookingService(connection);
         } finally {
             connection.close();
         }

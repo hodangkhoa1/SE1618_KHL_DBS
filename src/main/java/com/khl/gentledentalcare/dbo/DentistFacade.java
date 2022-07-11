@@ -15,20 +15,22 @@ public class DentistFacade extends AbstractDentist<Dentist> {
     private ResultSet resultSet = null;
     private static final String SQL_GET_ALL_DENTIST = "SELECT * FROM Dentist";
     private static final String SQL_PAGING_DENTIST = "SELECT * FROM Dentist ORDER BY DentistID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
-    private static final String SQL_ADD_DENTIST = "INSERT INTO Dentist(DentistID, NameDentist, NumberPhoneDentist, ImageDentist, DentistDescription, AcademicRank) VALUES(?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE_DENTIST = "UPDATE Dentist SET NameDentist = ?, NumberPhoneDentist = ?, ImageDentist = ?, DentistDescription = ?, AcademicRank = ? WHERE DentistID = ?";
+    private static final String SQL_ADD_DENTIST = "INSERT INTO Dentist(DentistID, NameDentist, SubtitleDentist, NumberPhoneDentist, ImageDentist, DentistDescription, AcademicRank) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE_DENTIST = "UPDATE Dentist SET NameDentist = ?, SubtitleDentist = ?, NumberPhoneDentist = ?, ImageDentist = ?, DentistDescription = ?, AcademicRank = ? WHERE DentistID = ?";
     private static final String SQL_GET_TOTAL_DENTIST = "SELECT COUNT(*) FROM Dentist";
     private static final String SQL_GET_DENTIST_DETAIL_BY_ID = "SELECT * FROM Dentist WHERE DentistID = ?";
+    private static final String SQL_GET_TOP_DENTIST = "SELECT TOP 3 * FROM Dentist";
 
     private Dentist getInfoDentistFromSQL(ResultSet resultSet) throws SQLException {
         String getDentistID = resultSet.getString("DentistID");
         String getNameDentist = resultSet.getString("NameDentist");
+        String getSubtitleDentist = resultSet.getString("SubtitleDentist");
         String getNumberPhoneDentist = resultSet.getString("NumberPhoneDentist");
         byte[] getImageDentist = resultSet.getBytes("ImageDentist");
         String getDentistDescription = resultSet.getString("DentistDescription");
         String getAcademicRank = resultSet.getString("AcademicRank");
 
-        return new Dentist(getDentistID, getNameDentist, getNumberPhoneDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank);
+        return new Dentist(getDentistID, getNameDentist, getSubtitleDentist, getNumberPhoneDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank);
     }
 
     @Override
@@ -40,6 +42,9 @@ public class DentistFacade extends AbstractDentist<Dentist> {
                 switch (action.toString()) {
                     case "GetAllDentist":
                         preparedStatement = connection.prepareStatement(SQL_GET_ALL_DENTIST);
+                        break;
+                    case "GetTopDentist":
+                        preparedStatement = connection.prepareStatement(SQL_GET_TOP_DENTIST);
                         break;
                     case "PagingDentist":
                         preparedStatement = connection.prepareStatement(SQL_PAGING_DENTIST);
@@ -73,10 +78,11 @@ public class DentistFacade extends AbstractDentist<Dentist> {
 
                 preparedStatement.setString(1, dentist.getDentistID());
                 preparedStatement.setString(2, dentist.getNameDentist());
-                preparedStatement.setString(3, dentist.getNumberPhoneDentist());
-                preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
-                preparedStatement.setString(5, dentist.getDentistDescription());
-                preparedStatement.setString(6, dentist.getAcademicRank());
+                preparedStatement.setString(3, dentist.getSubtitleDentist());
+                preparedStatement.setString(4, dentist.getNumberPhoneDentist());
+                preparedStatement.setBytes(5, Base64.decode(dentist.getImageDentist()));
+                preparedStatement.setString(6, dentist.getDentistDescription());
+                preparedStatement.setString(7, dentist.getAcademicRank());
                 preparedStatement.executeUpdate();
                 return true;
             }
@@ -97,11 +103,12 @@ public class DentistFacade extends AbstractDentist<Dentist> {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(SQL_UPDATE_DENTIST);
                 preparedStatement.setString(1, dentist.getNameDentist());
-                preparedStatement.setString(2, dentist.getNumberPhoneDentist());
-                preparedStatement.setBytes(3, Base64.decode(dentist.getImageDentist()));
-                preparedStatement.setString(4, dentist.getDentistDescription());
-                preparedStatement.setString(5, dentist.getAcademicRank());
-                preparedStatement.setString(6, dentist.getDentistID());
+                preparedStatement.setString(2, dentist.getSubtitleDentist());
+                preparedStatement.setString(3, dentist.getNumberPhoneDentist());
+                preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
+                preparedStatement.setString(5, dentist.getDentistDescription());
+                preparedStatement.setString(6, dentist.getAcademicRank());
+                preparedStatement.setString(7, dentist.getDentistID());
                 preparedStatement.executeUpdate();
                 return true;
             }

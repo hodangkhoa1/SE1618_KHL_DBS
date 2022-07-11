@@ -21,7 +21,7 @@ public class ForgotPasswordController extends HttpServlet {
     private static final String CHANGE_PAGE_PASSWORD = "CHANGE_PAGE_PASSWORD";
     private static final String CHANGE_PAGE_VERIFY = "CHANGE_PAGE_VERIFY";
     private static final String EMAIL = "EMAIL";
-    private String codeVerify, tmpNewPassword, tmpEmail, tmpUsername;
+    private String codeVerify;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class ForgotPasswordController extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             String verifySMS = request.getParameter("verifySMS");
 
-            Account account;
+            Account account = new Account();
             AccountError accountError = new AccountError();
             AccountFacade accountFacade = new AccountFacade();
             boolean hasError = false;
@@ -52,14 +52,14 @@ public class ForgotPasswordController extends HttpServlet {
                     hasError = true;
                     accountError.setEmailError("Please enter your email!");
                 } else {
-                    Account checkAccount = accountFacade.checkAccount(email);
-                    tmpEmail = email;
+                    account.setUserEmail(email);
+                    Account checkAccount = accountFacade.checkAccount(account, "Login");
 
                     if (checkAccount == null) {
                         hasError = true;
                         accountError.setEmailError("Account does not exist!");
                     } else {
-                        tmpUsername = checkAccount.getFullName();
+                        account.setFullName(checkAccount.getFullName());
                     }
                 }
             } else if (newPassword != null && confirmPassword != null) {
@@ -74,7 +74,7 @@ public class ForgotPasswordController extends HttpServlet {
                     accountError.setConfirmPasswordError("Password does not match!");
                 } else {
                     String hashNewPassword = DigestUtils.md5Hex(newPassword);
-                    tmpNewPassword = hashNewPassword;
+                    account.setUserPassword(hashNewPassword);
                 }
             } else {
                 if (verifySMS.equals("")) {
@@ -101,13 +101,11 @@ public class ForgotPasswordController extends HttpServlet {
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/ForgotPassword.jsp");
                 requestDispatcher.forward(request, response);
             } else {
-                account = new Account();
-                account.setUserPassword(tmpNewPassword);
-                account.setUserEmail(tmpEmail);
-                account.setFullName(tmpUsername);
-
                 if (email != null) {
-                    request.setAttribute(CHANGE_PAGE_PASSWORD, CHANGE_PAGE_PASSWORD);
+                    if (account.getUserStatus() == 1) {
+                        request.setAttribute(CHANGE_PAGE_PASSWORD, CHANGE_PAGE_PASSWORD);
+                    }
+                    
                     request.removeAttribute(CURRENT_PAGE);
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/ForgotPassword.jsp");
                     requestDispatcher.forward(request, response);

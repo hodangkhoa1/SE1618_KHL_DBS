@@ -11,15 +11,15 @@ import lombok.Setter;
 @Setter
 public class Employee {
 
-    private String employeeID, userID;
-    private int salary, insurance;
+    private String employeeID;
+    private int insurance;
+    private double salary;
 
     public Employee() {
     }
 
-    public Employee(String employeeID, String userID, int salary, int insurance) {
+    public Employee(String employeeID, double salary, int insurance) {
         this.employeeID = employeeID;
-        this.userID = userID;
         this.salary = salary;
         this.insurance = insurance;
     }

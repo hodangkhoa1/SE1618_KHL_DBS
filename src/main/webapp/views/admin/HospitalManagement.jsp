@@ -43,7 +43,7 @@
                     <button ng-click="exportToExcel('#tableToExport')" type="button" class="button-export">
                         <i class="fa-solid fa-file-excel"></i>Export Excel
                     </button>
-                    <button type="button" class="button-export button-add">
+                    <button onclick="window.location.href='${pageContext.request.contextPath}/admin/add-hospital'" type="button" class="button-export button-add">
                         <i class="fa-solid fa-user-plus"></i>Add Hospital
                     </button>
                 </div>
@@ -55,19 +55,17 @@
                             <th>Hospital Name</th>
                             <th>Hospital Phone</th>
                             <th>Hospital Address</th>
-                            <th>Hospital Status</th>
                             <th>Actions</th>
                         </tr>
 
-                        <tr ng-repeat="hospital in listHospital | filter: searching">
+                        <tr ng-repeat="hospital in listHospital | filter: ${SEARCH}">
                             <td>{{$index + 1}}</td>
                             <td>{{hospital.hospitalName}}</td>
                             <td>{{hospital.hospitalPhone}}</td>
                             <td>{{hospital.hospitalAddress}}</td>
-                            <td>{{hospital.hospitalStatus == 0 ? "Not disabled" : "Disabled"}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <button type="button" class="users-control btn btn-danger">Disable</button>
+                                    <button type="button" class="users-control btn btn-danger">{{hospital.hospitalStatus == 0 ? "Disable" : "UnDisabled"}}</button>
                                 </div>
                             </td>
                         </tr>
@@ -75,7 +73,7 @@
                 </div>
 
                 <!-- User Management Pagination -->
-                <c:if test="${CURRENT_PAGE > 1}">
+                <c:if test="${END_PAGE > 1}">
                     <div class="table-pagination">
                         <ul>
                             <c:if test="${CURRENT_PAGE > 1}">

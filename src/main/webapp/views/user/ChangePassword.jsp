@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,7 +24,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
         <!-- LINK STYLE -->
         <link rel="stylesheet" href="./css/user/UserRoot.css">
-        <link rel="stylesheet" href="./css/user/Loader.css">
+        <link rel="stylesheet" href="./css/Loader.css">
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
@@ -32,7 +33,7 @@
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
     <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
@@ -50,9 +51,24 @@
                                 <div class="account-settings">
                                     <div class="user-profile">
                                         <div class="user-avatar">
-                                            <div class="setting-avatar_photo">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                    alt="Maxwell Admin">
+                                            <div class="setting-avatar_photo" style="background: ${sessionScope.LOGIN_USER.imageAvatar == null ? sessionScope.LOGIN_USER.colorAvatar : ""}">
+                                                <c:choose>
+                                                    <c:when test = "${sessionScope.LOGIN_USER.imageAvatar == null}">
+                                                       <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                                                    </c:when>
+                                                       
+                                                    <c:when test = "${sessionScope.LOGIN_USER.imageAvatar != null}">
+                                                       <img src="data:image/png;base64,${sessionScope.LOGIN_USER.imageAvatar}" />
+                                                    </c:when>
+                                                       
+                                                    <c:when test = "${IMAGE_AVATAR != null}">
+                                                        <img src="${fileURL}" alt="" >
+                                                        <input type="hidden" value="${fileURL}" name="imageAvatar">
+                                                    </c:when>
+                                                    <c:when test = "${IMAGE_AVATAR == null}">
+                                                        <p>${sessionScope.LOGIN_USER.defaultAvatar.toUpperCase()}</p>
+                                                    </c:when>
+                                                </c:choose>
                                             </div>
                                         </div>
                                         <h5 class="user-name">${sessionScope.LOGIN_USER.fullName}</h5>

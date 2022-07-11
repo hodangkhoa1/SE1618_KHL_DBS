@@ -15,27 +15,29 @@ public abstract class AbstractServiceSlot<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllServiceSlot(Connection connection) throws SQLException;
+    protected abstract List<T> getAllServiceSlot(Connection connection, T serviceSlot, Object action) throws SQLException;
 
     protected abstract boolean addServiceSlot(Connection connection, T serviceSlot) throws SQLException;
 
     protected abstract boolean updateServiceSlot(Connection connection, Object serviceSlotID) throws SQLException;
-
-    protected abstract int countServiceSlot(Connection connection) throws SQLException;
+    
+    protected abstract T getServiceSlot(Connection connection, Object slotServiceID, Object action) throws SQLException;
 
     /**
      * Get all service slot
      *
+     * @param serviceSlot
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAllServiceSlot() throws SQLException {
+    public List<T> getAllServiceSlot(T serviceSlot, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllServiceSlot(connection);
+            list = getAllServiceSlot(connection, serviceSlot, action);
         } finally {
             connection.close();
         }
@@ -81,24 +83,24 @@ public abstract class AbstractServiceSlot<T> {
 
         return check;
     }
-
+    
     /**
-     * *
-     * Count how many service slot in the list
+     * Get services Detail
      *
+     * @param slotServiceID
+     * @param action
      * @return
      * @throws SQLException
      */
-    public int countServiceSlot() throws SQLException {
-        int check;
+    public T getServiceSlot(Object slotServiceID, Object action) throws SQLException {
+        T t = null;
 
         try {
             connection = DBUtils.makeConnection();
-            check = countServiceSlot(connection);
+            t = getServiceSlot(connection, slotServiceID, action);
         } finally {
             connection.close();
         }
-
-        return check;
+        return t;
     }
 }

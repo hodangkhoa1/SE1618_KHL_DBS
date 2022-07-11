@@ -19,11 +19,14 @@ public class HospitalManagementController extends HttpServlet {
     private static final String HOSPITAL_LIST = "HOSPITAL_LIST";
     private static final String END_PAGE = "END_PAGE";
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
-    private static final String HOSPITAL_ACTION = "HOSPITAL_ACTION";
+    private static final String BUTTON_ACTION = "BUTTON_ACTION";
     private static final String ACTION_URL = "ACTION_URL";
     private static final String HOSPITAL_NAME = "HOSPITAL_NAME";
     private static final String HOSPITAL_PHONE = "HOSPITAL_PHONE";
     private static final String HOSPITAL_ADDRESS = "HOSPITAL_ADDRESS";
+    private static final String SEARCH = "SEARCH";
+    private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
+    private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +38,9 @@ public class HospitalManagementController extends HttpServlet {
             HospitalFacade hospitalFacade = new HospitalFacade();
 
             if (urlServlet.equals("/admin/add-hospital")) {
-                request.setAttribute(HOSPITAL_ACTION, "Add Hospital");
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(BUTTON_ACTION, "Add Hospital");
                 request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-hospital");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
@@ -47,7 +52,9 @@ public class HospitalManagementController extends HttpServlet {
                 request.setAttribute(HOSPITAL_NAME, hospital.getHospitalName());
                 request.setAttribute(HOSPITAL_PHONE, hospital.getHospitalPhone());
                 request.setAttribute(HOSPITAL_ADDRESS, hospital.getHospitalAddress());
-                request.setAttribute(HOSPITAL_ACTION, "Edit Hospital");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
+                request.setAttribute(BUTTON_ACTION, "Edit Hospital");
                 request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
@@ -81,6 +88,7 @@ public class HospitalManagementController extends HttpServlet {
 
                     request.setAttribute(END_PAGE, endPage);
                     request.setAttribute(CURRENT_PAGE, index);
+                    request.setAttribute(SEARCH, "hospitalName");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/HospitalManagement.jsp");
                     requestDispatcher.forward(request, response);
@@ -132,7 +140,7 @@ public class HospitalManagementController extends HttpServlet {
                     request.setAttribute(HOSPITAL_NAME, getHospitalName);
                     request.setAttribute(HOSPITAL_PHONE, getHospitalPhone);
                     request.setAttribute(HOSPITAL_ADDRESS, getHospitalAddress);
-                    request.setAttribute(HOSPITAL_ACTION, "Add Hospital");
+                    request.setAttribute(BUTTON_ACTION, "Add Hospital");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-hospital");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
@@ -143,20 +151,18 @@ public class HospitalManagementController extends HttpServlet {
                     hospital.setHospitalName(getHospitalName);
                     hospital.setHospitalPhone(getHospitalPhone);
                     hospital.setHospitalAddress(getHospitalAddress);
-                    
                     hospitalFacade.addHospital(hospital);
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/admin/hospital-management");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/hospital-management");
                 }
             } else {
                 String hospitalID = request.getParameter("hid");
                 String getHospitalName = request.getParameter("hospitalName");
                 String getHospitalPhone = request.getParameter("hospitalPhone");
                 String getHospitalAddress = request.getParameter("hospitalAddress");
-                
+
                 HospitalError hospitalError = new HospitalError();
                 boolean hasError = false;
-                
+
                 if (getHospitalName.equals("") && getHospitalPhone.equals("") && getHospitalAddress.equals("")) {
                     hasError = true;
                     hospitalError.setHospitalName("Please enter hospital name!");
@@ -172,12 +178,12 @@ public class HospitalManagementController extends HttpServlet {
                     hasError = true;
                     hospitalError.setHospitalAddress("Please choose hospital address!");
                 }
-                
+
                 if (hasError) {
                     request.setAttribute(HOSPITAL_NAME, getHospitalName);
                     request.setAttribute(HOSPITAL_PHONE, getHospitalPhone);
                     request.setAttribute(HOSPITAL_ADDRESS, getHospitalAddress);
-                    request.setAttribute(HOSPITAL_ACTION, "Edit Hospital");
+                    request.setAttribute(BUTTON_ACTION, "Edit Hospital");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
@@ -188,10 +194,8 @@ public class HospitalManagementController extends HttpServlet {
                     hospital.setHospitalName(getHospitalName);
                     hospital.setHospitalPhone(getHospitalPhone);
                     hospital.setHospitalAddress(getHospitalAddress);
-                    
                     hospitalFacade.updateHospital(hospital, "EditHospital");
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/admin/hospital-management");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/hospital-management");
                 }
             }
 

@@ -18,7 +18,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add Dentist</title>
+        <title>${BUTTON_ACTION}</title>
         <!-- Favicon icon -->
         <link rel="icon" href=".././images/favicon-100x100.png" type="image/png" sizes="200x138" />
         <!-- Iconscout CSS -->
@@ -44,17 +44,17 @@
             
             <!-- MAIN -->
             <main class="main">
-                <h1 class="title">Add Dentist</h1>
+                <h1 class="title">${BUTTON_ACTION}</h1>
                 <ul class="breadcrumbs">
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Gentle Dental Care</a></li>
                     <li class="divider">/</li>
-                    <li><a href="${pageContext.request.contextPath}/admin/add-dentist" class="active">Add Dentist</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/add-dentist" class="active">${BUTTON_ACTION}</a></li>
                 </ul>
 
                 <div class="form_wrapper">
                     <div class="form_container">
                         <div class="title_container">
-                            <h2>Add Dentist</h2>
+                            <h2>${BUTTON_ACTION}</h2>
                         </div>
                         <div class="row clearfix">
                             <div>
@@ -68,6 +68,16 @@
                                     </div>
                                     <div class="text-danger full-name-error">
                                         <p><%=dentistError.getNameDentistError()%></p>
+                                    </div>
+                                    <div class="input_field">
+                                        <span>
+                                            <i class="fa-solid fa-font"></i>
+                                        </span>
+                                        <input type="text" class="subtitle-dentist" name="subtitleDentist" value="${SUBTITLE_DENTIST != null ? SUBTITLE_DENTIST : ""}" placeholder="Subtitle Dentist"
+                                            oninput="CheckSubtitleDentist()" onblur="CheckSubtitleDentist()" />
+                                    </div>
+                                    <div class="text-danger subtitle-dentist-error">
+                                        <p><%=dentistError.getSubtitleDentist()%></p>
                                     </div>
                                     <div class="input_field">
                                         <span>
@@ -108,7 +118,7 @@
                                     <div class="text-danger dentist-description-error">
                                         <p><%=dentistError.getDentistDescriptionError()%></p>
                                     </div>
-                                    <input class="button add-service" type="submit" value="${DENTIST_ACTION}" />
+                                    <input class="button add-service" type="submit" value="${BUTTON_ACTION}" />
                                 </form>
                             </div>
                         </div>
@@ -134,6 +144,7 @@
         <script src=".././js/admin/AddDentist.js"></script>
         <script>
             CKEDITOR.replace( 'editor' );
+            activeSidebarLink();
         </script>
     </body>
 </html>

@@ -1,8 +1,11 @@
 package com.khl.gentledentalcare.controllers;
 
+import com.khl.gentledentalcare.dbo.DentistFacade;
 import com.khl.gentledentalcare.dbo.ViewerFacade;
+import com.khl.gentledentalcare.models.Dentist;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +18,8 @@ import javax.servlet.http.HttpSession;
  * @author ASUS
  */
 public class HomeController extends HttpServlet {
+    
+    private static final String DENTIST_LIST = "DENTIST_LIST";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -22,6 +27,15 @@ public class HomeController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             ViewerFacade viewerFacade = new ViewerFacade();
+            DentistFacade dentistFacade = new DentistFacade();
+            
+            List<Dentist> dentistList = dentistFacade.getAllDentist(null, "GetTopDentist");
+            
+            if (dentistList.isEmpty()) {
+                request.setAttribute(DENTIST_LIST, null);
+            } else {
+                request.setAttribute(DENTIST_LIST, dentistList);
+            }
 
             if (session.isNew()) {
                 viewerFacade.updateViewer();

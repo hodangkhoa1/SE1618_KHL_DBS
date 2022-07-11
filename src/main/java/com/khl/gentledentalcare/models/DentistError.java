@@ -8,10 +8,11 @@ import lombok.Data;
  */
 @Data
 public class DentistError {
-    private String nameDentistError, numberPhoneDentistError, imageDentistError, dentistDescriptionError, academicRankError;
+    private String nameDentistError, subtitleDentist, numberPhoneDentistError, imageDentistError, dentistDescriptionError, academicRankError;
     
     public DentistError() {
         this.nameDentistError = "";
+        this.subtitleDentist = "";
         this.numberPhoneDentistError = "";
         this.imageDentistError = "";
         this.dentistDescriptionError = "";

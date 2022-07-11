@@ -79,7 +79,7 @@ public class ChangePasswordController extends HttpServlet {
 
                 boolean checkChangePassword = accountFacade.updateAccount(account, "ChangePassword");
                 if (checkChangePassword) {
-                    Account getAccount = accountFacade.checkAccount(account.getUserEmail());
+                    Account getAccount = accountFacade.checkAccount(account, "Login");
                     session.setAttribute(LOGIN_USER, getAccount);
                     session.setMaxInactiveInterval(500);
                 }

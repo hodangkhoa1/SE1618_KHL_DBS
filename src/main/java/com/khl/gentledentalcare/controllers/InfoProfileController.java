@@ -21,6 +21,9 @@ public class InfoProfileController extends HttpServlet {
     private static final String REMEMBER_USER = "USER_GDC";
     private static final String LOGIN_ADMIN = "LOGIN_ADMIN";
     private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
+    private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
+    private static final String BUTTON_ACTION = "BUTTON_ACTION";
+    private static final String ACTION_URL = "ACTION_URL";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,6 +38,9 @@ public class InfoProfileController extends HttpServlet {
 
             if (session.getAttribute(LOGIN_ADMIN) != null) {
                 request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-id-card icon\"></i>");
+                request.setAttribute(BUTTON_ACTION, "Profile");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/info-profile");
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/InfoProfile.jsp");
                 requestDispatcher.forward(request, response);
             } else {

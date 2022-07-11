@@ -17,6 +17,7 @@ public class CustomerManagementController extends HttpServlet {
     private static final String ACCOUNT_LIST = "ACCOUNT_LIST";
     private static final String END_PAGE = "END_PAGE";
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
+    private static final String SEARCH = "SEARCH";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,7 +47,7 @@ public class CustomerManagementController extends HttpServlet {
                 
                 accountFacade.updateAccount(account, "EditStatus");
             } else {
-                int countAccount = accountFacade.countAccount();
+                int countAccount = accountFacade.countAccount("0");
                 int endPage = countAccount / 5;
                 if (countAccount % 5 != 0) {
                     endPage++;
@@ -62,6 +63,7 @@ public class CustomerManagementController extends HttpServlet {
 
                 request.setAttribute(END_PAGE, endPage);
                 request.setAttribute(CURRENT_PAGE, index);
+                request.setAttribute(SEARCH, "fullName");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/CustomerManagement.jsp");
                 requestDispatcher.forward(request, response);

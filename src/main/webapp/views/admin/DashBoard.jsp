@@ -52,7 +52,7 @@
                     <div class="card">
                         <div class="head">
                             <div>
-                                <h2>234</h2>
+                                <h2>${TOTAL_BOOKING != null ? TOTAL_BOOKING : 0}</h2>
                                 <p>Booking</p>
                             </div>
                             <i class='bx bx-trending-down icon down'></i>
@@ -63,7 +63,7 @@
                     <div class="card">
                         <div class="head">
                             <div>
-                                <h2>465</h2>
+                                <h2>${TOTAL_SERVICE != null ? TOTAL_SERVICE : 0}</h2>
                                 <p>Service</p>
                             </div>
                             <i class='bx bx-trending-up icon'></i>

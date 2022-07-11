@@ -34,11 +34,13 @@ public class LoginController extends HttpServlet {
 
     private static final String LOGIN_ADMIN = "LOGIN_ADMIN";
     private static final String LOGIN_USER = "LOGIN_USER";
+    private static final String LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
     private static final String LOGIN_ACCOUNT_ERROR = "LOGIN_ACCOUNT_ERROR";
     private static final String NOTIFICATION_LIST = "NOTIFICATION_LIST";
     private static final String TIME_NOTIFICATION = "TIME_NOTIFICATION";
     private static final String COUNT_NOTIFICATION_NOT_READ = "COUNT_NOTIFICATION_NOT_READ";
     private static final String REMEMBER_USER = "USER_GDC";
+    private static final String REMEMBER_PASSWORD = "USER_P_GDC";
     private static final String SECRET_KEY = "ssshhhhhhhhhhh!!!!";
     private static final int TIME_COOKIE = 60 * 60 * 24;
     private static final String EMAIL = "EMAIL";
@@ -55,17 +57,16 @@ public class LoginController extends HttpServlet {
             if (googleCode != null) {
                 String accessToken = RestGoogle.getGoogleToken(googleCode);
                 GoogleAccount googleAccount = RestGoogle.getGoogleUserInfo(accessToken);
+                Account account = new Account();
+                
+                account.setUserID(FunctionRandom.randomID(10));
+                account.setUserEmail(googleAccount.getEmail());
 
                 AccountFacade accountFacade = new AccountFacade();
-                Account checkLearnerAccount = accountFacade.checkAccount(googleAccount.getEmail());
+                Account checkLearnerAccount = accountFacade.checkAccount(account, "Login");
 
                 if (checkLearnerAccount == null) {
-                    Account account = new Account();
-
-                    account.setUserID(FunctionRandom.randomID(10));
-                    account.setUserEmail(googleAccount.getEmail());
                     accountFacade.registerAccount(account);
-
                     session.setAttribute(LOGIN_USER, account);
                 } else {
                     session.setAttribute(LOGIN_USER, checkLearnerAccount);
@@ -79,6 +80,8 @@ public class LoginController extends HttpServlet {
             }
 
         } catch (IOException | SQLException | ServletException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }
@@ -100,7 +103,7 @@ public class LoginController extends HttpServlet {
             AccountError accountError = new AccountError();
             HttpSession session = request.getSession();
             boolean hasError = false;
-            Cookie cookieUserName;
+            Cookie cookieUserName, cookiePassword;
 
             if (getEmail.equals("") && getPassword.equals("")) {
                 hasError = true;
@@ -114,7 +117,10 @@ public class LoginController extends HttpServlet {
                 accountError.setPasswordError("Please enter your password!");
             } else {
                 AccountFacade checkLogin = new AccountFacade();
-                account = checkLogin.checkAccount(getEmail);
+                Account accountTMP = new Account();
+                accountTMP.setUserEmail(getEmail);
+                
+                account = checkLogin.checkAccount(accountTMP, "Login");
                 if (account == null) {
                     hasError = true;
                     accountError.setEmailError("Account does not exist!");
@@ -144,12 +150,17 @@ public class LoginController extends HttpServlet {
                 if (rememberMe) {
                     String encryptedUsername = Encrypt.encrypt(getEmail, SECRET_KEY);
                     cookieUserName = new Cookie(REMEMBER_USER, encryptedUsername);
+                    cookiePassword = new Cookie(REMEMBER_PASSWORD, hashPassword);
                     cookieUserName.setMaxAge(TIME_COOKIE);
+                    cookiePassword.setMaxAge(TIME_COOKIE);
                 } else {
                     cookieUserName = new Cookie(REMEMBER_USER, null);
+                    cookiePassword = new Cookie(REMEMBER_PASSWORD, null);
                     cookieUserName.setMaxAge(0);
+                    cookiePassword.setMaxAge(0);
                 }
                 response.addCookie(cookieUserName);
+                response.addCookie(cookiePassword);
 
                 switch (account.getUserRole()) {
                     case 0:
@@ -191,6 +202,9 @@ public class LoginController extends HttpServlet {
                         response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                         break;
                     case 2:
+                        session.setAttribute(LOGIN_EMPLOYEE, account);
+                        session.setMaxInactiveInterval(500);
+                        response.sendRedirect(request.getContextPath() + "/employee/appointment");
                         break;
                 }
             }

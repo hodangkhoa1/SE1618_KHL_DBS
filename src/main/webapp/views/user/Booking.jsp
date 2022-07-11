@@ -23,7 +23,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
         <!-- LINK STYLE -->
         <link rel="stylesheet" href="./css/user/UserRoot.css">
-        <link rel="stylesheet" href="./css/user/Loader.css">
+        <link rel="stylesheet" href="./css/Loader.css">
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
@@ -31,8 +31,8 @@
         <link rel="stylesheet" href="./css/user/FooterPage.css">
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
-    <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+    <body onload="CheckValueUser('${sessionScope.LOGIN_USER.userID}', '${pageContext.request.contextPath}/${sessionScope.LOGIN_USER != null ? "edit-profile" : "login"}')">
+        <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
@@ -41,13 +41,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Service Details</h4>
-                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                        <button type="button" onclick="removeValue()" class="close btn btn-danger" data-bs-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
                                 <span class="form-label">Service</span>
-                                <select class="form-control" id="selService" required>
+                                <select class="form-control" id="selService">
                                     <option value='' selected disabled>Please choose service</option>
                                     <c:forEach items="${SERVICES_LIST}" var="service">
                                         <option value="${service.serviceID}">${service.serviceName}</option>
@@ -56,33 +56,11 @@
                             </div>
                             <div class="mb-3">
                                 <span class="form-label">Date</span>
-                                <input class="form-control" id="dateService" type="date" required>
+                                <input class="form-control" onchange="getServiceSlot()" id="dateService" type="date">
                             </div>
                             <div class="mb-3">
                                 <span class="form-label d-block">Slot</span>
-                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
-                                    value="07:00 - 08:00"
-                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
-                                <label id="slot" class="btn btn-outline-primary" for="success-outlined">07:00 -
-                                    08:00</label>
-
-                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined1"
-                                    value="08:00 - 09:00"
-                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
-                                <label id="slot1" class="btn btn-outline-primary" for="success-outlined1">08:00 -
-                                    09:00</label>
-
-                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined2"
-                                    value="09:00 - 10:00"
-                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
-                                <label id="slot2" class="btn btn-outline-primary" for="success-outlined2">09:00 -
-                                    10:00</label>
-
-                                <input type="radio" class="btn-check" name="options-outlined" id="success-outlined3"
-                                    value="10:00 - 11:00"
-                                    onchange="change_Book(this,'buttonSubmit','selService','dateService')">
-                                <label id="slot3" class="btn btn-outline-primary" for="success-outlined3">10:00 -
-                                    11:00</label>
+                                <div class="foo" id="return-list"></div>
                             </div>
                             <div id="slotCatch" class="bg-danger text-white mb-2 pl-2"></div>
                             <div class="modal-footer">
@@ -94,15 +72,16 @@
             </div>
         </div>
         
+        <div id="error-box"></div>
+        
         <header class="header-background">
             <jsp:include page="../../layouts/user/NavBar.jsp"></jsp:include>
         </header>
-        
+                                
         <div class='container pt-2 pb-5'>
             <div class='window'>
                 <div class='order-info'>
                     <div class='order-info-content'>
-                        <div class='line'></div>
                         <div class="booking-form">
                             <div class="form-header">
                                 <h3>Book a appointment</h3>
@@ -110,24 +89,23 @@
                             <form action="${pageContext.request.contextPath}/booking" method="post">
                                 <div class="form-group">
                                     <span class="form-label">Full Name</span>
-                                    <input class="form-control" type="text" name="fullName" readonly value="${sessionScope.LOGIN_USER.fullName}">
+                                    <input type="text" class="form-control" id="fullName" name="fullName" readonly value="${sessionScope.LOGIN_USER.fullName}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Email</span>
-                                    <input class="form-control" type="email" name="email" readonly value="${sessionScope.LOGIN_USER.userEmail}">
+                                    <input type="email" class="form-control" id="email" name="email" readonly value="${sessionScope.LOGIN_USER.userEmail}">
                                 </div>
                                 <div class="form-group">
-                                    <span class="form-label">Phone</span>
-                                    <input class="form-control" type="tel" readonly value="${sessionScope.LOGIN_USER.userPhone}">
+                                    <span class="form-label">Phone Number</span>
+                                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" readonly value="${sessionScope.LOGIN_USER.userPhone}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Address</span>
-                                    <input class="form-control" type="text" readonly value="${sessionScope.LOGIN_USER.userAddress}">
+                                    <input type="text" class="form-control" id="address" name="address" readonly value="${sessionScope.LOGIN_USER.userAddress}">
                                 </div>
                                 <div class="form-group">
                                     <span class="form-label">Hospital</span>
-                                    <select name="hospital" class="form-control Hospital" id="hospital" required
-                                        onclick="change_button(this,'buttonService')">
+                                    <select class="form-control Hospital" name="hospital" id="hospital" onchange="change_button()" onblur="change_button()">
                                         <option value="" selected disabled>Please choose your Hospital</option>
                                         <c:forEach items="${HOSPITAL_LIST}" var="hospital">
                                             <option value="${hospital.hospitalID}">${hospital.hospitalName}</option>
@@ -137,13 +115,14 @@
                                 <div class="form-group">
                                     <span class="form-label">Add your service</span>
                                     <div class="input-group-append">
-                                        <button class="btn btn-success" id="buttonService" type="button"
-                                            data-bs-toggle="modal" data-bs-target="#modalForm" disabled>
+                                        <button class="btn btn-success" id="buttonService" type="button" data-bs-toggle="modal" data-bs-target="#modalForm" disabled>
                                             Add more service
                                         </button>
                                     </div>
                                     <hr style="height: 2px; border: 10px; color: gray; background-color: red">
                                     <ul class="ul-list" id="list"></ul>
+                                    <div id="bookCatch" class="bg-danger text-white mb-2 pl-2"></div>
+                                    <input type="text" hidden value="" name="CountBookService" id="bookService">
                                 </div>
                                 <div class="form-btn">
                                     <button class="submit-btn">Book Now</button>
