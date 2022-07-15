@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.khl.gentledentalcare.filters.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <session-config>
         <session-timeout>
             30
@@ -97,6 +105,22 @@
         <url-pattern>/service</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ServiceDetailController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ServiceDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiceDetailController</servlet-name>
+        <url-pattern>/service-detail</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NewsDetailController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.NewsDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewsDetailController</servlet-name>
+        <url-pattern>/news-detail</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>InfoProfileController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.InfoProfileController</servlet-class>
     </servlet>
@@ -129,12 +153,28 @@
         <url-pattern>/booking</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>HistoryBookingController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryBookingController</servlet-name>
+        <url-pattern>/history-booking</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>FAQController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.FAQController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FAQController</servlet-name>
         <url-pattern>/faq</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DentistDetailController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.DentistDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DentistDetailController</servlet-name>
+        <url-pattern>/dentist-detail</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>DashBoardController</servlet-name>
@@ -231,5 +271,61 @@
     <servlet-mapping>
         <servlet-name>EditServiceController</servlet-name>
         <url-pattern>/admin/edit-service</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NewsManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.NewsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewsManagementController</servlet-name>
+        <url-pattern>/admin/news-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddNewsController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.NewsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddNewsController</servlet-name>
+        <url-pattern>/admin/add-news</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EditNewsController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.NewsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditNewsController</servlet-name>
+        <url-pattern>/admin/edit-news</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EmployeeManagementController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.EmployeeManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeManagementController</servlet-name>
+        <url-pattern>/admin/employee-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddEmployeeController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.EmployeeManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddEmployeeController</servlet-name>
+        <url-pattern>/admin/add-employee</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>EditEmployeeController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.EmployeeManagementController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditEmployeeController</servlet-name>
+        <url-pattern>/admin/edit-employee</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AppointmentController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppointmentController</servlet-name>
+        <url-pattern>/employee/appointment</url-pattern>
     </servlet-mapping>
 </web-app>

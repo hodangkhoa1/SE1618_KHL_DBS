@@ -1,3 +1,35 @@
+.main {
+    width: 100%;
+    padding: 24px 20px 3px 20px;
+}
+
+.main .title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.main .breadcrumbs {
+    display: flex;
+    grid-gap: 6px;
+    padding-left: 0;
+}
+
+.main .breadcrumbs li,
+.main .breadcrumbs li a {
+    font-size: 14px;
+}
+
+.main .breadcrumbs li a {
+    color: var(--blue);
+}
+
+.main .breadcrumbs li a.active,
+.main .breadcrumbs li.divider {
+    color: var(--dark-grey);
+    pointer-events: none;
+}
+
 .clearfix:after {
     content: "";
     display: block;
@@ -374,7 +406,7 @@
     margin: 10px 0;
     display: block;
     color: #FFF;
-    background: #f5ba1a;
+    background: #1775F1;
     padding: 0.3rem 0.6rem;
     font-size: 100%;
     cursor: pointer;

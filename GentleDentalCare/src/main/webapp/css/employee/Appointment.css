@@ -1,0 +1,328 @@
+/* Appointment */
+.bg-dashboard {
+    position: relative;
+    padding-top: 30px;
+}
+
+.bg-dashboard .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.bg-dashboard .shadow {
+    box-shadow: 0 0 3px rgb(52 58 64 / 15%) !important;
+}
+
+.bg-dashboard .rounded {
+    border-radius: 5px !important;
+}
+
+.bg-dashboard .table-responsive .table-center th {
+    vertical-align: middle !important;
+    cursor: pointer;
+}
+
+.bg-dashboard .table-responsive .table td,
+.table-responsive .table th {
+    vertical-align: middle;
+    border-color: #f2f4f6;
+}
+
+.bg-dashboard .table-responsive .border-bottom {
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+.bg-dashboard .table-responsive a.text-dark {
+    color: #343a40 !important;
+}
+
+.bg-dashboard .table-responsive a {
+    transition: all 0.5s ease;
+}
+
+.bg-dashboard .table-responsive .text-dark .avatar.avatar-md-sm {
+    height: 45px;
+    width: 45px;
+}
+
+.bg-dashboard .table-responsive .text-dark .shadow {
+    box-shadow: 0 0 3px rgb(52 58 64 / 15%) !important;
+}
+
+.bg-dashboard .table-responsive .text-end .btn {
+    padding: 8px 20px;
+    outline: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+
+.bg-dashboard .table-responsive .text-end .btn.btn-icon {
+    height: 36px;
+    width: 36px;
+    line-height: 34px;
+    padding: 0;
+}
+
+.bg-dashboard .table-responsive .text-end .btn.btn-pills {
+    border-radius: 30px;
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-primary {
+    background-color: rgba(57, 108, 240, 0.1) !important;
+    border: 1px solid rgba(57, 108, 240, 0.1) !important;
+    color: #396cf0 !important;
+    box-shadow: 0 3px 5px 0 rgb(57 108 240 / 30%);
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-primary:hover {
+    background-color: #396cf0 !important;
+    border-color: #396cf0 !important;
+    color: #fff !important;
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-success {
+    background-color: rgba(83, 199, 151, 0.1) !important;
+    border: 1px solid rgba(83, 199, 151, 0.1) !important;
+    color: #53c797 !important;
+    box-shadow: 0 3px 5px 0 rgb(83 199 151 / 30%);
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-success:hover {
+    background-color: #53c797 !important;
+    border-color: #53c797 !important;
+    color: #fff !important;
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-danger {
+    background-color: rgba(240, 115, 90, 0.1) !important;
+    border: 1px solid rgba(240, 115, 90, 0.1) !important;
+    color: #f0735a !important;
+    box-shadow: 0 3px 5px 0 rgb(240 115 90 / 30%);
+}
+
+.bg-dashboard .table-responsive .text-end .btn-soft-danger:hover {
+    background-color: #f0735a !important;
+    border-color: #f0735a !important;
+    color: #fff !important;
+}
+
+.bg-dashboard .table-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.table-pagination ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.table-pagination ul li {
+    line-height: 45px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #20b2aa;
+    transition: all 0.3s ease;
+}
+
+.table-pagination .pagination-number .pagination-link,
+.table-pagination ul li a {
+    color: #20b2aa;
+    text-decoration: none;
+}
+
+.table-pagination ul li.pagination-number {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin: 0 3px;
+}
+
+.table-pagination ul li.pagination-dots {
+    font-size: 22px;
+    cursor: default;
+    margin: 0 10px;
+}
+
+.table-pagination ul li.pagination-button {
+    padding: 0 20px;
+}
+
+.table-pagination ul li.button-prev {
+    border-radius: 25px 5px 5px 25px;
+}
+
+.table-pagination ul li.button-next {
+    border-radius: 5px 25px 25px 5px;
+}
+
+.table-pagination ul li.active,
+.table-pagination .pagination-number:hover,
+.table-pagination ul li.pagination-button:hover {
+    background: #20b2aa;
+}
+
+.table-pagination ul li.active .pagination-link,
+.table-pagination .pagination-number:hover .pagination-link,
+.table-pagination ul li.pagination-button a:hover {
+    color: #fff;
+}
+
+/* End Appointment */
+
+/* Popup View */
+#viewappointment .border-bottom {
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+#viewappointment .modal-header .modal-title {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#viewappointment .modal-body .avatar.avatar-small {
+    height: 65px;
+    width: 65px;
+}
+
+#viewappointment .modal-body .title-name {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#viewappointment .modal-body ul h6 {
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#viewappointment .modal-body ul p {
+    color: #8492a6 !important;
+    line-height: 1.2;
+    font-size: 16px;
+}
+
+/* End Popup View */
+
+/* Popup Accept */
+#acceptappointment .bg-soft-success {
+    background-color: rgba(83, 199, 151, 0.1) !important;
+    border: 1px solid rgba(83, 199, 151, 0.1) !important;
+    color: #53c797 !important;
+    height: 95px;
+    width: 95px;
+}
+
+#acceptappointment .bg-soft-success i {
+    font-size: 42px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+#acceptappointment .modal-body .modal-body-title {
+    font-size: 24px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#acceptappointment .modal-body .text-muted {
+    max-width: 600px;
+    color: #8492a6 !important;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+#acceptappointment .modal-body .btn {
+    padding: 8px 20px;
+    outline: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#acceptappointment .modal-body .btn-soft-success {
+    background-color: rgba(83, 199, 151, 0.1) !important;
+    border: 1px solid rgba(83, 199, 151, 0.1) !important;
+    color: #53c797 !important;
+    box-shadow: 0 3px 5px 0 rgb(83 199 151 / 30%);
+}
+
+#acceptappointment .modal-body .btn-soft-success:hover {
+    background-color: #53c797 !important;
+    border-color: #53c797 !important;
+    color: #fff !important;
+}
+
+/* End Popup Accept */
+
+/* Popup Cancel */
+#cancelappointment .modal-body .bg-soft-danger {
+    background-color: rgba(240, 115, 90, 0.1) !important;
+    border: 1px solid rgba(240, 115, 90, 0.1) !important;
+    color: #f0735a !important;
+    height: 95px;
+    width: 95px;
+}
+
+#cancelappointment .modal-body .bg-soft-danger i {
+    font-size: 42px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+#cancelappointment .modal-body .modal-body-title {
+    font-size: 24px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#cancelappointment .modal-body .text-muted {
+    max-width: 600px;
+    color: #8492a6 !important;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+#cancelappointment .modal-body .btn {
+    padding: 8px 20px;
+    outline: none;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+
+#cancelappointment .modal-body .btn-soft-danger {
+    background-color: rgba(240, 115, 90, 0.1) !important;
+    border: 1px solid rgba(240, 115, 90, 0.1) !important;
+    color: #f0735a !important;
+    box-shadow: 0 3px 5px 0 rgb(240 115 90 / 30%);
+}
+
+#cancelappointment .modal-body .btn-soft-danger:hover {
+    background-color: #f0735a !important;
+    border-color: #f0735a !important;
+    color: #fff !important;
+}
+
+/* End Popup Cancel */

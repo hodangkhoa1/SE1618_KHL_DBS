@@ -24,7 +24,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
         <!-- LINK STYLE -->
         <link rel="stylesheet" href="./css/user/UserRoot.css">
-        <link rel="stylesheet" href="./css/user/Loader.css">
+        <link rel="stylesheet" href="./css/Loader.css">
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
@@ -33,7 +33,7 @@
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
     <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         

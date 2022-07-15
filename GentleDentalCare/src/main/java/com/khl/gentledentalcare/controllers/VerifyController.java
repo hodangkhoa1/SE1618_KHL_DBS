@@ -3,7 +3,7 @@ package com.khl.gentledentalcare.controllers;
 import com.khl.gentledentalcare.dbo.AccountFacade;
 import com.khl.gentledentalcare.models.Account;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,24 +16,42 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class VerifyController extends HttpServlet {
 
+    private static final String VERIFY_STATUS = "VERIFY_STATUS";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         try {
             String userId = request.getParameter("uid");
 
             if (userId != null) {
                 AccountFacade accountFacade = new AccountFacade();
                 Account account = new Account();
+
                 account.setUserEmail(userId);
                 account.setUserStatus(1);
-                accountFacade.updateAccount(account, "EditStatus");
-                response.sendRedirect(request.getContextPath() + "/verify");
+
+                Account checkAccount = accountFacade.checkAccount(account, "Login");
+
+                if (checkAccount != null) {
+                    Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+
+                    if ((currentDate.getMinutes() - checkAccount.getAccountCreated().getMinutes()) < 15) {
+                        accountFacade.updateAccount(account, "EditStatus");
+                        request.setAttribute(VERIFY_STATUS, "Successful");
+                    } else {
+                        request.setAttribute(VERIFY_STATUS, "Error");
+                    }
+                }
+
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Verify.jsp");
+                requestDispatcher.forward(request, response);
             } else {
+                request.setAttribute(VERIFY_STATUS, "Successful");
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/Verify.jsp");
                 requestDispatcher.forward(request, response);
             }
-        } catch (IOException | SQLException | ServletException e) {
+        } catch (Exception e) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }

@@ -4,7 +4,7 @@
     <i class='bx bx-menu toggle-sidebar'></i>
     <form action="#">
         <div class="form-group">
-            <input ng-model="searching" type="text" placeholder="Search...">
+            <input ng-model="${SEARCH}" type="text" placeholder="Search...">
             <i class='bx bx-search icon'></i>
         </div>
     </form>

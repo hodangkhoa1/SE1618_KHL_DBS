@@ -18,6 +18,28 @@
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.history .card--top .btn-delete {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    height: 50px;
+    width: 50px;
+}
+
+.history .card--top .btn-delete i {
+    color: rgba(0, 0, 0, 0.665);
+    font-size: 22px;
+    transition: all .5s;
+}
+
+.history .card--top .btn-delete:hover i {
+    color: red;
+    font-size: 22px;
 }
 
 .history .card--top .top--content {
@@ -70,4 +92,15 @@
     align-items: center;
     color: #fff;
     border-radius: 4px;
+}
+
+.spinner-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-loader .spinner-title {
+    font-size: 16px;
+    margin: 0 0 0 15px;
 }

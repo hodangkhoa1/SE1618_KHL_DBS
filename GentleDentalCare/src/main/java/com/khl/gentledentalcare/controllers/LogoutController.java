@@ -17,6 +17,7 @@ public class LogoutController extends HttpServlet {
     private static final String SUCCESS = "home";
     private static final String ERROR = "error";
     private static final String REMEMBER_USER = "USER_GDC";
+    private static final String REMEMBER_PASSWORD = "USER_P_GDC";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -24,12 +25,15 @@ public class LogoutController extends HttpServlet {
         String url = ERROR;
         try {
             HttpSession session = request.getSession(true);
-            Cookie cookieUserName;
+            Cookie cookieUserName, cookiePassword;
 
             if (session != null) {
                 cookieUserName = new Cookie(REMEMBER_USER, null);
+                cookiePassword = new Cookie(REMEMBER_PASSWORD, null);
                 cookieUserName.setMaxAge(0);
+                cookiePassword.setMaxAge(0);
                 response.addCookie(cookieUserName);
+                response.addCookie(cookiePassword);
                 session.invalidate();
                 url = SUCCESS;
             }

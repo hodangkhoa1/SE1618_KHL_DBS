@@ -25,6 +25,7 @@ public class RegisterController extends HttpServlet {
 
     private static final String INTRO_USER = "INTRO_USER";
     private static final String WELCOME_USER = "WELCOME_USER";
+    private static final String LOGIN_USER = "LOGIN_USER";
     private static final String SIGN_UP_ACCOUNT_ERROR = "SIGN_UP_ACCOUNT_ERROR";
     private static final String SECRET_KEY = "ssshhhhhhhhhhh!!!!";
     private static final String USERNAME_REGISTER = "USERNAME_REGISTER";
@@ -42,7 +43,7 @@ public class RegisterController extends HttpServlet {
             String getConfirmPassword = request.getParameter("confirmpassword");
             String userID = FunctionRandom.randomID(10);
             
-            Account account;
+            Account account = new Account();
             Notification notification;
             AccountError accountError = new AccountError();
             AccountFacade accountFacade = new AccountFacade();
@@ -75,7 +76,6 @@ public class RegisterController extends HttpServlet {
                 String newPassword = DigestUtils.md5Hex(getPassword);
                 char getFirstCharacter = getFullName.charAt(0);
                 
-                account = new Account();
                 account.setFullName(getFullName);
                 account.setUserEmail(getEmail);
                 account.setUserPassword(newPassword);
@@ -83,7 +83,7 @@ public class RegisterController extends HttpServlet {
                 account.setDefaultAvatar(Character.toString(getFirstCharacter));
                 account.setColorAvatar(colorAvatar);
 
-                Account checkAccount = accountFacade.checkAccount(getEmail);
+                Account checkAccount = accountFacade.checkAccount(account, "Login");
                 if(checkAccount == null) {
                     String message = accountFacade.registerAccount(account);
                     if(!message.equals("success")) {
@@ -114,6 +114,7 @@ public class RegisterController extends HttpServlet {
                     String encryptedUsername = Encrypt.encrypt(getFullName, SECRET_KEY);
                     session.setAttribute(INTRO_USER, encryptedUsername);
                     session.setAttribute(WELCOME_USER, encryptedUsername);
+                    session.setAttribute(LOGIN_USER, account);
                     session.setMaxInactiveInterval(500);
                     response.sendRedirect(request.getContextPath() + "/verify");
                 }

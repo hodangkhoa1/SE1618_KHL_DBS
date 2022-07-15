@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add Hospital</title>
+        <title>${BUTTON_ACTION}</title>
         <!-- Favicon icon -->
         <link rel="icon" href=".././images/favicon-100x100.png" type="image/png" sizes="200x138" />
         <!-- Iconscout CSS -->
@@ -38,17 +38,17 @@
             
             <!-- MAIN -->
             <main class="main">
-                <h1 class="title">Add Hospital</h1>
+                <h1 class="title">${BUTTON_ACTION}</h1>
                 <ul class="breadcrumbs">
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Gentle Dental Care</a></li>
                     <li class="divider">/</li>
-                    <li><a href="${pageContext.request.contextPath}/admin/add-hospital" class="active">Add Hospital</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/add-hospital" class="active">${BUTTON_ACTION}</a></li>
                 </ul>
 
                 <div class="form_wrapper">
                     <div class="form_container">
                         <div class="title_container">
-                            <h2>Add Hospital</h2>
+                            <h2>${BUTTON_ACTION}</h2>
                         </div>
                         <div class="row clearfix">
                             <div>
@@ -85,7 +85,7 @@
                                     <div class="text-danger hospital-address-error">
                                         <p></p>
                                     </div>
-                                    <input class="button add-hospital" type="submit" value="Add Hospital" />
+                                    <input class="button add-hospital" type="submit" value="${BUTTON_ACTION}" />
                                 </form>
                             </div>
                         </div>
@@ -107,5 +107,8 @@
         <script src=".././js/admin/NavBar.js"></script>
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/AddHospital.js"></script>
+        <script>
+            activeSidebarLink();
+        </script>
     </body>
 </html>

@@ -9,10 +9,13 @@ import lombok.Data;
 @Data
 public class AccountError {
 
-    private String fullNameError, passwordError, emailError, newPasswordError, confirmPasswordError, phoneNumberError, addressError, verifySMSError;
+    private String fullNameError, genderError, dateOfBirthError, imageAvatarError, passwordError, emailError, newPasswordError, confirmPasswordError, phoneNumberError, addressError, verifySMSError;
     
     public AccountError() {
         this.fullNameError = "";
+        this.genderError = "";
+        this.dateOfBirthError = "";
+        this.imageAvatarError = "";
         this.passwordError = "";
         this.newPasswordError = "";
         this.confirmPasswordError = "";

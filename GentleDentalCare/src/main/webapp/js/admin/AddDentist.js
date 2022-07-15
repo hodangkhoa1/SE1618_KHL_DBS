@@ -38,6 +38,19 @@ function CheckFullName() {
     }
 }
 
+function CheckSubtitleDentist() {
+    const inputSubtitleDentist = document.querySelector(".subtitle-dentist"),
+            subtitleDentistErrorMessage = document.querySelector(".subtitle-dentist-error p");
+
+    if (inputSubtitleDentist.value === "") {
+        inputSubtitleDentist.style.border = "1px solid red";
+        subtitleDentistErrorMessage.innerHTML = "Please enter subtitle dentist!";
+    } else {
+        inputSubtitleDentist.style.border = "1px solid green";
+        subtitleDentistErrorMessage.innerHTML = "";
+    }
+}
+
 function CheckPhoneNumber() {
     const inputPhoneNumber = document.querySelector(".phone-number"),
             phoneNumberErrorMessage = document.querySelector(".phone-number-error p");

@@ -1,0 +1,11 @@
+.widget .widget-title {
+    font-size: 27px;
+    line-height: 38px;
+    margin-bottom: 20px;
+}
+
+.widget .list-group .list-group-item h5 {
+    font-size: 17px;
+    line-height: 25px;
+    margin-bottom: 11px;
+}

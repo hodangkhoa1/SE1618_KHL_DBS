@@ -17,12 +17,17 @@ public class AccountFacade extends AbstractAccount<Account> {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private static final String SQL_LOGIN = "SELECT * FROM Account WHERE UserEmail = ?";
+    private static final String SQL_LOGIN_WITH_COOKIE = "SELECT * FROM Account WHERE UserEmail = ? AND UserPassword = ?";
+    private static final String SQL_GET_ACCOUNT_EMPLOYEE = "SELECT * FROM Account WHERE UserID = ?";
     private static final String SQL_GET_ALL_ACCOUNT = "SELECT * FROM Account WHERE UserRole = ? ORDER BY UserID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
     private static final String SQL_REGISTER_USER = "INSERT INTO Account(UserID, FullName, UserPassword, UserEmail, DefaultAvatar, ColorAvatar) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String SQL_ADD_ACCOUNT_EMPLOYEE = "INSERT INTO Account(UserID, FullName, UserPassword, UserEmail, DateOfBirth, UserAddress, UserPhone, Gender, ImageAvatar, UserRole, UserStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_ADD_ACCOUNT_GOOGLE = "INSERT INTO Account(UserID, FullName, UserEmail, ImageAvatar, UserRole, UserStatus) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_USER_STATUS = "UPDATE Account SET UserStatus = ? WHERE UserEmail = ?";
     private static final String SQL_EDIT_PROFILE = "UPDATE Account SET FullName = ?, Gender = ?, DateOfBirth = ?, UserPhone = ?, ImageAvatar = ?, UserAddress = ? WHERE UserEmail = ?";
+    private static final String SQL_EDIT_PROFILE_EMPLOYEE = "UPDATE Account SET FullName = ?, UserEmail = ?, DateOfBirth = ?, UserAddress = ?, UserPhone = ?, Gender = ?, ImageAvatar = ? WHERE UserID = ?";
     private static final String SQL_CHANGE_PASSWORD = "UPDATE Account SET UserPassword = ? WHERE UserEmail = ?";
-    private static final String SQL_GET_TOTAL_ACCOUNT = "SELECT COUNT(*) FROM Account";
+    private static final String SQL_GET_TOTAL_ACCOUNT = "SELECT COUNT(*) FROM Account WHERE UserRole = ?";
     private static final String SQL_SEARCH_ACCOUNT_BY_NAME = "SELECT * FROM Account WHERE FullName LIKE ?";
 
     private Account getInfoAccountFromSQL(ResultSet resultSet) throws SQLException {
@@ -99,6 +104,17 @@ public class AccountFacade extends AbstractAccount<Account> {
                         preparedStatement.setString(1, account.getUserPassword());
                         preparedStatement.setString(2, account.getUserEmail());
                         break;
+                    case "EditProfileEmployee":
+                        preparedStatement = connection.prepareStatement(SQL_EDIT_PROFILE_EMPLOYEE);
+                        preparedStatement.setString(1, account.getFullName());
+                        preparedStatement.setString(2, account.getUserEmail());
+                        preparedStatement.setDate(3, account.getDateOfBirth());
+                        preparedStatement.setString(4, account.getUserAddress());
+                        preparedStatement.setString(5, account.getUserPhone());
+                        preparedStatement.setString(6, account.getGender());
+                        preparedStatement.setBytes(7, Base64.decode(account.getImageAvatar()));
+                        preparedStatement.setString(7, account.getUserID());
+                        break;
                 }
 
                 preparedStatement.executeUpdate();
@@ -152,11 +168,25 @@ public class AccountFacade extends AbstractAccount<Account> {
     }
 
     @Override
-    protected Account checkAccount(Connection connection, Object object) throws SQLException {
+    protected Account checkAccount(Connection connection, Account account, Object action) throws SQLException {
         try {
             if (connection != null) {
-                preparedStatement = connection.prepareStatement(SQL_LOGIN);
-                preparedStatement.setString(1, object.toString());
+                switch (action.toString()) {
+                    case "Login":
+                        preparedStatement = connection.prepareStatement(SQL_LOGIN);
+                        preparedStatement.setString(1, account.getUserEmail());
+                        break;
+                    case "LoginWithCookie":
+                        preparedStatement = connection.prepareStatement(SQL_LOGIN_WITH_COOKIE);
+                        preparedStatement.setString(1, account.getUserEmail());
+                        preparedStatement.setString(2, account.getUserPassword());
+                        break;
+                    case "GetAccountEmployee":
+                        preparedStatement = connection.prepareStatement(SQL_GET_ACCOUNT_EMPLOYEE);
+                        preparedStatement.setString(1, account.getUserID());
+                        break;
+                }
+
                 resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
@@ -178,10 +208,11 @@ public class AccountFacade extends AbstractAccount<Account> {
     }
 
     @Override
-    protected int countAccount(Connection connection) throws SQLException {
+    protected int countAccount(Connection connection, Object role) throws SQLException {
         try {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(SQL_GET_TOTAL_ACCOUNT);
+                preparedStatement.setString(1, role.toString());
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     return resultSet.getInt(1);
@@ -199,6 +230,50 @@ public class AccountFacade extends AbstractAccount<Account> {
             }
         }
         return 0;
+    }
+
+    @Override
+    protected boolean addAccount(Connection connection, Account account, Object action) throws SQLException {
+        try {
+            if (connection != null) {
+                switch (action.toString()) {
+                    case "AddAccountEmployee":
+                        preparedStatement = connection.prepareStatement(SQL_ADD_ACCOUNT_EMPLOYEE);
+                        preparedStatement.setString(1, account.getUserID());
+                        preparedStatement.setString(2, account.getFullName());
+                        preparedStatement.setString(3, account.getUserPassword());
+                        preparedStatement.setString(4, account.getUserEmail());
+                        preparedStatement.setDate(5, account.getDateOfBirth());
+                        preparedStatement.setString(6, account.getUserAddress());
+                        preparedStatement.setString(7, account.getUserPhone());
+                        preparedStatement.setString(8, account.getGender());
+                        preparedStatement.setBytes(9, Base64.decode(account.getImageAvatar()));
+                        preparedStatement.setInt(10, account.getUserRole());
+                        preparedStatement.setInt(11, account.getUserStatus());
+                        break;
+                    case "AddAccountGoogle":
+                        preparedStatement = connection.prepareStatement(SQL_ADD_ACCOUNT_GOOGLE);
+                        preparedStatement.setString(1, account.getUserID());
+                        preparedStatement.setString(2, account.getFullName());
+                        preparedStatement.setString(3, account.getUserEmail());
+                        preparedStatement.setBytes(4, Base64.decode(account.getImageAvatar()));
+                        preparedStatement.setInt(5, account.getUserRole());
+                        preparedStatement.setInt(6, account.getUserStatus());
+                        break;
+                }
+
+                preparedStatement.executeUpdate();
+                return true;
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return false;
     }
 
 }

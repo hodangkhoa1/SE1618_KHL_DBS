@@ -32,7 +32,7 @@
             
             <!-- MAIN -->
             <main class="main">
-                <h1 class="title">Customer Management</h1>
+                <h1 class="title">Service Management</h1>
                 <ul class="breadcrumbs">
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Gentle Dental Care</a></li>
                     <li class="divider">/</li>
@@ -58,7 +58,7 @@
                             <th>Actions</th>
                         </tr>
 
-                        <tr ng-repeat="service in listService | filter: searching">
+                        <tr ng-repeat="service in listService | filter: ${SEARCH}">
                             <td>{{$index + 1}}</td>
                             <td>{{service.serviceName}}</td>
                             <td>{{service.servicePrice}}</td>
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- User Management Pagination -->
-                <c:if test="${CURRENT_PAGE > 1}">
+                <c:if test="${END_PAGE > 1}">
                     <div class="table-pagination">
                         <ul>
                             <c:if test="${CURRENT_PAGE > 1}">
@@ -110,7 +110,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- LINK ANGULAR -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <!-- LINK Sweet Alert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- LINK SCRIPT -->
         <script src=".././js/admin/AdminRoot.js"></script>
         <script src=".././js/admin/NavBar.js"></script>

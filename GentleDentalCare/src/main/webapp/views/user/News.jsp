@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     int totalNews = 0;
     if (request.getAttribute("TOTAL_NEWS_LIST") != null) {
@@ -29,7 +30,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
         <!-- LINK STYLE -->
         <link rel="stylesheet" href="./css/user/UserRoot.css">
-        <link rel="stylesheet" href="./css/user/Loader.css">
+        <link rel="stylesheet" href="./css/Loader.css">
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
@@ -38,7 +39,7 @@
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
     <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
@@ -46,62 +47,59 @@
             <jsp:include page="../../layouts/user/NavBar.jsp"></jsp:include>
         </header>
         
-        <section class="aboutUs">
-            <div class="about__Us">
-                <div class="aboutUs__bg">
-                    <div class="aboutUs__bg--img">
-                        <img src="./images/bg3.webp" alt="">
-                    </div>
-                    <div class="aboutUs__bg--overlay"></div>
-                    <div class="aboutUs__bg--title">
-                        <h1>EVENT – PROMOTION</h1>
-                        <h5 class="text-center">Awesome promotions and events are constantly updated here.
-                            <br>
-                            Our team of experienced and qualified dental experts is here to bring out the best experience to
-                            clients.
-                        </h5>
-
-                    </div>
-                </div>
-
-                <div id="return-list">
-                    <c:forEach items="${NEWS_LIST}" var="news">
-                        <div class="about__keep news-amount">
-                            <div class="container">
-                                <div class="row news_keep align-items-center">
-                                    <div class="col-12 col-xl-6 mb-5 mb-xl-0">
-                                        <div class="about__keep--content">
-                                            <h1 style="color: rgba(118, 183, 243, 1)">${news.nameOfNews}</h1>
-                                            <div class="desc">
-                                                <p>${news.subtitleNews}</p>
+        <section class="section py-2">
+            <div class="container">
+                <div class="popular-news">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="row" id="return-list">
+                                <c:forEach items="${NEWS_LIST}" var="news">
+                                    <div class="col-sm-4 mb-5 mb-sm-2 news-amount">
+                                        <a href="${pageContext.request.contextPath}/news-detail?nid=${news.newsID}" class="popular-news-link">
+                                            <div class="position-relative image-hover">
+                                                <img src="data:image/png;base64,${news.imageNews}" class="img-fluid" alt="${news.nameOfNews}"/>
+                                                <span class="thumb-title">NEWS</span>
                                             </div>
-                                            <div class="btn--link">
-                                                <a class="about-btn-link" href="#">View more</a>
-                                            </div>
-                                        </div>
+                                            <h5 class="font-weight-600 my-3">${news.nameOfNews}</h5>
+                                        </a>
                                     </div>
-                                    <div class="col-12 col-xl-6">
-                                        <div class="about__keep--img">
-                                            <img src="data:image/png;base64,${news.imageNews}" alt="">
+                                </c:forEach>
+                            </div>
+                            
+                            <c:if test="${NOT_EMPTY == null}">
+                                <div class="row">
+                                    <div class="col-12 pb-4">
+                                        <div class="view-more">
+                                            <button onclick="loadMore('<%=totalNews%>', '${pageContext.request.contextPath}/news')" class="button-view">Load more</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </div>
-                    </c:forEach>
-                </div>
-                
-                <c:if test="${NOT_EMPTY == null}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 pb-4">
-                                <div class="view-more">
-                                    <button onclick="loadMore('<%=totalNews%>', '${pageContext.request.contextPath}/news')" class="button-view">Load more</button>
+                        <div class="col-lg-3">
+                            <div class="news-latest">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="d-flex position-relative float-left">
+                                            <h3 class="section-title">Latest News</h3>
+                                        </div>
+                                    </div>
+                                    <c:forEach items="${NEWS_LATEST_LIST}" var="newsLatest">
+                                        <div class="col-sm-12">
+                                            <a href="${pageContext.request.contextPath}/news-detail?nid=${newsLatest.newsID}" class="news-latest-link border-bottom pb-3">
+                                                <h5 class="font-weight-600 mt-0 mb-0">${newsLatest.nameOfNews}</h5>
+                                                <p class="text-color mb-0 mt-2 d-flex align-items-center">
+                                                    <i class="fa-solid fa-bookmark"></i>
+                                                    <span><fmt:formatDate value="${newsLatest.postDate}" pattern="dd-MM-yyyy"/></span>
+                                                </p>
+                                            </a>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </c:if>
+                </div>
             </div>
         </section>
         

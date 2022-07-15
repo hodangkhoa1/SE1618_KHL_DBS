@@ -18,6 +18,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/admin/employee-management" class="nav-link">
+                <i class="fa-solid fa-user-tie icon"></i> Employee
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="${pageContext.request.contextPath}/admin/dentist-management" class="nav-link">
                 <i class="fa-solid fa-user-doctor icon"></i> Dentist
             </a>
@@ -32,11 +37,16 @@
                 <i class="fa-solid fa-screwdriver icon"></i> Service
             </a>
         </li>
+        <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/admin/news-management" class="nav-link">
+                <i class="fa-solid fa-newspaper icon"></i> News
+            </a>
+        </li>
         <c:if test="${NAV_BAR_PROFILE != null}">
             <hr>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/admin/info-profile" class="nav-link">
-                    <i class="fa-solid fa-id-card icon"></i> Profile
+                <a href="${ACTION_URL}" class="nav-link">
+                    ${NAV_BAR_ICON} ${BUTTON_ACTION}
                 </a>
             </li>
         </c:if>

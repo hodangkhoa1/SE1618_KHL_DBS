@@ -1,50 +1,41 @@
 package com.khl.gentledentalcare.controllers;
 
-import com.khl.gentledentalcare.dbo.AccountFacade;
-import com.khl.gentledentalcare.models.Account;
-import com.khl.gentledentalcare.models.GoogleAccount;
-import com.khl.gentledentalcare.services.RestGoogle;
-import com.khl.gentledentalcare.utils.FunctionRandom;
+import com.khl.gentledentalcare.dbo.NewsFacade;
+import com.khl.gentledentalcare.models.News;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class LoginGoogleController extends HttpServlet {
-
-    private static final String LOGIN_USER = "LOGIN_USER";
+public class NewsDetailController extends HttpServlet {
+    
+    private static final String NEWS_DETAIL = "NEWS_DETAIL";
+    private static final String TOP_NEWS = "TOP_NEWS";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         try {
-            String googleCode = request.getParameter("code");
-            String accessToken = RestGoogle.getGoogleToken(googleCode);
-            GoogleAccount googleAccount = RestGoogle.getGoogleUserInfo(accessToken);
-
-            AccountFacade accountFacade = new AccountFacade();
-            HttpSession session = request.getSession();
-
-            Account checkLearnerAccount = accountFacade.checkAccount(googleAccount.getEmail());
-
-            if (checkLearnerAccount == null) {
-                Account account = new Account();
-
-                account.setUserID(FunctionRandom.randomID(10));
-                account.setUserEmail(googleAccount.getEmail());
-                accountFacade.registerAccount(account);
-
-                session.setAttribute(LOGIN_USER, account);
+            String newsID = request.getParameter("nid");
+            NewsFacade newsFacade = new NewsFacade();
+            
+            if (newsID != null) {
+                News news = newsFacade.checkNews(newsID);
+                List<News> newsList = newsFacade.getNews(null, "GetNewsLatest");
+                
+                request.setAttribute(NEWS_DETAIL, news);
+                request.setAttribute(TOP_NEWS, newsList);
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/NewsDetail.jsp");
+                requestDispatcher.forward(request, response);
             } else {
-                session.setAttribute(LOGIN_USER, checkLearnerAccount);
+                response.sendRedirect(request.getContextPath() + "/news");
             }
-
-            response.sendRedirect(request.getContextPath() + "/home");
-
-        } catch (IOException | SQLException e) {
+            
+        } catch (IOException | SQLException | ServletException e) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }

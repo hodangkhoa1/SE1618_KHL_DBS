@@ -15,28 +15,32 @@ public abstract class AbstractEmployee<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllEmployee(Connection connection) throws SQLException;
+    protected abstract List<T> getAllEmployee(Connection connection, Object object, Object action) throws SQLException;
 
     protected abstract boolean addEmployee(Connection connection, T employee) throws SQLException;
 
-    protected abstract boolean updateEmployee(Connection connection, Object employeeID) throws SQLException;
+    protected abstract boolean updateEmployee(Connection connection, T employee) throws SQLException;
 
     protected abstract int countEmployee(Connection connection) throws SQLException;
+    
+    protected abstract T getEmployee(Connection connection, Object employeeID) throws SQLException;
     
     /**
      * *
      * Get all employee
      *
+     * @param object
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAllEmployee() throws SQLException {
+    public List<T> getAllEmployee(Object object, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllEmployee(connection);
+            list = getAllEmployee(connection, object, action);
         } finally {
             connection.close();
         }
@@ -68,16 +72,16 @@ public abstract class AbstractEmployee<T> {
      * *
      * Update employee
      *
-     * @param employeeID
+     * @param employee
      * @return
      * @throws SQLException
      */
-    public boolean updateEmployee(Object employeeID) throws SQLException {
+    public boolean updateEmployee(T employee) throws SQLException {
         boolean check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = updateEmployee(connection, employeeID);
+            check = updateEmployee(connection, employee);
         } finally {
             connection.close();
         }
@@ -103,5 +107,24 @@ public abstract class AbstractEmployee<T> {
         }
 
         return check;
+    }
+    
+    /**
+     * Get dentist Detail
+     *
+     * @param employeeID
+     * @return
+     * @throws SQLException
+     */
+    public T getEmployee(Object employeeID) throws SQLException {
+        T t = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            t = getEmployee(connection, employeeID);
+        } finally {
+            connection.close();
+        }
+        return t;
     }
 }

@@ -32,7 +32,7 @@
                 <div class="button-search">
                     <i class="btn-search fa-solid fa-magnifying-glass"></i>
                 </div>
-                <input oninput="searchName(this, '${pageContext.request.contextPath}/product')" onfocusout="showLoadMoreButton()" class="search-place" type="text" placeholder="Search service">
+                <input oninput="searchName(this)" onfocusout="showLoadMoreButton()" class="search-place" type="text" placeholder="Search...">
                     <button onclick="showMicrophoneBox()" type="button" class="button-mic">
                         <svg class="goxjub" focusable="false" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +181,7 @@
                             </li>
                             <li>
                                 <i class="fa-solid fa-clock-rotate-left"></i>
-                                <a href="">History Booking</a>
+                                <a href="${pageContext.request.contextPath}/history-booking">History Booking</a>
                             </li>
                             <li>
                                 <i class="uil uil-edit"></i>
@@ -348,6 +348,13 @@
                             <span class="user__mobile-name">My Profile</span>
                         </a>
                     </li>
+                            
+                    <li class="user__mobile-item">
+                        <a href="${pageContext.request.contextPath}/history-booking" class="user__mobile-link">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <span class="user__mobile-name">History Booking</span>
+                        </a>
+                    </li>
 
                     <li class="user__mobile-item">
                         <a href="${pageContext.request.contextPath}/edit-profile" class="user__mobile-link">
@@ -372,7 +379,7 @@
                 </li>
 
                 <li class="user__mobile-item">
-                    <a href="#" class="user__mobile-link">
+                    <a href="${pageContext.request.contextPath}/service" class="user__mobile-link">
                         <i class="fa-solid fa-wrench"></i>
                         <span class="user__mobile-name">Services</span>
                     </a>
@@ -386,7 +393,7 @@
                 </li>
 
                 <li class="user__mobile-item">
-                    <a href="#" class="user__mobile-link">
+                    <a href="${pageContext.request.contextPath}/booking" class="user__mobile-link">
                         <i class="fa-solid fa-calendar-days"></i>
                         <span class="user__mobile-name">Booking</span>
                     </a>

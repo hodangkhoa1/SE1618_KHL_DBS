@@ -1,6 +1,7 @@
 package com.khl.gentledentalcare.models;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,19 +12,24 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HistoryBooking {
-    private String bookingID, fullName, phoneNumber, address, service1, service2;
-    private Timestamp bookingCreated;
+
+    private String bookingID, userId, fullName, phoneNumber, address;
+    private List<Services> serviceList;
+    private int bookingStatus;
+    private Date bookingDate;
 
     public HistoryBooking() {
     }
 
-    public HistoryBooking(String bookingID, String fullName, String phoneNumber, String address, String service1, String service2, Timestamp bookingCreated) {
+    public HistoryBooking(String bookingID, String userId, String fullName, String phoneNumber, String address, List<Services> serviceList, int bookingStatus, Date bookingDate) {
         this.bookingID = bookingID;
+        this.userId = userId;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.service1 = service1;
-        this.service2 = service2;
-        this.bookingCreated = bookingCreated;
+        this.serviceList = serviceList;
+        this.bookingStatus = bookingStatus;
+        this.bookingDate = bookingDate;
     }
+
 }

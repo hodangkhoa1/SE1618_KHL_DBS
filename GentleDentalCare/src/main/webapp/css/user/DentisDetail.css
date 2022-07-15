@@ -1,0 +1,55 @@
+.doctor-details .clinic-block-one {
+    border-radius: 15px;
+    border: 1px solid white;
+    margin-bottom: 30px;
+    background-color: white;
+    -webkit-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+}
+
+.doctor-details .clinic-block-one .inner-box {
+    padding: 1%;
+    padding-top: 2%;
+}
+
+.doctor-details .clinic-block-one .image-box img {
+    border-radius: 5%;
+    margin-left: 25%;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    width: 70%;
+    height: 70%;
+}
+
+.doctor-details .clinic-block-one .lower-box li {
+    display: flex;
+    align-items: center;
+}
+
+.doctor-details .clinic-block-one .lower-box li p {
+    margin-left: 5px;
+    margin-bottom: unset;
+}
+
+.doctor-details .tabs-box {
+    background-color: white;
+    border-radius: 15px;
+    -webkit-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+}
+
+.doctor-details .tabs-box .tabs-content {
+    padding: 3%;
+}
+
+.doctor-details .tabs-box .tabs-content .inner-box {
+    padding: 1%;
+    padding-top: 2%;
+}
+
+.doctor-details .tabs-box .tabs-content .inner-box h3 {
+    font-size: xx-large;
+    color: rgb(40, 121, 121);
+    font-style: inherit;
+}

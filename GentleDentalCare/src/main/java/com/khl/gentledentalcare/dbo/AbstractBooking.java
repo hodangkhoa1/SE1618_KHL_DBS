@@ -15,29 +15,30 @@ public abstract class AbstractBooking<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllBooking(Connection connection, Object action, Object status) throws SQLException;
+    protected abstract List<T> getAllBooking(Connection connection, Object action, Object value, T booking) throws SQLException;
 
     protected abstract boolean addBooking(Connection connection, T booking) throws SQLException;
 
     protected abstract boolean updateBooking(Connection connection, T booking) throws SQLException;
 
-    protected abstract int countBooking(Connection connection) throws SQLException;
+    protected abstract int countBooking(Connection connection, Object value, Object action) throws SQLException;
 
     /**
      * Get all booking
      *
      * @param action
-     * @param status
+     * @param value
+     * @param booking
      * @return
      * @throws SQLException
      */
-    public List<T> getAllBooking(Object action, Object status) throws SQLException {
+    public List<T> getAllBooking(Object action, Object value, T booking) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllBooking(connection, action, status);
+            list = getAllBooking(connection, action, value, booking);
         } finally {
             connection.close();
         }
@@ -67,7 +68,7 @@ public abstract class AbstractBooking<T> {
     /**
      * Update booking
      *
-     * @param bookingID
+     * @param booking
      * @return
      * @throws SQLException
      */
@@ -88,15 +89,17 @@ public abstract class AbstractBooking<T> {
      * *
      * Count how many booking in the list
      *
+     * @param value
+     * @param action
      * @return
      * @throws SQLException
      */
-    public int countBooking() throws SQLException {
+    public int countBooking(Object value, Object action) throws SQLException {
         int check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = countBooking(connection);
+            check = countBooking(connection, value, action);
         } finally {
             connection.close();
         }

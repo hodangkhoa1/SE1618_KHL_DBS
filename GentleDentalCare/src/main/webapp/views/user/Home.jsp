@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,7 +23,7 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
         <!-- LINK STYLE -->
         <link rel="stylesheet" href="./css/user/UserRoot.css">
-        <link rel="stylesheet" href="./css/user/Loader.css">
+        <link rel="stylesheet" href="./css/Loader.css">
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
@@ -31,7 +32,7 @@
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
     <body>
-        <jsp:include page="../../layouts/user/Loader.html"></jsp:include>
+        <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
@@ -55,8 +56,8 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button>About Me</button>
-                        <button>Follow Me</button>
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/about'">About Me</button>
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/login'">Follow Me</button>
                     </div>
                 </div>
                 <div class="girl">
@@ -122,83 +123,18 @@
         <section class="doctorTeam">
             <div class="container doctor__list">
                 <div class="row doctor__card">
-                    <div class="col-12 col-lg-4 d-flex justify-content-center">
-                        <div class="card my-3">
-                            <img src="./images/people-adam-palmer.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h6>Clinic Director</h6>
-                                <h2>Adam <span>Palmer</span></h2>
-                                <p class="card-text">
-                                    The qualities of excellent communication and trust form part of our
-                                    commitment to you and I have carefully chosen a great team of people.
-                                </p>
-                                <div class="card-social">
-                                    <div class="social-link">
-                                        <a href="" class="card-social__facebook">
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                        </a>
-                                    </div>
-                                    <div class="social-link">
-                                        <a href="" class="card-social__twitter">
-                                            <i class="fa-brands fa-twitter"></i>
-                                        </a>
-                                    </div>
+                    <c:forEach items="${DENTIST_LIST}" var="dentist">
+                        <div class="col-12 col-lg-4 d-flex justify-content-center">
+                            <a href="${pageContext.request.contextPath}/dentist-detail?dd=${dentist.dentistID}" class="card my-3">
+                                <img src="data:image/png;base64,${dentist.imageDentist}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h6>${dentist.academicRank}</h6>
+                                    <h2>${dentist.nameDentist}</h2>
+                                    <p class="card-text">${dentist.subtitleDentist}</p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 d-flex justify-content-center">
-                        <div class="card my-3">
-                            <img src="./images/people-xavier-symmonds.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h6>Senior Dental Surgeon</h6>
-                                <h2>Xavier <span>Symmonds</span></h2>
-                                <p class="card-text">
-                                    Committed to delivering dentistry of the highest quality, Xavier
-                                    achieved numerous awards over Europe and United States.
-                                </p>
-                                <div class="card-social">
-                                    <div class="social-link">
-                                        <a href="" class="card-social__facebook">
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                        </a>
-                                    </div>
-                                    <div class="social-link">
-                                        <a href="" class="card-social__twitter">
-                                            <i class="fa-brands fa-twitter"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 d-flex justify-content-center">
-                        <div class="card my-3">
-                            <img src="./images/people-kate-seward.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h6>Senior Orthodontist</h6>
-                                <h2>Kate <span>Seward</span></h2>
-                                <p class="card-text">
-                                    Emphatic and enjoying treating a wide range of patients, including
-                                    children, oral hygiene and education is important to me as to my patients.
-                                </p>
-                                <div class="card-social">
-                                    <div class="social-link">
-                                        <a href="" class="card-social__facebook">
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                        </a>
-                                    </div>
-                                    <div class="social-link">
-                                        <a href="" class="card-social__twitter">
-                                            <i class="fa-brands fa-twitter"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </section>
@@ -299,7 +235,7 @@
                     </div>
 
                     <div class="col-12 col-md-5 btn--view">
-                        <button type="button" class="">
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/service'" type="button" class="">
                             View All Services
                             <i class="fa-solid fa-angle-right"></i>
                         </button>

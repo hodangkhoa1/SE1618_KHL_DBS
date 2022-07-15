@@ -22,13 +22,16 @@ public class ServiceController extends HttpServlet {
     private static final String NOT_EMPTY = "NOT_EMPTY";
     private static final String END_PAGE = "END_PAGE";
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
-    private static final String SERVICE_ACTION = "SERVICE_ACTION";
+    private static final String BUTTON_ACTION = "BUTTON_ACTION";
     private static final String ACTION_URL = "ACTION_URL";
     private static final String SERVICE_NAME = "SERVICE_NAME";
     private static final String SERVICE_PRICE = "SERVICE_PRICE";
     private static final String SERVICE_IMAGE = "SERVICE_IMAGE";
     private static final String SERVICE_DESCRIPTION = "SERVICE_DESCRIPTION";
     private static final String SERVICE_ERROR = "SERVICE_ERROR";
+    private static final String SEARCH = "SEARCH";
+    private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
+    private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
 
     private void returnPrintWriter(List<Services> servicesList, PrintWriter printWriter, HttpServletRequest request) {
         for (Services services : servicesList) {
@@ -59,23 +62,34 @@ public class ServiceController extends HttpServlet {
 
             if (urlServlet.equals("/service")) {
                 String serviceAmount = request.getParameter("serviceExits");
+                String searchValue = request.getParameter("search");
 
                 if (serviceAmount != null) {
                     int serviceAmountInt = Integer.parseInt(serviceAmount);
                     servicesList = serviceFacade.getServices(serviceAmountInt, "GetNext6Course");
                     returnPrintWriter(servicesList, printWriter, request);
+                } else if (searchValue != null) {
+                    servicesList = serviceFacade.getServices(searchValue, "SearchByName");
+                    returnPrintWriter(servicesList, printWriter, request);
                 } else {
-                    servicesList = serviceFacade.getServices("", "Top6News");
+                    servicesList = serviceFacade.getServices(null, "Top6Service");
 
+                    if (servicesList.isEmpty()) {
+                        request.setAttribute(SERVICE_LIST, null);
+                    } else {
+                        request.setAttribute(SERVICE_LIST, servicesList);
+                    }
+                    
                     request.setAttribute(TOTAL_SERVICE_LIST, serviceFacade.countServices());
-                    request.setAttribute(SERVICE_LIST, servicesList);
                     request.setAttribute(NOT_EMPTY, NOT_EMPTY);
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/Service.jsp");
                     requestDispatcher.forward(request, response);
                 }
             } else if (urlServlet.equals("/admin/add-service")) {
-                request.setAttribute(SERVICE_ACTION, "Add Service");
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(BUTTON_ACTION, "Add Service");
                 request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-service");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
@@ -89,8 +103,10 @@ public class ServiceController extends HttpServlet {
                 request.setAttribute(SERVICE_PRICE, services.getServicePrice());
                 request.setAttribute(SERVICE_IMAGE, services.getImageService());
                 request.setAttribute(SERVICE_DESCRIPTION, services.getDescriptionService());
-                request.setAttribute(SERVICE_ACTION, "Edit Service");
-                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service");
+                request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
+                request.setAttribute(BUTTON_ACTION, "Edit Service");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service?sid="+ serviceID +"");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
                 requestDispatcher.forward(request, response);
@@ -133,6 +149,7 @@ public class ServiceController extends HttpServlet {
 
                     request.setAttribute(END_PAGE, endPage);
                     request.setAttribute(CURRENT_PAGE, index);
+                    request.setAttribute(SEARCH, "serviceName");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/ServiceManagement.jsp");
                     requestDispatcher.forward(request, response);
@@ -193,7 +210,7 @@ public class ServiceController extends HttpServlet {
                     }
                     request.setAttribute(SERVICE_DESCRIPTION, getServiceDescription);
                     request.setAttribute(SERVICE_ERROR, servicesError);
-                    request.setAttribute(SERVICE_ACTION, "Add Service");
+                    request.setAttribute(BUTTON_ACTION, "Add Service");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-service");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
@@ -202,16 +219,14 @@ public class ServiceController extends HttpServlet {
                     services = new Services();
                     services.setServiceID(serviceID);
                     services.setServiceName(getServiceName);
-                    services.setServicePrice(Integer.parseInt(getServicePrice));
+                    services.setServicePrice(Double.parseDouble(getServicePrice));
                     if (getServiceImage != null) {
                         String[] cutCodeImage = getServiceImage.split("\\,");
                         services.setImageService(cutCodeImage[1]);
                     }
                     services.setDescriptionService(getServiceDescription);
                     serviceFacade.addServices(services);
-
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/ServiceManagement.jsp");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/service-management");
                 }
             } else {
                 String serviceID = request.getParameter("sid");
@@ -252,8 +267,8 @@ public class ServiceController extends HttpServlet {
                     }
                     request.setAttribute(SERVICE_DESCRIPTION, getServiceDescription);
                     request.setAttribute(SERVICE_ERROR, servicesError);
-                    request.setAttribute(SERVICE_ACTION, "Edit Service");
-                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service");
+                    request.setAttribute(BUTTON_ACTION, "Edit Service");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-service?sid="+ serviceID +"");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddService.jsp");
                     requestDispatcher.forward(request, response);
@@ -261,16 +276,14 @@ public class ServiceController extends HttpServlet {
                     services = new Services();
                     services.setServiceID(serviceID);
                     services.setServiceName(getServiceName);
-                    services.setServicePrice(Integer.parseInt(getServicePrice));
+                    services.setServicePrice(Double.parseDouble(getServicePrice));
                     if (getServiceImage != null) {
                         String[] cutCodeImage = getServiceImage.split("\\,");
                         services.setImageService(cutCodeImage[1]);
                     }
                     services.setDescriptionService(getServiceDescription);
                     serviceFacade.updateServices(services, "EditServices");
-                    
-                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/ServiceManagement.jsp");
-                    requestDispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/service-management");
                 }
             }
 

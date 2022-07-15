@@ -57,7 +57,7 @@
                             <th>Actions</th>
                         </tr>
 
-                        <tr ng-repeat="customer in listCustomer | filter: searching">
+                        <tr ng-repeat="customer in listCustomer | filter: ${SEARCH}">
                             <td>{{$index + 1}}</td>
                             <td>{{customer.fullName}}</td>
                             <td>{{customer.gender}}</td>
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- User Management Pagination -->
-                <c:if test="${CURRENT_PAGE > 1}">
+                <c:if test="${END_PAGE > 1}">
                     <div class="table-pagination">
                         <ul>
                             <c:if test="${CURRENT_PAGE > 1}">
@@ -110,6 +110,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- LINK ANGULAR -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
         <!-- LINK SCRIPT -->
         <script src=".././js/admin/AdminRoot.js"></script>

@@ -1,7 +1,7 @@
 <div class="support-online">
     <ul class="support-content">
         <li>
-            <a href="" class="support_booking">
+            <a href="${pageContext.request.contextPath}/booking" class="support_booking">
                 <i class="fa-solid fa-calendar-days"></i>
                 <span>Booking</span>
             </a>
