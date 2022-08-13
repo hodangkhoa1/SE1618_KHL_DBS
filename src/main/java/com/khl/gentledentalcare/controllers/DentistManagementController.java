@@ -6,6 +6,8 @@ import com.khl.gentledentalcare.models.DentistError;
 import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -68,6 +70,7 @@ public class DentistManagementController extends HttpServlet {
                 requestDispatcher.forward(request, response);
             } else {
                 String indexPage = request.getParameter("page");
+                String dentistID = request.getParameter("DentistID");
 
                 if (indexPage == null) {
                     indexPage = "1";
@@ -75,26 +78,47 @@ public class DentistManagementController extends HttpServlet {
                 int index = Integer.parseInt(indexPage);
                 List<Dentist> dentistList;
 
-                int countDentist = dentistFacade.countDentist();
-                int endPage = countDentist / 5;
-                if (countDentist % 5 != 0) {
-                    endPage++;
-                }
+                if (dentistID != null) {
+                    String actionButton = request.getParameter("Action");
+                    Dentist dentist = new Dentist();
+                    dentist.setDentistID(dentistID);
 
-                dentistList = dentistFacade.getAllDentist(index, "PagingDentist");
-                if (dentistList.isEmpty()) {
-                    request.setAttribute(DENTIST_LIST, null);
+                    if (actionButton.equals("Disable")) {
+                        dentist.setDentistStatus(1);
+                    } else {
+                        dentist.setDentistStatus(0);
+                    }
+
+                    dentistFacade.updateDentist(dentist, "UpdateStatus");
                 } else {
-                    JSONArray jsArray = new JSONArray(dentistList);
-                    request.setAttribute(DENTIST_LIST, jsArray.toString());
+                    int countDentist = dentistFacade.countDentist();
+                    int endPage = countDentist / 5;
+                    if (countDentist % 5 != 0) {
+                        endPage++;
+                    }
+
+                    dentistList = dentistFacade.getAllDentist(index, "PagingDentist");
+                    if (dentistList.isEmpty()) {
+                        request.setAttribute(DENTIST_LIST, null);
+                    } else {
+                        Collections.sort(dentistList, new Comparator<Dentist>() {
+                            @Override
+                            public int compare(Dentist dentist1, Dentist dentist2) {
+                                return dentist1.getNameDentist().compareTo(dentist2.getNameDentist());
+                            }
+                        });
+                        JSONArray jsArray = new JSONArray(dentistList);
+                        request.setAttribute(DENTIST_LIST, jsArray.toString());
+                    }
+
+                    request.setAttribute(END_PAGE, endPage);
+                    request.setAttribute(CURRENT_PAGE, index);
+                    request.setAttribute(SEARCH, "nameDentist");
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/DentistManagement.jsp");
+                    requestDispatcher.forward(request, response);
                 }
 
-                request.setAttribute(END_PAGE, endPage);
-                request.setAttribute(CURRENT_PAGE, index);
-                request.setAttribute(SEARCH, "nameDentist");
-
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/DentistManagement.jsp");
-                requestDispatcher.forward(request, response);
             }
         } catch (IOException | NumberFormatException | SQLException | ServletException e) {
             response.sendRedirect(request.getContextPath() + "/error");
@@ -141,6 +165,9 @@ public class DentistManagementController extends HttpServlet {
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
+                } else if (getPhoneNumber.length() > 10 || getPhoneNumber.length() < 10) {
+                    hasError = true;
+                    dentistError.setNumberPhoneDentistError("Phone number must be 10 digits!");
                 } else if (getDentistImage.equals("")) {
                     hasError = true;
                     dentistError.setImageDentistError("Please choose image avatar!");
@@ -156,13 +183,17 @@ public class DentistManagementController extends HttpServlet {
                     request.setAttribute(NAME_DENTIST, getFullName);
                     request.setAttribute(SUBTITLE_DENTIST, getSubtitleDentist);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
-                    if (getDentistImage != null) {
+                    if (!getDentistImage.equals("")) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
                         request.setAttribute(DENTIST_IMAGE, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(DENTIST_IMAGE, null);
                     }
                     request.setAttribute(DENTIST_DESCRIPTION, getDentistDescription);
                     request.setAttribute(ACADEMIC_RANK, getAcademicRank);
                     request.setAttribute(DENTIST_ERROR, dentistError);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                     request.setAttribute(BUTTON_ACTION, "Add Dentist");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-dentist");
 
@@ -174,7 +205,7 @@ public class DentistManagementController extends HttpServlet {
                     dentist.setNameDentist(getFullName);
                     dentist.setSubtitleDentist(getSubtitleDentist);
                     dentist.setNumberPhoneDentist(getPhoneNumber);
-                    if (getDentistImage != null) {
+                    if (!getDentistImage.equals("")) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
                         dentist.setImageDentist(cutCodeImage[1]);
                     }
@@ -212,6 +243,9 @@ public class DentistManagementController extends HttpServlet {
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     dentistError.setNumberPhoneDentistError("Please enter phone number!");
+                } else if (getPhoneNumber.length() > 10 || getPhoneNumber.length() < 10) {
+                    hasError = true;
+                    dentistError.setNumberPhoneDentistError("Phone number must be 10 digits!");
                 } else if (getDentistImage.equals("")) {
                     hasError = true;
                     dentistError.setImageDentistError("Please choose image avatar!");
@@ -227,13 +261,17 @@ public class DentistManagementController extends HttpServlet {
                     request.setAttribute(NAME_DENTIST, getFullName);
                     request.setAttribute(SUBTITLE_DENTIST, getSubtitleDentist);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
-                    if (getDentistImage != null) {
+                    if (!getDentistImage.equals("")) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
                         request.setAttribute(DENTIST_IMAGE, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(DENTIST_IMAGE, null);
                     }
                     request.setAttribute(DENTIST_DESCRIPTION, getDentistDescription);
                     request.setAttribute(ACADEMIC_RANK, getAcademicRank);
                     request.setAttribute(DENTIST_ERROR, dentistError);
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
                     request.setAttribute(BUTTON_ACTION, "Edit Dentist");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-dentist?did=" + dentistID + "");
 
@@ -245,13 +283,13 @@ public class DentistManagementController extends HttpServlet {
                     dentist.setNameDentist(getFullName);
                     dentist.setSubtitleDentist(getSubtitleDentist);
                     dentist.setNumberPhoneDentist(getPhoneNumber);
-                    if (getDentistImage != null) {
+                    if (!getDentistImage.equals("")) {
                         String[] cutCodeImage = getDentistImage.split("\\,");
                         dentist.setImageDentist(cutCodeImage[1]);
                     }
                     dentist.setDentistDescription(getDentistDescription);
                     dentist.setAcademicRank(getAcademicRank);
-                    dentistFacade.updateDentist(dentist);
+                    dentistFacade.updateDentist(dentist, "UpdateDentist");
                     response.sendRedirect(request.getContextPath() + "/admin/dentist-management");
                 }
             }

@@ -1,12 +1,18 @@
 package com.khl.gentledentalcare.controllers;
 
 import com.khl.gentledentalcare.dbo.ServiceFacade;
+import com.khl.gentledentalcare.dbo.ServiceSlotFacade;
+import com.khl.gentledentalcare.dbo.SlotFacade;
+import com.khl.gentledentalcare.models.ServiceSlot;
 import com.khl.gentledentalcare.models.Services;
 import com.khl.gentledentalcare.models.ServicesError;
+import com.khl.gentledentalcare.models.Slot;
 import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +36,7 @@ public class ServiceController extends HttpServlet {
     private static final String SERVICE_DESCRIPTION = "SERVICE_DESCRIPTION";
     private static final String SERVICE_ERROR = "SERVICE_ERROR";
     private static final String SEARCH = "SEARCH";
+    private static final String SEARCH_LIST = "SEARCH_LIST";
     private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
     private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
 
@@ -62,13 +69,17 @@ public class ServiceController extends HttpServlet {
 
             if (urlServlet.equals("/service")) {
                 String serviceAmount = request.getParameter("serviceExits");
+                String searchValue = request.getParameter("search");
 
                 if (serviceAmount != null) {
                     int serviceAmountInt = Integer.parseInt(serviceAmount);
-                    servicesList = serviceFacade.getServices(serviceAmountInt, "GetNext6Course");
+                    servicesList = serviceFacade.getServices(serviceAmountInt, "GetNext6Service");
+                    returnPrintWriter(servicesList, printWriter, request);
+                } else if (searchValue != null) {
+                    servicesList = serviceFacade.getServices(searchValue, "SearchByName");
                     returnPrintWriter(servicesList, printWriter, request);
                 } else {
-                    servicesList = serviceFacade.getServices("", "Top6Service");
+                    servicesList = serviceFacade.getServices(null, "Top6Service");
 
                     if (servicesList.isEmpty()) {
                         request.setAttribute(SERVICE_LIST, null);
@@ -78,6 +89,7 @@ public class ServiceController extends HttpServlet {
                     
                     request.setAttribute(TOTAL_SERVICE_LIST, serviceFacade.countServices());
                     request.setAttribute(NOT_EMPTY, NOT_EMPTY);
+                    request.setAttribute(SEARCH_LIST, SEARCH_LIST);
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/Service.jsp");
                     requestDispatcher.forward(request, response);
@@ -139,6 +151,12 @@ public class ServiceController extends HttpServlet {
                     if (servicesList.isEmpty()) {
                         request.setAttribute(SERVICE_LIST, null);
                     } else {
+                        Collections.sort(servicesList, new Comparator<Services>() {
+                            @Override
+                            public int compare(Services services1, Services services2) {
+                                return services1.getServiceName().compareTo(services2.getServiceName());
+                            }
+                        });
                         JSONArray jsArray = new JSONArray(servicesList);
                         request.setAttribute(SERVICE_LIST, jsArray.toString());
                     }
@@ -166,6 +184,9 @@ public class ServiceController extends HttpServlet {
 
             Services services;
             ServiceFacade serviceFacade = new ServiceFacade();
+            SlotFacade slotFacade = new SlotFacade();
+            ServiceSlot serviceSlot = new ServiceSlot();
+            ServiceSlotFacade serviceSlotFacade = new ServiceSlotFacade();
 
             if (urlServlet.equals("/admin/add-service")) {
                 String serviceID = FunctionRandom.randomID(10);
@@ -222,6 +243,16 @@ public class ServiceController extends HttpServlet {
                     }
                     services.setDescriptionService(getServiceDescription);
                     serviceFacade.addServices(services);
+                    
+                    List<Slot> slotList = slotFacade.getAllSlot(null, "GetAllSlot");
+                    
+                    serviceSlot.setServiceID(services.getServiceID());
+                    for (Slot slot : slotList) {
+                        serviceSlot.setSlotID(slot.getSlotID());
+                        serviceSlot.setSlotServiceID(FunctionRandom.randomID(10));
+                        serviceSlotFacade.addServiceSlot(serviceSlot);
+                    }
+                    
                     response.sendRedirect(request.getContextPath() + "/admin/service-management");
                 }
             } else {

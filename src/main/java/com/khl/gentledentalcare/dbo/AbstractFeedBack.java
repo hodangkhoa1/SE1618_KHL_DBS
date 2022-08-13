@@ -15,27 +15,29 @@ public abstract class AbstractFeedBack<T> {
 
     private Connection connection;
 
-    protected abstract List<T> getAllFeedBack(Connection connection) throws SQLException;
+    protected abstract List<T> getAllFeedBack(Connection connection, Object object, Object action) throws SQLException;
+
+    protected abstract T getFeedBack(Connection connection, Object object, Object userID) throws SQLException;
 
     protected abstract boolean addFeedBack(Connection connection, T feedBack) throws SQLException;
-
-    protected abstract boolean updateFeedBack(Connection connection, Object feedBackID) throws SQLException;
 
     protected abstract int countFeedBack(Connection connection) throws SQLException;
 
     /**
      * Get all feedBack
      *
+     * @param object
+     * @param action
      * @return
      * @throws SQLException
      */
-    public List<T> getAllFeedBack() throws SQLException {
+    public List<T> getAllFeedBack(Object object, Object action) throws SQLException {
 
         List<T> list = new ArrayList<>();
 
         try {
             connection = DBUtils.makeConnection();
-            list = getAllFeedBack(connection);
+            list = getAllFeedBack(connection, object, action);
         } finally {
             connection.close();
         }
@@ -63,26 +65,6 @@ public abstract class AbstractFeedBack<T> {
     }
 
     /**
-     * Update feedBack
-     *
-     * @param feedBackID
-     * @return
-     * @throws SQLException
-     */
-    public boolean updateFeedBack(Object feedBackID) throws SQLException {
-        boolean check;
-
-        try {
-            connection = DBUtils.makeConnection();
-            check = updateFeedBack(connection, feedBackID);
-        } finally {
-            connection.close();
-        }
-
-        return check;
-    }
-
-    /**
      * *
      * Count how many feedBack in the list
      *
@@ -100,5 +82,26 @@ public abstract class AbstractFeedBack<T> {
         }
 
         return check;
+    }
+
+    /**
+     * *
+     * Get FeedBack
+     *
+     * @param object
+     * @param userID
+     * @return
+     * @throws SQLException
+     */
+    public T getFeedBack(Object object, Object userID) throws SQLException {
+        T t = null;
+
+        try {
+            connection = DBUtils.makeConnection();
+            t = getFeedBack(connection, object, userID);
+        } finally {
+            connection.close();
+        }
+        return t;
     }
 }

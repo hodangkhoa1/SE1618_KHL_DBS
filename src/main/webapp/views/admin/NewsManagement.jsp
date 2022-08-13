@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -63,8 +64,8 @@
                             <td>{{news.postDate | date:"dd-MM-yyyy"}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <a href="${pageContext.request.contextPath}/admin/edit-news?nid={{news.newsID}}" class="users-control btn btn-primary">Edit</a>
-                                    <button ng-click="disable(news.newsID, news.statusNews === 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{news.statusNews == 0 ? "Disable" : "UnDisable"}}</button>
+                                    <a href="${pageContext.request.contextPath}/admin/edit-news?nid={{news.newsID}}" ng-hide="{{news.statusNews === 1}}" class="users-control btn btn-primary">Edit</a>
+                                    <button ng-click="disable(news.newsID, news.statusNews === 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{news.statusNews == 0 ? "Disable" : "Enable"}}</button>
                                 </div>
                             </td>
                         </tr>

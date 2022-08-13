@@ -17,6 +17,7 @@ public class DentistFacade extends AbstractDentist<Dentist> {
     private static final String SQL_PAGING_DENTIST = "SELECT * FROM Dentist ORDER BY DentistID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
     private static final String SQL_ADD_DENTIST = "INSERT INTO Dentist(DentistID, NameDentist, SubtitleDentist, NumberPhoneDentist, ImageDentist, DentistDescription, AcademicRank) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_DENTIST = "UPDATE Dentist SET NameDentist = ?, SubtitleDentist = ?, NumberPhoneDentist = ?, ImageDentist = ?, DentistDescription = ?, AcademicRank = ? WHERE DentistID = ?";
+    private static final String SQL_UPDATE_DENTIST_STATUS = "UPDATE Dentist SET StatusDentist = ? WHERE DentistID = ?";
     private static final String SQL_GET_TOTAL_DENTIST = "SELECT COUNT(*) FROM Dentist";
     private static final String SQL_GET_DENTIST_DETAIL_BY_ID = "SELECT * FROM Dentist WHERE DentistID = ?";
     private static final String SQL_GET_TOP_DENTIST = "SELECT TOP 3 * FROM Dentist";
@@ -29,8 +30,9 @@ public class DentistFacade extends AbstractDentist<Dentist> {
         byte[] getImageDentist = resultSet.getBytes("ImageDentist");
         String getDentistDescription = resultSet.getString("DentistDescription");
         String getAcademicRank = resultSet.getString("AcademicRank");
+        int getStatusDentist = resultSet.getInt("StatusDentist");
 
-        return new Dentist(getDentistID, getNameDentist, getSubtitleDentist, getNumberPhoneDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank);
+        return new Dentist(getDentistID, getNameDentist, getSubtitleDentist, getNumberPhoneDentist, Base64.encode(getImageDentist), getDentistDescription, getAcademicRank, getStatusDentist);
     }
 
     @Override
@@ -98,17 +100,27 @@ public class DentistFacade extends AbstractDentist<Dentist> {
     }
 
     @Override
-    protected boolean updateDentist(Connection connection, Dentist dentist) throws SQLException {
+    protected boolean updateDentist(Connection connection, Dentist dentist, Object action) throws SQLException {
         try {
             if (connection != null) {
-                preparedStatement = connection.prepareStatement(SQL_UPDATE_DENTIST);
-                preparedStatement.setString(1, dentist.getNameDentist());
-                preparedStatement.setString(2, dentist.getSubtitleDentist());
-                preparedStatement.setString(3, dentist.getNumberPhoneDentist());
-                preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
-                preparedStatement.setString(5, dentist.getDentistDescription());
-                preparedStatement.setString(6, dentist.getAcademicRank());
-                preparedStatement.setString(7, dentist.getDentistID());
+                switch (action.toString()) {
+                    case "UpdateDentist":
+                        preparedStatement = connection.prepareStatement(SQL_UPDATE_DENTIST);
+                        preparedStatement.setString(1, dentist.getNameDentist());
+                        preparedStatement.setString(2, dentist.getSubtitleDentist());
+                        preparedStatement.setString(3, dentist.getNumberPhoneDentist());
+                        preparedStatement.setBytes(4, Base64.decode(dentist.getImageDentist()));
+                        preparedStatement.setString(5, dentist.getDentistDescription());
+                        preparedStatement.setString(6, dentist.getAcademicRank());
+                        preparedStatement.setString(7, dentist.getDentistID());
+                        break;
+                    case "UpdateStatus":
+                        preparedStatement = connection.prepareStatement(SQL_UPDATE_DENTIST_STATUS);
+                        preparedStatement.setInt(1, dentist.getDentistStatus());
+                        preparedStatement.setString(2, dentist.getDentistID());
+                        break;
+                }
+
                 preparedStatement.executeUpdate();
                 return true;
             }

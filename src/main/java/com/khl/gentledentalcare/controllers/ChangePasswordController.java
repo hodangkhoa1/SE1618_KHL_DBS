@@ -14,16 +14,30 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class ChangePasswordController extends HttpServlet {
-    
+
     private static final String LOGIN_USER = "LOGIN_USER";
+    private static final String LOGIN_EMPLOYEE = "LOGIN_EMPLOYEE";
     private static final String CHANGE_PASSWORD_ERROR = "CHANGE_PASSWORD_ERROR";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/ChangePassword.jsp");
-        requestDispatcher.forward(request, response);
+        try {
+            String urlServlet = request.getServletPath();
+
+            if (urlServlet.equals("/change-password")) {
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/ChangePassword.jsp");
+                requestDispatcher.forward(request, response);
+            } else {
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/employee/ChangePassword.jsp");
+                requestDispatcher.forward(request, response);
+            }
+
+        } catch (IOException | ServletException e) {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
+
     }
 
     @Override
@@ -31,8 +45,16 @@ public class ChangePasswordController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
+            String urlServlet = request.getServletPath();
+
             HttpSession session = request.getSession();
-            Account loginUser = (Account) session.getAttribute(LOGIN_USER);
+            Account loginUser;
+
+            if (urlServlet.equals("/change-password")) {
+                loginUser = (Account) session.getAttribute(LOGIN_USER);
+            } else {
+                loginUser = (Account) session.getAttribute(LOGIN_EMPLOYEE);
+            }
 
             String oldPassword = request.getParameter("oldPassword");
             String newPassword = request.getParameter("newPassword");
@@ -68,11 +90,20 @@ public class ChangePasswordController extends HttpServlet {
             }
 
             if (hasError) {
+                String urlForward;
+
                 request.setAttribute(CHANGE_PASSWORD_ERROR, accountError);
 
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/ChangePassword.jsp");
+                if (urlServlet.equals("/change-password")) {
+                    urlForward = "/views/user/ChangePassword.jsp";
+                } else {
+                    urlForward = "/views/employee/ChangePassword.jsp";
+                }
+
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher(urlForward);
                 requestDispatcher.forward(request, response);
             } else {
+                String urlForward = "";
                 account = new Account();
                 account.setUserPassword(hashNewPassword);
                 account.setUserEmail(loginUser.getUserEmail());
@@ -80,11 +111,18 @@ public class ChangePasswordController extends HttpServlet {
                 boolean checkChangePassword = accountFacade.updateAccount(account, "ChangePassword");
                 if (checkChangePassword) {
                     Account getAccount = accountFacade.checkAccount(account, "Login");
-                    session.setAttribute(LOGIN_USER, getAccount);
-                    session.setMaxInactiveInterval(500);
+
+                    if (urlServlet.equals("/change-password")) {
+                        session.setAttribute(LOGIN_USER, getAccount);
+                        urlForward = "/info-profile";
+                    } else {
+                        session.setAttribute(LOGIN_EMPLOYEE, getAccount);
+                        urlForward = "/employee/info-profile";
+                    }
+                    
                 }
 
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/info-profile");
+                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher(urlForward);
                 requestDispatcher.forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {

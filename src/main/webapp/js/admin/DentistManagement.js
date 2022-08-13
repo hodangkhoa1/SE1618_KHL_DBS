@@ -1,9 +1,36 @@
 var app = angular.module("myapp", []);
 
-function ManageDentistAPI(APIJson) {
+function ManageDentistAPI(urlServlet, APIJson) {
     app.controller("viewCril", function (Excel, $timeout, $scope) {
         $scope.test = {};
         $scope.index = -1;
+
+        // disable
+        $scope.disable = function (id, action) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to disable the dentist?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, disable it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: urlServlet,
+                        type: "get",
+                        data: {
+                            DentistID: id,
+                            Action: action
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        };
 
         $scope.listDentist = APIJson;
 

@@ -60,6 +60,9 @@
                                     <div class="news-content-image">
                                         <img src="data:image/png;base64,${NEWS_DETAIL.imageNews}" alt="">
                                     </div>
+                                    <div class="my-5">
+                                        ${NEWS_DETAIL.newsDetailContent}
+                                    </div>
                                 </div>
                             </div>
                         </div>

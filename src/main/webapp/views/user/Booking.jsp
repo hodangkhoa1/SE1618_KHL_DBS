@@ -1,5 +1,13 @@
+<%@page import="com.khl.gentledentalcare.models.BookingError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    BookingError bookingError = (BookingError) request.getAttribute("BOOKING_ERROR");
+    
+    if (bookingError == null) {
+        bookingError = new BookingError();
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +39,7 @@
         <link rel="stylesheet" href="./css/user/FooterPage.css">
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
     </head>
-    <body onload="CheckValueUser('${sessionScope.LOGIN_USER.userID}', '${pageContext.request.contextPath}/${sessionScope.LOGIN_USER != null ? "edit-profile" : "login"}')">
+    <body onload="CheckValueUser('${sessionScope.LOGIN_USER.userID}', '${pageContext.request.contextPath}/${sessionScope.LOGIN_USER != null ? "edit-profile" : "login"}', '${pageContext.request.contextPath}/home')">
         <jsp:include page="../../layouts/Loader.html"></jsp:include>
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
@@ -62,7 +70,7 @@
                                 <span class="form-label d-block">Slot</span>
                                 <div class="foo" id="return-list"></div>
                             </div>
-                            <div id="slotCatch" class="bg-danger text-white mb-2 pl-2"></div>
+                            <div id="slotCatchQ" class="bg-danger text-white mb-2 pl-2"></div>
                             <div class="modal-footer">
                                 <button disabled id="buttonSubmit" type="button" class="btn btn-primary" onclick="addLi()">Book Now</button>
                             </div>
@@ -112,6 +120,9 @@
                                         </c:forEach>
                                     </select>
                                 </div>
+                                <div style="color: red;" class="my-2">
+                                    <%=bookingError.getHospitalError()%>
+                                </div>
                                 <div class="form-group">
                                     <span class="form-label">Add your service</span>
                                     <div class="input-group-append">
@@ -121,11 +132,13 @@
                                     </div>
                                     <hr style="height: 2px; border: 10px; color: gray; background-color: red">
                                     <ul class="ul-list" id="list"></ul>
-                                    <div id="bookCatch" class="bg-danger text-white mb-2 pl-2"></div>
+                                    <div id="bookCatch" class="bg-danger text-white mb-2 pl-2">
+                                        <%=bookingError.getServiceSlotError()%>
+                                    </div>
                                     <input type="text" hidden value="" name="CountBookService" id="bookService">
                                 </div>
                                 <div class="form-btn">
-                                    <button class="submit-btn">Book Now</button>
+                                    <input type="submit" value="Booking" class="submit-btn">
                                 </div>
                             </form>
                         </div>

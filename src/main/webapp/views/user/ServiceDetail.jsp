@@ -44,8 +44,8 @@
         <section class="section single-wrapper">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">${SERVICE_DETAIL.descriptionService}</div>
-                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 my-5">${SERVICE_DETAIL.descriptionService}</div>
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 my-5">
                         <div class="sidebar">
                             <div class="widget">
                                 <h2 class="widget-title">Popular Posts</h2>

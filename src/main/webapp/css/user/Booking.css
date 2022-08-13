@@ -35,7 +35,7 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-.window #bookCatch, .modal-body #slotCatch {
+.window #bookCatch, .modal-body #slotCatchQ {
     padding: 8px 0 8px 8px;
     display: none;
 }

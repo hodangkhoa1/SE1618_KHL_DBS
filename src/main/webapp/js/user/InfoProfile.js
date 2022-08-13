@@ -1,4 +1,4 @@
-function DeleteAccount(urlServlet, userEmail) {
+function DeleteAccount(urlServlet, userEmail, urlHome) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -6,7 +6,7 @@ function DeleteAccount(urlServlet, userEmail) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes, delete it!"
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -16,7 +16,7 @@ function DeleteAccount(urlServlet, userEmail) {
                     userEmail: userEmail
                 },
                 success: function () {
-                    location.reload();
+                    window.location.href = urlHome;
                 }
             });
         }

@@ -1,9 +1,9 @@
 <%@page import="com.khl.gentledentalcare.models.HospitalError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    HospitalError dentistError = (HospitalError) request.getAttribute("DENTIST_ERROR");
-    if(dentistError == null) {
-        dentistError = new HospitalError();
+    HospitalError hospitalError = (HospitalError) request.getAttribute("HOSPITAL_ERROR");
+    if(hospitalError == null) {
+        hospitalError = new HospitalError();
     }
 %>
 <!DOCTYPE html>
@@ -57,33 +57,33 @@
                                         <span>
                                             <i class="fa-solid fa-font"></i>
                                         </span>
-                                        <input type="text" class="hospital-name" name="hospitalName" placeholder="Hospital Name"
+                                        <input type="text" class="hospital-name" value="${HOSPITAL_NAME != null ? HOSPITAL_NAME : ""}" name="hospitalName" placeholder="Hospital Name"
                                             oninput="CheckHospitalName()" onblur="CheckHospitalName()" />
                                     </div>
                                     <div class="text-danger hospital-name-error">
-                                        <p></p>
+                                        <p><%=hospitalError.getHospitalName()%></p>
                                     </div>
                                     <div class="input_field">
                                         <span>
                                             <i class="fa-solid fa-mobile"></i>
                                         </span>
-                                        <input type="number" class="hospital-phone" name="hospitalPhone"
+                                        <input type="number" class="hospital-phone" name="hospitalPhone" value="${HOSPITAL_PHONE != null ? HOSPITAL_PHONE : ""}"
                                             placeholder="Hospital Phone" oninput="CheckHospitalPhone()"
                                             onblur="CheckHospitalPhone()" />
                                     </div>
                                     <div class="text-danger hospital-phone-error">
-                                        <p></p>
+                                        <p><%=hospitalError.getHospitalPhone()%></p>
                                     </div>
                                     <div class="input_field">
                                         <span>
                                             <i class="fa-solid fa-location-dot"></i>
                                         </span>
-                                        <input type="text" class="hospital-address" name="hospitalAddress"
+                                        <input type="text" class="hospital-address" name="hospitalAddress" value="${HOSPITAL_ADDRESS != null ? HOSPITAL_ADDRESS : ""}"
                                             placeholder="Hospital Address" oninput="CheckHospitalAddress()"
                                             onblur="CheckHospitalAddress()" />
                                     </div>
                                     <div class="text-danger hospital-address-error">
-                                        <p></p>
+                                        <p><%=hospitalError.getHospitalAddress()%></p>
                                     </div>
                                     <input class="button add-hospital" type="submit" value="${BUTTON_ACTION}" />
                                 </form>

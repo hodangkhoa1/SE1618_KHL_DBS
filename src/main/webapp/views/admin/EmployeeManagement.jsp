@@ -70,7 +70,7 @@
                             <td>
                                 <div class="table-action-button">
                                     <a href="${pageContext.request.contextPath}/admin/edit-employee?eid={{employee.userID}}" class="users-control btn btn-primary">Edit</a>
-                                    <button ng-click="disable(employee.userID, employee.userStatus === 1 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{employee.userStatus == 1 ? "Disable" : "UnDisable"}}</button>
+                                    <button ng-click="disable(employee.userID, employee.userStatus === 1 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{employee.userStatus == 1 ? "Disable" : "Enable"}}</button>
                                 </div>
                             </td>
                         </tr>

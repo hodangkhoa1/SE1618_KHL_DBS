@@ -1,0 +1,292 @@
+.feedbackMana p {
+    margin-bottom: unset;
+}
+
+.feedbackMana .heading_feedback{
+    border-bottom: 1px solid gray ;
+}
+
+.feedbackMana .card-feedback {
+    border: 1px solid rgba(0, 0, 0, .0785);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: all .5s;
+}
+
+.feedbackMana .card-feedback:hover {
+    -webkit-box-shadow: 0 0 10px 5px rgba(118, 183, 243, 1);
+    -moz-box-shadow: 0 0 10px 5px rgba(118, 183, 243, 1);
+    box-shadow: 0 0 10px 5px rgba(118, 183, 243, 1);
+}
+
+.feedbackMana .feedback--top {
+    background-color: rgba(0, 0, 0, .0785);
+    height: 35px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    justify-content: space-between;
+}
+
+.feedbackMana .feedback--id {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: start;
+    color: rgba(0, 0, 0, 0.511);
+}
+
+.feedbackMana .feedback--id .id {
+    color: #029e74;
+    font-weight: 600;
+}
+
+.feedbackMana .feedback--bottom {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feedbackMana .feedback--bottom .bottom-content {
+    color: #0000008a;
+}
+
+.feedbackMana .feedback--bottom .bottom-img {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.feedbackMana .feedback--bottom .feedback--imgUser {
+    width: 90px;
+    height: 90px;
+    border-radius: 2px;
+    overflow: hidden;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedbackMana .feedback--bottom .feedback--imgUser img {
+    width: 100%;
+    height: 100%;
+}
+
+.feedbackMana .feedback--bottom .feedback--imgUser p {
+    font-size: 40px;
+    color: #fff;
+}
+
+.feedbackMana .feedback--bottom .name-feedback {
+    color: #d0368a;
+    font-weight: 600;
+}
+
+.feedbackMana .btn-eye {
+    background-color: transparent;
+    height: 50px;
+    width: 50px;
+}
+
+.feedbackMana .btn-eye i {
+    color: rgba(0, 0, 0, 0.665);
+    font-size: 14px;
+    transition: all .5s;
+}
+
+.feedbackMana .btn-eye:hover i {
+    color: #029e74;
+    font-size: 20px;
+}
+
+.feedbackMana .card-feedback:hover i {
+    color: #029e74;
+    font-size: 20px;
+}
+
+.feedbackMana .status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    position: absolute;
+    top: 45px;
+    right: 8px;
+}
+
+.feedbackMana .status p {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.feedbackMana .line {
+    border-bottom: 1px solid rgba(37, 37, 37, 0.579);
+}
+
+.feedbackMana .btn--loadMore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content .stars .star-1,
+.content .stars .star-2,
+.content .stars .star-3,
+.content .stars .star-4,
+.content .stars .star-5 {
+    color: #fd4;
+}
+
+.stars label {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.feedbackMana .review {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.feedbackMana .review p {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.feedbackMana .reviewStart{
+    gap: 10px;
+}
+
+.feedbackMana .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 0.3%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.feedbackMana .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 90%;
+}
+
+.feedbackMana .close {
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    align-items: center;
+    transition: all .5s;
+}
+
+.feedbackMana .close:hover,
+.feedbackMana .close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.feedbackMana .modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #3d76ab, #EE78FA);
+    color: white;
+    height: 3rem;
+    align-items: center;
+}
+
+.feedbackMana .modal-header .title{
+    font-size: 20px;
+}
+
+.feedbackMana .modal-content .cover p {
+    color: #3d76ab;
+}
+
+.feedbackMana .modal-content .cover .textFeedback{
+    font-weight: 700;
+    font-size: 20px;
+    color: #029e74;
+}
+
+.feedbackMana .modal-content .cover p input, .feedbackMana .modal-content .cover p textarea{
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    transition: all .5s;
+    resize: none;
+}
+
+.feedbackMana .modal-content .cover p input:focus, .feedbackMana .modal-content .cover p textarea:focus{
+    background-color: #F2FAFF;
+    outline: 1px solid #F2FAFF;
+}
+
+.feedbackMana .modal-content .cover p input:hover, .feedbackMana .modal-content .cover p textarea:hover{
+    background-color: #F2FAFF;
+    outline: 1px solid #F2FAFF;
+}
+
+.view-more {
+    display: block;
+    clear: both;
+    width: 100%;
+}
+
+.view-more .button-view {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    line-height: 40px;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    border-radius: 4px;
+    margin: 10px auto;
+    width: 340px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+}
+
+.view-more .button-view::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #333;
+    content: '';
+    position: relative;
+    right: -8px;
+    top: 12px;
+}
+
+.view-more .button-view:hover {
+    background-color: #288ad6;
+    color: #fff;
+    border: 1px solid #288ad6;
+}
+
+.spinner-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-loader .spinner-title {
+    font-size: 16px;
+    margin: 0 0 0 15px;
+}

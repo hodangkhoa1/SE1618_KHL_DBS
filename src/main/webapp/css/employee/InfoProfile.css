@@ -1,0 +1,139 @@
+.card {
+    background: #f9f9f9;
+    -webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 18px;
+    border: 0;
+    margin-bottom: 1rem;
+    box-shadow: 1px 1px 8px 0 grey;
+}
+
+.account-profile .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.account-profile .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-profile .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+
+.account-profile .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+
+.account-profile .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+
+.account-profile .user-sidenav .user-sidenav__url {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-profile .user-sidenav .sidenav-url__title {
+    color: white;
+    border: none;
+    border-radius: 2px;
+    z-index: 1;
+    overflow: hidden;
+    position: relative;
+    width: 131px;
+    height: 40px;
+    background-color: #ff4757;
+}
+
+.account-profile .user-sidenav .sidenav-url__title::after,
+.account-profile .user-sidenav .sidenav-url__title::before {
+    content: "";
+    z-index: -1;
+    background-color: hsla(0, 0%, 100%, 0.2);
+    position: absolute;
+    top: -50%;
+    bottom: -50%;
+    width: 1.25em;
+}
+
+.account-profile .user-sidenav .sidenav-url__title::after {
+    transform: translate3d(-1050%, 0, 0) rotate(35deg);
+}
+
+.account-profile .user-sidenav .sidenav-url__title:hover::after {
+    transition: transform 0.55s ease-in-out;
+    transform: translate3d(200%, 0, 0) rotate(35deg);
+}
+
+.account-profile .user-sidenav .sidenav-url__title::before {
+    transform: translate3d(950%, 0, 0) rotate(35deg);
+}
+
+.account-profile .user-sidenav .sidenav-url__title:not(:hover)::before {
+    transition: transform 0.55s ease-in-out;
+    transform: translate3d(-310%, 0, 0) rotate(35deg);
+}
+
+.account-profile .user-profile .avatar-photo {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-profile .user-profile .avatar-photo p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 50px;
+    margin-bottom: 0;
+}
+
+.card-body .button-edit {
+    outline: none;
+    border: none;
+    background: none;
+    color: #9f9fa0;
+    font-size: 28px;
+    width: 50px;
+}
+
+.card-body .table-users table {
+    width: 100%;
+}
+
+.card-body .table-users table td,
+.card-body .table-users table th {
+    color: #000;
+    padding: 10px;
+}
+
+.card-body .table-users table td {
+    vertical-align: middle;
+}
+
+.card-body .table-users table th {
+    font-weight: 500;
+    color: grey;
+    font-size: 15px;
+    text-transform: uppercase;
+}

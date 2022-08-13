@@ -1,0 +1,99 @@
+.bg-dashboard p {
+    margin-bottom: unset;
+}
+
+.bg-dashboard .history__title {
+    font-size: 30px;
+    font-weight: 900;
+    color: rgb(113, 23, 234);
+    margin-top: 20px;
+}
+
+.bg-dashboard .history__click {
+    border-bottom: 1px solid rgba(0, 0, 0, .0785);
+    position: relative;
+}
+
+.bg-dashboard .history__click a {
+    font-size: 15px;
+    line-height: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 4px;
+    color: black;
+    position: relative;
+    transition: all .5s ease-in-out;
+}
+
+.bg-dashboard .history__click a:hover {
+    background-color: #20b2aa;
+    color: white;
+    border-radius: 5px;
+}
+
+.bg-dashboard .history__click a.active{
+    border-bottom: #0a4a47 solid 1px;
+    border-radius: 5px;
+    border-width: 2px;
+    height: 40px;
+    display: inline-block;
+    background-color: #20b2aa;
+    color: white;
+}
+
+
+.bg-dashboard .history__link .cover{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bg-dashboard .history__link .cover a{
+    background-color: #ECEBEB;
+    border-radius: 20px;
+    padding: 6px 10px;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all .5s ease-in-out;
+}
+
+.bg-dashboard .history__link .cover a.active {
+    background-color: #20b2aa;
+    color: white;
+}
+
+.bg-dashboard .history__link .cover a:hover {
+    background-color: #20b2aa;
+    color: white;
+}
+
+.bg-dashboard .table .status {
+    width: 136px;
+    height: 30px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.bg-dashboard .table .status p {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* ----------------------------MÀU SẮC STATUS---------------------------- */
+.bg-dashboard .table .pending {
+    background-color: #2fbc78;
+}
+
+.bg-dashboard .table .confirm {
+    background: linear-gradient(45deg, #87adfe, #ff77cd);
+}
+
+.bg-dashboard .table .completed {
+    background-image: linear-gradient(158deg, #FBDA61 0%, #FF5ACD 100%);
+}
+
+.bg-dashboard .table .cancelled {
+    background-color: red;
+}
+/* ----------------------------END MÀU SẮC STATUS---------------------------- */

@@ -65,7 +65,8 @@
                             <td>{{dentist.academicRank}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <a href="${pageContext.request.contextPath}/admin/edit-dentist?did={{dentist.dentistID}}" class="users-control btn btn-primary">Edit</a>
+                                    <a href="${pageContext.request.contextPath}/admin/edit-dentist?did={{dentist.dentistID}}" ng-hide="{{dentist.dentistStatus === 1}}" class="users-control btn btn-primary">Edit</a>
+                                    <button ng-click="disable(dentist.dentistID, dentist.dentistStatus == 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{dentist.dentistStatus == 0 ? "Disable" : "Enable"}}</button>
                                 </div>
                             </td>
                         </tr>
@@ -111,13 +112,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- LINK ANGULAR -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <!-- LINK Sweet Alert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- LINK SCRIPT -->
         <script src=".././js/admin/AdminRoot.js"></script>
         <script src=".././js/admin/NavBar.js"></script>
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/DentistManagement.js"></script>
         <script>
-            ManageDentistAPI(${DENTIST_LIST});
+            ManageDentistAPI("${pageContext.request.contextPath}/admin/dentist-management", ${DENTIST_LIST});
             activeSidebarLink();
         </script>
     </body>

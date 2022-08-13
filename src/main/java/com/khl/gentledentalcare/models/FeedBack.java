@@ -12,19 +12,21 @@ import lombok.Setter;
 @Setter
 public class FeedBack {
 
-    private String feedBackID, bookingServiceID, feedBackContent;
+    private String feedBackID, bookingID, userID, feedBackContent;
     private int numberRating, feedBackStatus;
     private Timestamp feedBackCreated;
 
     public FeedBack() {
     }
 
-    public FeedBack(String feedBackID, String bookingServiceID, String feedBackContent, int numberRating, int feedBackStatus, Timestamp feedBackCreated) {
+    public FeedBack(String feedBackID, String bookingID, String userID, String feedBackContent, int numberRating, int feedBackStatus, Timestamp feedBackCreated) {
         this.feedBackID = feedBackID;
-        this.bookingServiceID = bookingServiceID;
+        this.bookingID = bookingID;
+        this.userID = userID;
         this.feedBackContent = feedBackContent;
         this.numberRating = numberRating;
         this.feedBackStatus = feedBackStatus;
         this.feedBackCreated = feedBackCreated;
     }
+
 }

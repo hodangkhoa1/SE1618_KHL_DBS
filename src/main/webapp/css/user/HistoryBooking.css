@@ -1,97 +1,109 @@
-.history .history--title {
-    margin-bottom: 3rem;
+.bookingHistory .card-booking {
+    border: 1px solid rgba(0,0,0,.0785);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
 }
 
-.history .history--title h2 {
-    font-size: 25px;
-    font-weight: 600;
-}
-
-.history .history__card p {
-    margin-bottom: unset;
-}
-
-.history .card--top {
-    padding: 5px 0;
-    background-color: #f7f7f7;
-    border: 1px solid #f2f1f6;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    font-size: 12px;
+.bookingHistory .booking--top {
+    background-color: rgba(0,0,0,.0785);
+    height: 35px;
     display: flex;
     align-items: center;
+    font-size: 12px;
     justify-content: space-between;
 }
 
-.history .card--top .btn-delete {
+.bookingHistory .booking--id {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: start;
+    color: rgba(0, 0, 0, 0.511);
+}
+
+.bookingHistory .booking--id .id {
+    color: #029e74;
+    font-weight: 600;
+}
+
+.bookingHistory .booking--bottom {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bookingHistory .booking--bottom .bottom-content {
+    color: #0000008a;
+}
+
+.bookingHistory .booking--bottom .bottom-img {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.bookingHistory .booking--bottom .booking--img {
+    width: 90px;
+    height: 90px;
+    border-radius: 2px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.bookingHistory .booking--bottom .booking--img img {
+    width: 100%;
+    height: 100%;
+}
+
+.bookingHistory .booking--bottom .name-booking {
+    color: #d0368a;
+    font-weight: 600;
+}
+
+.bookingHistory .btn-delete {
     background-color: transparent;
-    outline: none;
-    border: none;
     height: 50px;
     width: 50px;
 }
 
-.history .card--top .btn-delete i {
+.bookingHistory .btn-delete i {
     color: rgba(0, 0, 0, 0.665);
     font-size: 22px;
     transition: all .5s;
 }
 
-.history .card--top .btn-delete:hover i {
+.bookingHistory .btn-delete:hover i {
     color: red;
     font-size: 22px;
 }
 
-.history .card--top .top--content {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    padding-left: 10px;
-}
-
-.history .card--top .top--content .maId {
-    color: #326e51;
-}
-
-.history .card--bottom {
-    border: 1px solid #f2f1f6;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    padding-left: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-}
-
-.history .card--bottom .cb__img {
-    width: 120px;
-}
-
-.history .card--bottom .cb__img img {
-    width: 100%;
-}
-
-.history .card--bottom .cb__content .name {
-    color: #ff6600;
-}
-
-.history .status--cover {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.history .status {
-    width: 7rem;
-    height: 27px;
-    background-color: #ff6600;
+.bookingHistory .status {
+    width: 100px;
+    height: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
     border-radius: 4px;
+    position: absolute;
+    top: 52px;
+    right: 20px;
+}
+
+.bookingHistory .status p {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.bookingHistory .line {
+    border-bottom: 1px solid rgba(37, 37, 37, 0.579);
+}
+
+.bookingHistory .btn--loadMore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .spinner-loader {
@@ -103,4 +115,319 @@
 .spinner-loader .spinner-title {
     font-size: 16px;
     margin: 0 0 0 15px;
+}
+
+/* ----------------------------MÀU SẮC STATUS---------------------------- */
+.bookingHistory .pending {
+    background-color: #2fbc78;
+}
+
+.bookingHistory .confirm {
+    background: linear-gradient(45deg, #87adfe, #ff77cd);
+}
+
+.bookingHistory .completed {
+    background-image: linear-gradient(158deg, #FBDA61 0%, #FF5ACD 100%);
+}
+
+.bookingHistory .cancelled {
+    background-color: red;
+}
+
+/* ----------------------------MÀU SẮC STATUS---------------------------- */
+
+.wrapper {
+    background: #f6f6f6;
+    max-width: 350px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.wrapper .content {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.wrapper .outer {
+    height: 135px;
+    width: 135px;
+    overflow: hidden;
+}
+
+.outer .emojis {
+    height: 500%;
+    display: flex;
+    flex-direction: column;
+}
+
+.outer .emojis li {
+    height: 20%;
+    width: 100%;
+    list-style: none;
+    transition: all 0.3s ease;
+}
+
+.outer li img {
+    height: 100%;
+    width: 100%;
+}
+
+#star-2:checked~.content .emojis .slideImg {
+    margin-top: -135px;
+}
+
+#star-3:checked~.content .emojis .slideImg {
+    margin-top: -270px;
+}
+
+#star-4:checked~.content .emojis .slideImg {
+    margin-top: -405px;
+}
+
+#star-5:checked~.content .emojis .slideImg {
+    margin-top: -540px;
+}
+
+.wrapper .stars {
+    margin-top: 30px;
+}
+
+.stars label {
+    font-size: 30px;
+    margin: 0 3px;
+    color: #ccc;
+}
+
+#star-1:hover~.content .stars .star-1,
+#star-1:checked~.content .stars .star-1,
+
+#star-2:hover~.content .stars .star-1,
+#star-2:hover~.content .stars .star-2,
+#star-2:checked~.content .stars .star-1,
+#star-2:checked~.content .stars .star-2,
+
+#star-3:hover~.content .stars .star-1,
+#star-3:hover~.content .stars .star-2,
+#star-3:hover~.content .stars .star-3,
+#star-3:checked~.content .stars .star-1,
+#star-3:checked~.content .stars .star-2,
+#star-3:checked~.content .stars .star-3,
+
+#star-4:hover~.content .stars .star-1,
+#star-4:hover~.content .stars .star-2,
+#star-4:hover~.content .stars .star-3,
+#star-4:hover~.content .stars .star-4,
+#star-4:checked~.content .stars .star-1,
+#star-4:checked~.content .stars .star-2,
+#star-4:checked~.content .stars .star-3,
+#star-4:checked~.content .stars .star-4,
+
+#star-5:hover~.content .stars .star-1,
+#star-5:hover~.content .stars .star-2,
+#star-5:hover~.content .stars .star-3,
+#star-5:hover~.content .stars .star-4,
+#star-5:hover~.content .stars .star-5,
+#star-5:checked~.content .stars .star-1,
+#star-5:checked~.content .stars .star-2,
+#star-5:checked~.content .stars .star-3,
+#star-5:checked~.content .stars .star-4,
+#star-5:checked~.content .stars .star-5 {
+    color: #fd4;
+}
+
+.wrapper .footer {
+    border-top: 1px solid #ccc;
+    background: #f2f2f2;
+    width: 100%;
+    height: 55px;
+    padding: 0 20px;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer span {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.footer .text::before {
+    content: "Rate your experience";
+}
+
+.footer .numb::before {
+    content: "0 out of 5";
+}
+
+#star-1:checked~.footer .text::before {
+    content: "I just hate it";
+}
+
+#star-1:checked~.footer .numb::before {
+    content: "1 out of 5";
+}
+
+#star-2:checked~.footer .text::before {
+    content: "I don't like it";
+}
+
+#star-2:checked~.footer .numb::before {
+    content: "2 out of 5";
+}
+
+#star-3:checked~.footer .text::before {
+    content: "This is awesome";
+}
+
+#star-3:checked~.footer .numb::before {
+    content: "3 out of 5";
+}
+
+#star-4:checked~.footer .text::before {
+    content: "I just like it";
+}
+
+#star-4:checked~.footer .numb::before {
+    content: "4 out of 5";
+}
+
+#star-5:checked~.footer .text::before {
+    content: "I just love it";
+}
+
+#star-5:checked~.footer .numb::before {
+    content: "5 out of 5";
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.feedback .feedback--content {
+    padding: 10px;
+}
+
+.feedback .feedback--content textarea {
+    width: 100%;
+}
+
+.feedback {
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    transition: top 0s 0.2s ease-in-out, opacity 0.2s 0s ease-in-out, transform 0.2s 0s ease-in-out;
+    transform: scale(1.2);
+    top: 0;
+
+}
+
+.feedback.open {
+    display: flex;
+}
+
+.feedback form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback textarea {
+    padding: 8px;
+    resize: none;
+}
+
+.btn-sent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* CSS */
+.btn-sent .button-29 {
+    align-items: center;
+    appearance: none;
+    background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono", monospace;
+    height: 48px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
+}
+
+.btn-sent .button-29:focus {
+    box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.btn-sent .button-29:hover {
+    box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    transform: translateY(-2px);
+}
+
+.btn-sent .button-29:active {
+    box-shadow: #3c4fe0 0 3px 7px inset;
+    transform: translateY(2px);
+}
+
+.feedback .btn-exit {
+    position: absolute;
+    right: 12px;
+    outline: none;
+    background: none;
+    font-size: 20px;
+    transition: all 0.5s ease-in-out;
+}
+
+.feedback .btn-exit:hover i {
+    color: red;
+}
+
+.bookingHistory .btn-comment {
+    background-color: transparent;
+    height: 50px;
+    width: 50px;
+}
+
+.bookingHistory .btn-comment i {
+    color: rgba(0, 0, 0, 0.665);
+    font-size: 18px;
+    transition: all .5s;
+}
+
+.bookingHistory .btn-comment:hover i {
+    color: #029e74;
+    font-size: 22px;
 }

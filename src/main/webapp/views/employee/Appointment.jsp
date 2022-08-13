@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Appointment</title>
         <!-- TẠO ICON TRÊN THANH WEB -->
-        <link rel="icon" href=".././images/favicon-100x100.png" type="image/png" sizes="200x138" />
+        <link rel="icon" href="${pageContext.request.contextPath}/images/favicon-100x100.png" type="image/png" sizes="200x138" />
         <!-- LINK BOOTSTRAP 5 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- LINK FONTAWESOME -->
@@ -20,10 +20,11 @@
         <!-- UN ICONS -->
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
         <!-- LINK STYLE -->
-        <link rel="stylesheet" href=".././css/Loader.css">
-        <link rel="stylesheet" href=".././css/employee/EmployeeRoot.css">
-        <link rel="stylesheet" href=".././css/employee/NavBar.css">
-        <link rel="stylesheet" href=".././css/employee/Appointment.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Loader.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employee/EmployeeRoot.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employee/NavBar.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employee/NavAppointment.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employee/Appointment.css">
     </head>
     <body>
         <jsp:include page="../../layouts/Loader.html"></jsp:include>
@@ -88,7 +89,7 @@
                                 <p class="mx-auto text-muted mb-0">Great doctor if you need your family member
                                     to get immediate assistance, emergency treatment.</p>
                                 <div class="mt-4">
-                                    <button onclick="AcceptAppointment('${pageContext.request.contextPath}/employee/appointment')" class="btn btn-soft-success">Accept</button>
+                                    <button onclick="AcceptAppointment('${pageContext.request.contextPath}${LINK_PAGING}')" class="btn btn-soft-success">Accept</button>
                                 </div>
                             </div>
                         </div>
@@ -97,6 +98,32 @@
             </div>
         </div>
         <!-- Accept Appointment End -->
+        
+        <!-- Done Appointment Start -->
+        <div class="modal fade" id="doneappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body py-5">
+                        <div class="text-center">
+                            <div class="icon d-flex align-items-center justify-content-center bg-soft-success rounded-circle mx-auto">
+                                <span class="mb-0">
+                                    <i class="uil uil-check-circle"></i>
+                                </span>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="modal-body-title">Done Appointment</h4>
+                                <p class="mx-auto text-muted mb-0">Great doctor if you need your family member
+                                    to get immediate assistance, emergency treatment.</p>
+                                <div class="mt-4">
+                                    <button onclick="DoneAppointment('${pageContext.request.contextPath}${LINK_PAGING}')" class="btn btn-soft-success">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Done Appointment End -->
 
         <!-- Cancel Appointment Start -->
         <div class="modal fade" id="cancelappointment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,7 +141,7 @@
                                 <p class="mx-auto text-muted mb-0">Great doctor if you need your family member
                                     to get immediate assistance, emergency treatment.</p>
                                 <div class="mt-4">
-                                    <button onclick="CancelAppointment('${pageContext.request.contextPath}/employee/appointment')" class="btn btn-soft-danger">Cancel</button>
+                                    <button onclick="CancelAppointment('${pageContext.request.contextPath}${LINK_PAGING}')" class="btn btn-soft-danger">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +157,8 @@
         
         <section class="bg-dashboard">
             <div class="container-fluid">
+                <jsp:include page="../../layouts/employee/NavAppointment.jsp"></jsp:include>
+                
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 mt-12 pt-12 mt-sm-12 pt-sm-12">
                         <div class="row">
@@ -165,28 +194,55 @@
                                                     <td class="p-3">${appointment.hospitalName}</td>
                                                     <td class="p-3">
                                                         <span>
-                                                            <c:forEach items="${appointment.serviceList}" var="service">${service.serviceName} </c:forEach>
+                                                            <c:forEach items="${appointment.serviceList}" var="service">${service.serviceName}, </c:forEach>
                                                         </span>
                                                     </td>
                                                     <td class="p-3">
                                                         <span>
-                                                            <c:forEach items="${appointment.slotList}" var="slot"><fmt:formatDate type="time" value="${slot.slotStart}"/> </c:forEach>
+                                                            <c:forEach items="${appointment.slotList}" var="slot"><fmt:formatDate type="time" value="${slot.slotStart}"/>, </c:forEach>
                                                         </span>
                                                     </td>
                                                     <td class="p-3">${appointment.bookingDate}</td>
-                                                    <td class="p-3">${appointment.bookingStatus == 0 ? "Pending" : (appointment.bookingStatus == 1 ? "Done" : "Cancel")}</td>
+                                                    <c:if test="${appointment.bookingStatus == 0}">
+                                                        <td id="status" class="status">
+                                                            <p class="pending">Pending</p>
+                                                        </td>
+                                                    </c:if>
+                                                    <c:if test="${appointment.bookingStatus == 1}">
+                                                        <td id="status" class="status">
+                                                            <p class="confirm">Confirmed</p>
+                                                        </td>
+                                                    </c:if>
+                                                    <c:if test="${appointment.bookingStatus == 2}">
+                                                        <td id="status" class="status">
+                                                            <p class="cancelled">Cancelled</p>
+                                                        </td>
+                                                    </c:if>
+                                                    <c:if test="${appointment.bookingStatus == 3}">
+                                                        <td id="status" class="status">
+                                                            <p class="completed">Completed</p>
+                                                        </td>
+                                                    </c:if>
                                                     <td class="text-end p-3">
-                                                        <button onclick="ViewAppointment('${appointment.imageAvatar}', '${appointment.fullName}', '${appointment.hospitalName}', '<c:forEach items="${appointment.serviceList}" var="service">${service.serviceName} </c:forEach>', '<c:forEach items="${appointment.slotList}" var="slot"><fmt:formatDate type="time" value="${slot.slotStart}"/> </c:forEach>', '${appointment.bookingDate}');" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewappointment">
-                                                            <i class="uil uil-eye"></i>
-                                                        </button>
                                                         <c:if test="${appointment.bookingStatus == 0}">
                                                             <button onclick="GetAppointmentID('${appointment.bookingID}')" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#acceptappointment">
+                                                                <i class="uil uil-check"></i>
+                                                            </button>
+                                                            <button onclick="GetAppointmentID('${appointment.bookingID}')" class="btn btn-icon btn-pills btn-soft-danger" data-bs-toggle="modal" data-bs-target="#cancelappointment">
+                                                                <i class="uil uil-times-circle"></i>
+                                                            </button>
+                                                        </c:if>
+                                                        <c:if test="${appointment.bookingStatus == 1}">
+                                                            <button onclick="GetAppointmentID('${appointment.bookingID}')" class="btn btn-icon btn-pills btn-soft-success" data-bs-toggle="modal" data-bs-target="#doneappointment">
                                                                 <i class="uil uil-check-circle"></i>
                                                             </button>
                                                             <button onclick="GetAppointmentID('${appointment.bookingID}')" class="btn btn-icon btn-pills btn-soft-danger" data-bs-toggle="modal" data-bs-target="#cancelappointment">
                                                                 <i class="uil uil-times-circle"></i>
                                                             </button>
                                                         </c:if>
+<!--                                                        <button onclick="ViewAppointment('${appointment.imageAvatar}', '${appointment.fullName}', '${appointment.hospitalName}', '<c:forEach items="${appointment.serviceList}" var="service">${service.serviceName} </c:forEach>', '<c:forEach items="${appointment.slotList}" var="slot"><fmt:formatDate type="time" value="${slot.slotStart}"/> </c:forEach>', '${appointment.bookingDate}');" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewappointment">
+                                                            <i class="uil uil-eye"></i>
+                                                        </button>-->
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -203,19 +259,19 @@
                                         <ul>
                                             <c:if test="${CURRENT_PAGE > 1}">
                                                 <li class="pagination-button button-prev">
-                                                    <a href="${pageContext.request.contextPath}/admin/dentist-management?page=${CURRENT_PAGE - 1}">
+                                                    <a href="${pageContext.request.contextPath}${LINK_PAGING}?page=${CURRENT_PAGE - 1}">
                                                         <i class="fas fa-angle-left"></i> Prev
                                                     </a>
                                                 </li>
                                             </c:if>
                                             <c:forEach begin="1" end="${END_PAGE}" var="i">
                                                 <li class="pagination-number ${CURRENT_PAGE == i ? "active" : ""}">
-                                                    <a href="${pageContext.request.contextPath}/admin/dentist-management?page=${i}" class="pagination-link">${i}</a>
+                                                    <a href="${pageContext.request.contextPath}${LINK_PAGING}?page=${i}" class="pagination-link">${i}</a>
                                                 </li>
                                             </c:forEach>
                                             <c:if test="${CURRENT_PAGE < END_PAGE}">
                                                 <li class="pagination-button button-next">
-                                                    <a href="${pageContext.request.contextPath}/admin/dentist-management?page=${CURRENT_PAGE + 1}">
+                                                    <a href="${pageContext.request.contextPath}${LINK_PAGING}?page=${CURRENT_PAGE + 1}">
                                                         Next <i class="fas fa-angle-right"></i>
                                                     </a>
                                                 </li>
@@ -236,8 +292,12 @@
         <!-- LINK J QUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- LINK JAVA SCRIPT -->
-        <script src=".././js/employee/EmployeeRoot.js"></script>
-        <script src=".././js/employee/NavBar.js"></script>
-        <script src=".././js/employee/Appointment.js"></script>
+        <script src="${pageContext.request.contextPath}/js/employee/EmployeeRoot.js"></script>
+        <script src="${pageContext.request.contextPath}/js/employee/NavBar.js"></script>
+        <script src="${pageContext.request.contextPath}/js/employee/NavAppointment.js"></script>
+        <script src="${pageContext.request.contextPath}/js/employee/Appointment.js"></script>
+        <script>
+            setActiveMenuBarHistory();
+        </script>
     </body>
 </html>

@@ -24,10 +24,12 @@ public class AccountFacade extends AbstractAccount<Account> {
     private static final String SQL_ADD_ACCOUNT_EMPLOYEE = "INSERT INTO Account(UserID, FullName, UserPassword, UserEmail, DateOfBirth, UserAddress, UserPhone, Gender, ImageAvatar, UserRole, UserStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_ADD_ACCOUNT_GOOGLE = "INSERT INTO Account(UserID, FullName, UserEmail, ImageAvatar, UserRole, UserStatus) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_USER_STATUS = "UPDATE Account SET UserStatus = ? WHERE UserEmail = ?";
+    private static final String SQL_USER_STATUS_IN_ADMIN = "UPDATE Account SET UserStatus = ? WHERE UserID = ?";
     private static final String SQL_EDIT_PROFILE = "UPDATE Account SET FullName = ?, Gender = ?, DateOfBirth = ?, UserPhone = ?, ImageAvatar = ?, UserAddress = ? WHERE UserEmail = ?";
     private static final String SQL_EDIT_PROFILE_EMPLOYEE = "UPDATE Account SET FullName = ?, UserEmail = ?, DateOfBirth = ?, UserAddress = ?, UserPhone = ?, Gender = ?, ImageAvatar = ? WHERE UserID = ?";
     private static final String SQL_CHANGE_PASSWORD = "UPDATE Account SET UserPassword = ? WHERE UserEmail = ?";
-    private static final String SQL_GET_TOTAL_ACCOUNT = "SELECT COUNT(*) FROM Account WHERE UserRole = ?";
+    private static final String SQL_GET_TOTAL_ACCOUNT_WITH_ROLE = "SELECT COUNT(*) FROM Account WHERE UserRole = ?";
+    private static final String SQL_GET_TOTAL_ACCOUNT = "SELECT COUNT(*) FROM Account";
     private static final String SQL_SEARCH_ACCOUNT_BY_NAME = "SELECT * FROM Account WHERE FullName LIKE ?";
 
     private Account getInfoAccountFromSQL(ResultSet resultSet) throws SQLException {
@@ -88,6 +90,11 @@ public class AccountFacade extends AbstractAccount<Account> {
                         preparedStatement = connection.prepareStatement(SQL_USER_STATUS);
                         preparedStatement.setInt(1, account.getUserStatus());
                         preparedStatement.setString(2, account.getUserEmail());
+                        break;
+                    case "EditStatusInAdmin":
+                        preparedStatement = connection.prepareStatement(SQL_USER_STATUS_IN_ADMIN);
+                        preparedStatement.setInt(1, account.getUserStatus());
+                        preparedStatement.setString(2, account.getUserID());
                         break;
                     case "EditProfile":
                         preparedStatement = connection.prepareStatement(SQL_EDIT_PROFILE);
@@ -208,11 +215,19 @@ public class AccountFacade extends AbstractAccount<Account> {
     }
 
     @Override
-    protected int countAccount(Connection connection, Object role) throws SQLException {
+    protected int countAccount(Connection connection, Object role, Object action) throws SQLException {
         try {
             if (connection != null) {
-                preparedStatement = connection.prepareStatement(SQL_GET_TOTAL_ACCOUNT);
-                preparedStatement.setString(1, role.toString());
+                switch (action.toString()) {
+                    case "GetTotalAccountWithRole":
+                        preparedStatement = connection.prepareStatement(SQL_GET_TOTAL_ACCOUNT_WITH_ROLE);
+                        preparedStatement.setString(1, role.toString());
+                        break;
+                    case "GetTotalAccount":
+                        preparedStatement = connection.prepareStatement(SQL_GET_TOTAL_ACCOUNT);
+                        break;
+                }
+
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     return resultSet.getInt(1);

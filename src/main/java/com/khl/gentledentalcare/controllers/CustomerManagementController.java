@@ -4,6 +4,8 @@ import com.khl.gentledentalcare.dbo.AccountFacade;
 import com.khl.gentledentalcare.models.Account;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,7 +26,7 @@ public class CustomerManagementController extends HttpServlet {
 
         try {
             String indexPage = request.getParameter("page");
-            String userID = request.getParameter("userID");
+            String userID = request.getParameter("UserID");
 
             Account account = new Account();
             AccountFacade accountFacade = new AccountFacade();
@@ -44,10 +46,10 @@ public class CustomerManagementController extends HttpServlet {
                 } else if (actionButton.equals("Disabled")) {
                     account.setUserStatus(2);
                 }
-                
-                accountFacade.updateAccount(account, "EditStatus");
+
+                accountFacade.updateAccount(account, "EditStatusInAdmin");
             } else {
-                int countAccount = accountFacade.countAccount("0");
+                int countAccount = accountFacade.countAccount("0", "GetTotalAccountWithRole");
                 int endPage = countAccount / 5;
                 if (countAccount % 5 != 0) {
                     endPage++;
@@ -57,6 +59,12 @@ public class CustomerManagementController extends HttpServlet {
                 if (accountList.isEmpty()) {
                     request.setAttribute(ACCOUNT_LIST, null);
                 } else {
+                    Collections.sort(accountList, new Comparator<Account>() {
+                        @Override
+                        public int compare(Account account1, Account account2) {
+                            return account1.getFullName().compareTo(account2.getFullName());
+                        }
+                    });
                     JSONArray jsArray = new JSONArray(accountList);
                     request.setAttribute(ACCOUNT_LIST, jsArray.toString());
                 }

@@ -65,8 +65,8 @@
                             <td>{{service.serviceStatus == 0 ? "Not disabled" : "Disabled"}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <a href="${pageContext.request.contextPath}/admin/edit-service?sid={{service.serviceID}}" class="users-control btn btn-primary">Edit</a>
-                                    <button ng-click="disable(service.serviceID, service.serviceStatus === 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{service.serviceStatus == 0 ? "Disable" : "UnDisable"}}</button>
+                                    <a href="${pageContext.request.contextPath}/admin/edit-service?sid={{service.serviceID}}" ng-hide="{{service.serviceStatus === 1}}" class="users-control btn btn-primary">Edit</a>
+                                    <button ng-click="disable(service.serviceID, service.serviceStatus === 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{service.serviceStatus == 0 ? "Disable" : "Enable"}}</button>
                                 </div>
                             </td>
                         </tr>

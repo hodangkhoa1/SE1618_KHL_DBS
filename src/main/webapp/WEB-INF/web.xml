@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>SecurityFilterUser</filter-name>
+        <filter-class>com.khl.gentledentalcare.filters.SecurityFilterUser</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilterUser</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SecurityFilterAdmin</filter-name>
+        <filter-class>com.khl.gentledentalcare.filters.SecurityFilterAdmin</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilterAdmin</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SecurityFilterDentist</filter-name>
+        <filter-class>com.khl.gentledentalcare.filters.SecurityFilterEmployee</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilterDentist</filter-name>
+        <url-pattern>/employee/*</url-pattern>
+    </filter-mapping>
     <session-config>
         <session-timeout>
             30
@@ -145,12 +169,44 @@
         <url-pattern>/booking</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>HistoryBookingController</servlet-name>
+        <servlet-name>HistoryAllController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HistoryBookingController</servlet-name>
+        <servlet-name>HistoryAllController</servlet-name>
+        <url-pattern>/history-booking-all</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HistoryController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryController</servlet-name>
         <url-pattern>/history-booking</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HistoryConfirmedController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryConfirmedController</servlet-name>
+        <url-pattern>/history-booking-confirmed</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HistoryCompletedController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryCompletedController</servlet-name>
+        <url-pattern>/history-booking-completed</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HistoryCancelledController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.HistoryBookingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryCancelledController</servlet-name>
+        <url-pattern>/history-booking-cancelled</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>FAQController</servlet-name>
@@ -313,11 +369,67 @@
         <url-pattern>/admin/edit-employee</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>AppointmentController</servlet-name>
+        <servlet-name>AppointmentAllController</servlet-name>
         <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AppointmentController</servlet-name>
-        <url-pattern>/employee/appointment</url-pattern>
+        <servlet-name>AppointmentAllController</servlet-name>
+        <url-pattern>/employee/appointment/all</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AppointmentPendingController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppointmentPendingController</servlet-name>
+        <url-pattern>/employee/appointment/pending</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AppointmentConfirmController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppointmentConfirmController</servlet-name>
+        <url-pattern>/employee/appointment/confirm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AppointmentCompletedController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppointmentCompletedController</servlet-name>
+        <url-pattern>/employee/appointment/completed</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AppointmentCancelController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.AppointmentController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppointmentCancelController</servlet-name>
+        <url-pattern>/employee/appointment/cancel</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>InfoProfileEmployeeController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.InfoProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InfoProfileEmployeeController</servlet-name>
+        <url-pattern>/employee/info-profile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordEmployeeController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.ChangePasswordController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordEmployeeController</servlet-name>
+        <url-pattern>/employee/change-password</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>com.khl.gentledentalcare.controllers.FeedbackController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/employee/feedback</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -65,7 +65,8 @@
                             <td>{{hospital.hospitalAddress}}</td>
                             <td>
                                 <div class="table-action-button">
-                                    <button type="button" class="users-control btn btn-danger">{{hospital.hospitalStatus == 0 ? "Disable" : "UnDisabled"}}</button>
+                                    <a href="${pageContext.request.contextPath}/admin/edit-hospital?hid={{hospital.hospitalID}}" ng-hide="{{hospital.hospitalStatus === 1}}" class="users-control btn btn-primary">Edit</a>
+                                    <button ng-click="disable(hospital.hospitalID, hospital.hospitalStatus == 0 ? 'Disable' : 'UnDisable')" type="button" class="users-control btn btn-danger">{{hospital.hospitalStatus == 0 ? "Disable" : "Enable"}}</button>
                                 </div>
                             </td>
                         </tr>
@@ -110,13 +111,15 @@
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <!-- LINK Sweet Alert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- LINK SCRIPT -->
         <script src=".././js/admin/AdminRoot.js"></script>
         <script src=".././js/admin/NavBar.js"></script>
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/HospitalManagement.js"></script>
         <script>
-            ManageHospitalAPI(${HOSPITAL_LIST});
+            ManageHospitalAPI("${pageContext.request.contextPath}/admin/hospital-management", ${HOSPITAL_LIST});
             activeSidebarLink();
         </script>
     </body>

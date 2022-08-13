@@ -46,8 +46,8 @@
                             </div>
                             <i class='bx bx-trending-up icon'></i>
                         </div>
-                        <span class="progress" data-value="40%"></span>
-                        <span class="label">40%</span>
+                        <span class="progress" data-value="${TOTAL_VIEWER != null ? TOTAL_VIEWER : 0}%"></span>
+                        <span class="label">${TOTAL_VIEWER != null ? TOTAL_VIEWER : 0}</span>
                     </div>
                     <div class="card">
                         <div class="head">
@@ -57,19 +57,8 @@
                             </div>
                             <i class='bx bx-trending-down icon down'></i>
                         </div>
-                        <span class="progress" data-value="60%"></span>
-                        <span class="label">60%</span>
-                    </div>
-                    <div class="card">
-                        <div class="head">
-                            <div>
-                                <h2>${TOTAL_SERVICE != null ? TOTAL_SERVICE : 0}</h2>
-                                <p>Service</p>
-                            </div>
-                            <i class='bx bx-trending-up icon'></i>
-                        </div>
-                        <span class="progress" data-value="30%"></span>
-                        <span class="label">30%</span>
+                        <span class="progress" data-value="${TOTAL_BOOKING != null ? TOTAL_BOOKING : 0}%"></span>
+                        <span class="label">${TOTAL_BOOKING != null ? TOTAL_BOOKING : 0}</span>
                     </div>
                     <div class="card">
                         <div class="head">
@@ -79,18 +68,24 @@
                             </div>
                             <i class='bx bx-trending-up icon'></i>
                         </div>
-                        <span class="progress" data-value="80%"></span>
-                        <span class="label">80%</span>
+                        <span class="progress" data-value="${TOTAL_FEEDBACK != null ? TOTAL_FEEDBACK : 0}%"></span>
+                        <span class="label">${TOTAL_FEEDBACK != null ? TOTAL_FEEDBACK : 0}</span>
+                    </div>
+                    <div class="card">
+                        <div class="head">
+                            <div>
+                                <h2>${TOTAL_ACCOUNT != null ? TOTAL_ACCOUNT : 0}</h2>
+                                <p>Customer</p>
+                            </div>
+                            <i class='bx bx-trending-up icon'></i>
+                        </div>
+                        <span class="progress" data-value="${TOTAL_ACCOUNT != null ? TOTAL_ACCOUNT : 0}%"></span>
+                        <span class="label">${TOTAL_ACCOUNT != null ? TOTAL_ACCOUNT : 0}</span>
                     </div>
                 </div>
-                <div class="data">
-                    <div class="content-data">
-                        <div class="head">
-                            <h3>Customer Report</h3>
-                        </div>
-                        <div class="chart">
-                            <div id="chart"></div>
-                        </div>
+                <div class="graph-chart mt-5">
+                    <div class="chart-box">
+                        <canvas id="ChartCustomer"></canvas>
                     </div>
                 </div>
             </main>
@@ -99,8 +94,8 @@
             <jsp:include page="../../layouts/admin/FooterPage.jsp"></jsp:include>
         </section>
                 
-        <!-- LINK Chart -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <!-- Chart -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <!-- LINK BOOTSTRAP 5 -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
@@ -108,5 +103,41 @@
         <script src=".././js/admin/DashBoard.js"></script>
         <script src=".././js/admin/NavBar.js"></script>
         <script src=".././js/admin/SideBar.js"></script>
+        <script>
+            const chartCustomer = document.getElementById("ChartCustomer").getContext("2d");
+            const MONTHS = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+
+            var myChart = new Chart(chartCustomer, {
+                type: "line",
+                data: {
+                    labels: MONTHS,
+                    datasets: [
+                        {
+                            label: "Customers",
+                            data: ${STATISTIC_BOOKING},
+                            fill: false,
+                            borderColor: "rgb(75, 192, 192)",
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    response: true
+                }
+            });
+        </script>
     </body>
 </html>

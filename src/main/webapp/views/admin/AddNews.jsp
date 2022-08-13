@@ -48,7 +48,7 @@
                 <ul class="breadcrumbs">
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Gentle Dental Care</a></li>
                     <li class="divider">/</li>
-                    <li><a href="${pageContext.request.contextPath}/admin/add-service" class="active">${BUTTON_ACTION}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/add-news" class="active">${BUTTON_ACTION}</a></li>
                 </ul>
 
                 <div class="form_wrapper">
@@ -81,7 +81,7 @@
                                         <div class="image-input">
                                             <input type="file" accept="image/*" id="imageInput">
                                             <img src="<%=concatStringImage%>" class="image-preview image-edit">
-                                            <input type="hidden" class="image-hidden" name="${IMAGE_NEWS != null ? "newsImage" : ""}" value="<%=concatStringImage%>">
+                                            <input type="hidden" class="image-hidden" name="newsImage" value="<%=concatStringImage%>">
                                             <label for="imageInput" class="image-button add-button">
                                                 <i class="fa-solid fa-image"></i>News Picture
                                             </label>

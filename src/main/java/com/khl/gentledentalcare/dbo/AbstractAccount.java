@@ -25,7 +25,7 @@ public abstract class AbstractAccount<T> {
 
     protected abstract T checkAccount(Connection connection, T account, Object action) throws SQLException;
 
-    protected abstract int countAccount(Connection connection, Object role) throws SQLException;
+    protected abstract int countAccount(Connection connection, Object role, Object action) throws SQLException;
 
     /**
      * *
@@ -140,15 +140,16 @@ public abstract class AbstractAccount<T> {
      * Count how many accounts in the list
      *
      * @param role
+     * @param action
      * @return
      * @throws SQLException
      */
-    public int countAccount(Object role) throws SQLException {
+    public int countAccount(Object role, Object action) throws SQLException {
         int check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = countAccount(connection, role);
+            check = countAccount(connection, role, action);
         } finally {
             connection.close();
         }

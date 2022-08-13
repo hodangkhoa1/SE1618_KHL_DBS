@@ -3,18 +3,27 @@ package com.khl.gentledentalcare.controllers;
 import com.khl.gentledentalcare.dbo.AccountFacade;
 import com.khl.gentledentalcare.dbo.BookingFacade;
 import com.khl.gentledentalcare.dbo.BookingServiceFacade;
+import com.khl.gentledentalcare.dbo.FeedBackFacade;
 import com.khl.gentledentalcare.dbo.ServiceFacade;
+import com.khl.gentledentalcare.dbo.ServiceSlotFacade;
+import com.khl.gentledentalcare.dbo.SlotFacade;
 import com.khl.gentledentalcare.models.Account;
 import com.khl.gentledentalcare.models.Booking;
 import com.khl.gentledentalcare.models.BookingService;
+import com.khl.gentledentalcare.models.FeedBack;
 import com.khl.gentledentalcare.models.HistoryBooking;
+import com.khl.gentledentalcare.models.ServiceSlot;
 import com.khl.gentledentalcare.models.Services;
+import com.khl.gentledentalcare.models.Slot;
+import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,34 +34,44 @@ import javax.servlet.http.HttpSession;
 
 public class HistoryBookingController extends HttpServlet {
 
-    private static final String HISTORY_BOOKING_LIST = "HISTORY_BOOKING_LIST";
-    private static final String TOTAL_HISTORY_BOOKING = "TOTAL_HISTORY_BOOKING";
+    private static final String BOOKING_LIST = "BOOKING_LIST";
+    private static final String TOTAL_BOOKING_LIST = "TOTAL_BOOKING_LIST";
+    private static final String COUNT_ALL_BOOKING = "COUNT_ALL_BOOKING";
+    private static final String COUNT_PROCESS_BOOKING = "COUNT_PROCESS_BOOKING";
+    private static final String COUNT_COMPLETED_BOOKING = "COUNT_COMPLETED_BOOKING";
+    private static final String COUNT_CONFIRMED_BOOKING = "COUNT_CONFIRMED_BOOKING";
+    private static final String COUNT_CANCEL_BOOKING = "COUNT_CANCEL_BOOKING";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private static final String FEEDBACK = "FEEDBACK";
+    private static final String LOGIN_USER = "LOGIN_USER";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
-            String bookingAmount = request.getParameter("BookingAmount");
-            String userID = "", fullName = "", phoneNumber = "", address = "", bookingID;
-            int bookingStatus;
-            Date bookingDate = null;
+            String urlServlet = request.getServletPath();
+            String userID = "", fullName = "", phoneNumber = "", address = "";
 
             HttpSession session = request.getSession();
-            Account getAccount = (Account) session.getAttribute("LOGIN_USER");
-
             PrintWriter printWriter = response.getWriter();
+            Account getAccount = (Account) session.getAttribute(LOGIN_USER);
+
             AccountFacade accountFacade = new AccountFacade();
             BookingFacade bookingFacade = new BookingFacade();
             BookingServiceFacade bookingServiceFacade = new BookingServiceFacade();
             ServiceFacade serviceFacade = new ServiceFacade();
+            SlotFacade slotFacade = new SlotFacade();
+            ServiceSlotFacade serviceSlotFacade = new ServiceSlotFacade();
+            Booking booking = new Booking();
+            FeedBackFacade feedBackFacade = new FeedBackFacade();
+
+            List<HistoryBooking> historyBookingList = new ArrayList<>();
+            List<Booking> bookingList;
+
             HistoryBooking historyBooking;
             BookingService bookingService;
-            Booking booking = new Booking();
-            booking.setUserID(getAccount.getUserID());
 
-            List<Booking> bookingList;
-            List<HistoryBooking> historyBookingList = new ArrayList<>();
+            booking.setUserID(getAccount.getUserID());
 
             Account account = accountFacade.checkAccount(getAccount, "GetAccountEmployee");
             if (account != null) {
@@ -62,60 +81,211 @@ public class HistoryBookingController extends HttpServlet {
                 address = account.getUserAddress();
             }
 
-            if (bookingAmount != null) {
-                int bookingAmountInt = Integer.parseInt(bookingAmount);
+            if (urlServlet.equals("/history-booking-all")) {
+                String bookingAmount = request.getParameter("BookingAmount");
+                String getBookingID = request.getParameter("BookingID");
+                String getUserID = request.getParameter("PatientID");
 
-                bookingList = bookingFacade.getAllBooking("GetNext5BookingWithUser", bookingAmountInt, booking);
+                if (bookingAmount != null) {
+                    int bookingAmountInt = Integer.parseInt(bookingAmount);
 
-                for (int i = 0; i < bookingList.size(); i++) {
-                    bookingID = bookingList.get(i).getBookingID();
-                    bookingStatus = bookingList.get(i).getBookingStatus();
+                    bookingList = bookingFacade.getAllBooking("GetNext5BookingWithUser", bookingAmountInt, booking);
 
-                    bookingService = new BookingService(null, null, bookingList.get(i).getBookingID(), null, null);
-
-                    List<BookingService> bookingServiceList = bookingServiceFacade.getAllBookingService(bookingService, "GetBookingServiceWithID");
-                    List<Services> servicesList = new ArrayList<>();
-                    
-                    for (BookingService getBookingService : bookingServiceList) {
-                        bookingDate = getBookingService.getBookingDate();
-                        servicesList.add(serviceFacade.getServicesDetail(getBookingService.getServiceID()));
-                    }
-                    
-                    historyBooking = new HistoryBooking(bookingID, userID, fullName, phoneNumber, address, servicesList, bookingStatus, bookingDate);
-                    historyBookingList.add(historyBooking);
-                }
-                
-                returnPrintWriter(historyBookingList, printWriter, request);
-            } else {
-                bookingList = bookingFacade.getAllBooking("GetTop5BookingWithUser", null, booking);
-
-                if (bookingList.isEmpty()) {
-                    request.setAttribute(HISTORY_BOOKING_LIST, null);
-                } else {
                     for (int i = 0; i < bookingList.size(); i++) {
-                        bookingID = bookingList.get(i).getBookingID();
-                        bookingStatus = bookingList.get(i).getBookingStatus();
-
                         bookingService = new BookingService(null, null, bookingList.get(i).getBookingID(), null, null);
 
                         List<BookingService> bookingServiceList = bookingServiceFacade.getAllBookingService(bookingService, "GetBookingServiceWithID");
                         List<Services> servicesList = new ArrayList<>();
-                        
+                        List<Slot> slotList = new ArrayList<>();
+                        List<Date> dateList = new ArrayList<>();
+
                         for (BookingService getBookingService : bookingServiceList) {
-                            bookingDate = getBookingService.getBookingDate();
+                            dateList.add(getBookingService.getBookingDate());
                             servicesList.add(serviceFacade.getServicesDetail(getBookingService.getServiceID()));
+
+                            ServiceSlot serviceSlot = serviceSlotFacade.getServiceSlot(getBookingService.getSlotServiceID(), "GetServiceSlotWithId");
+                            slotList.add(slotFacade.getSlot(serviceSlot.getSlotID(), "GetSlotWithID"));
                         }
-                        
-                        historyBooking = new HistoryBooking(bookingID, userID, fullName, phoneNumber, address, servicesList, bookingStatus, bookingDate);
+
+                        historyBooking = new HistoryBooking(bookingList.get(i).getBookingID(), userID, fullName, phoneNumber, address, bookingList.get(i).getBookingNote(), servicesList, slotList, dateList, bookingList.get(i).getBookingStatus(), bookingList.get(i).getBookingCreated());
                         historyBookingList.add(historyBooking);
                     }
 
-                    request.setAttribute(TOTAL_HISTORY_BOOKING, bookingFacade.countBooking(userID, "CountBookingWithUserID"));
-                    request.setAttribute(HISTORY_BOOKING_LIST, historyBookingList);
+                    if (!historyBookingList.isEmpty()) {
+                        returnPrintWriter(historyBookingList, printWriter, request);
+                    }
+                } else if (getBookingID != null && getUserID != null) {
+                    Booking updateBooking = new Booking();
+                    updateBooking.setBookingID(getBookingID);
+                    updateBooking.setUserID(getUserID);
+                    updateBooking.setBookingStatus(2);
+
+                    bookingFacade.updateBooking(updateBooking, "UpdateStatusInUser");
+                } else {
+                    bookingList = bookingFacade.getAllBooking("GetTop5BookingWithUser", null, booking);
+
+                    if (bookingList.isEmpty()) {
+                        request.setAttribute(BOOKING_LIST, null);
+                    } else {
+                        for (int i = 0; i < bookingList.size(); i++) {
+                            bookingService = new BookingService(null, null, bookingList.get(i).getBookingID(), null, null);
+
+                            List<BookingService> bookingServiceList = bookingServiceFacade.getAllBookingService(bookingService, "GetBookingServiceWithID");
+                            List<Services> servicesList = new ArrayList<>();
+                            List<Slot> slotList = new ArrayList<>();
+                            List<Date> dateList = new ArrayList<>();
+
+                            for (BookingService getBookingService : bookingServiceList) {
+                                dateList.add(getBookingService.getBookingDate());
+                                servicesList.add(serviceFacade.getServicesDetail(getBookingService.getServiceID()));
+
+                                ServiceSlot serviceSlot = serviceSlotFacade.getServiceSlot(getBookingService.getSlotServiceID(), "GetServiceSlotWithId");
+                                slotList.add(slotFacade.getSlot(serviceSlot.getSlotID(), "GetSlotWithID"));
+                            }
+
+                            historyBooking = new HistoryBooking(bookingList.get(i).getBookingID(), userID, fullName, phoneNumber, address, bookingList.get(i).getBookingNote(), servicesList, slotList, dateList, bookingList.get(i).getBookingStatus(), bookingList.get(i).getBookingCreated());
+                            historyBookingList.add(historyBooking);
+                        }
+
+                        Collections.sort(historyBookingList, new Comparator<HistoryBooking>() {
+                            @Override
+                            public int compare(HistoryBooking historyBooking1, HistoryBooking historyBooking2) {
+                                return historyBooking1.getBookingCreated().compareTo(historyBooking2.getBookingCreated());
+                            }
+                        });
+                        request.setAttribute(BOOKING_LIST, historyBookingList);
+                    }
+
+                    request.setAttribute(COUNT_ALL_BOOKING, bookingFacade.countBooking(null, "CountBookingWithUserID", booking.getUserID()));
+                    request.setAttribute(COUNT_PROCESS_BOOKING, bookingFacade.countBooking("0", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_CONFIRMED_BOOKING, bookingFacade.countBooking("1", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_CANCEL_BOOKING, bookingFacade.countBooking("2", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_COMPLETED_BOOKING, bookingFacade.countBooking("3", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(TOTAL_BOOKING_LIST, bookingFacade.countBooking(null, "CountBookingWithUserID", booking.getUserID()));
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/HistoryBooking.jsp");
+                    requestDispatcher.forward(request, response);
+                }
+            } else {
+                switch (urlServlet) {
+                    case "/history-booking":
+                        booking.setBookingStatus(0);
+                        break;
+                    case "/history-booking-confirmed":
+                        booking.setBookingStatus(1);
+                        break;
+                    case "/history-booking-cancelled":
+                        booking.setBookingStatus(2);
+                        break;
+                    case "/history-booking-completed":
+                        String getServiceID = request.getParameter("ServiceID");
+                        String getUserID = request.getParameter("UserID");
+                        String getValueRate = request.getParameter("ValueRate");
+                        String getFeedbackContent = request.getParameter("FeedbackContent");
+
+                        if (getServiceID != null && getUserID != null && getValueRate != null && getFeedbackContent != null) {
+                            String feedbackID = FunctionRandom.randomID(10);
+
+                            FeedBack feedBack = new FeedBack();
+
+                            feedBack.setFeedBackID(feedbackID);
+                            feedBack.setBookingID(getServiceID);
+                            feedBack.setUserID(getUserID);
+                            feedBack.setFeedBackContent(getFeedbackContent);
+                            feedBack.setNumberRating(Integer.parseInt(getValueRate));
+
+                            feedBackFacade.addFeedBack(feedBack);
+                            request.getSession().removeAttribute(FEEDBACK);
+                        } else {
+                            booking.setBookingStatus(3);
+                        }
+                        break;
                 }
 
-                RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/HistoryBooking.jsp");
-                requestDispatcher.forward(request, response);
+                String bookingAmount = request.getParameter("BookingAmount");
+                String getBookingID = request.getParameter("BookingID");
+                String getUserID = request.getParameter("UserID");
+
+                if (bookingAmount != null) {
+                    int bookingAmountInt = Integer.parseInt(bookingAmount);
+
+                    bookingList = bookingFacade.getAllBooking("GetNext5BookingWithStatus", bookingAmountInt, booking);
+
+                    for (int i = 0; i < bookingList.size(); i++) {
+                        bookingService = new BookingService(null, null, bookingList.get(i).getBookingID(), null, null);
+
+                        List<BookingService> bookingServiceList = bookingServiceFacade.getAllBookingService(bookingService, "GetBookingServiceWithID");
+                        List<Services> servicesList = new ArrayList<>();
+                        List<Slot> slotList = new ArrayList<>();
+                        List<Date> dateList = new ArrayList<>();
+
+                        for (BookingService getBookingService : bookingServiceList) {
+                            dateList.add(getBookingService.getBookingDate());
+                            servicesList.add(serviceFacade.getServicesDetail(getBookingService.getServiceID()));
+
+                            ServiceSlot serviceSlot = serviceSlotFacade.getServiceSlot(getBookingService.getSlotServiceID(), "GetServiceSlotWithId");
+                            slotList.add(slotFacade.getSlot(serviceSlot.getSlotID(), "GetSlotWithID"));
+                        }
+
+                        historyBooking = new HistoryBooking(bookingList.get(i).getBookingID(), userID, fullName, phoneNumber, address, bookingList.get(i).getBookingNote(), servicesList, slotList, dateList, bookingList.get(i).getBookingStatus(), bookingList.get(i).getBookingCreated());
+                        historyBookingList.add(historyBooking);
+                    }
+
+                    if (!historyBookingList.isEmpty()) {
+                        returnPrintWriter(historyBookingList, printWriter, request);
+                    }
+                } else if (getBookingID != null && getUserID != null) {
+                    Booking updateBooking = new Booking();
+                    updateBooking.setBookingID(getBookingID);
+                    updateBooking.setUserID(getUserID);
+                    updateBooking.setBookingStatus(2);
+
+                    bookingFacade.updateBooking(updateBooking, "UpdateStatusInUser");
+                } else {
+                    bookingList = bookingFacade.getAllBooking("GetTop5BookingWithStatus", null, booking);
+
+                    if (bookingList.isEmpty()) {
+                        request.setAttribute(BOOKING_LIST, null);
+                    } else {
+                        for (int i = 0; i < bookingList.size(); i++) {
+                            bookingService = new BookingService(null, null, bookingList.get(i).getBookingID(), null, null);
+
+                            List<BookingService> bookingServiceList = bookingServiceFacade.getAllBookingService(bookingService, "GetBookingServiceWithID");
+                            List<Services> servicesList = new ArrayList<>();
+                            List<Slot> slotList = new ArrayList<>();
+                            List<Date> dateList = new ArrayList<>();
+
+                            for (BookingService getBookingService : bookingServiceList) {
+                                dateList.add(getBookingService.getBookingDate());
+                                servicesList.add(serviceFacade.getServicesDetail(getBookingService.getServiceID()));
+
+                                ServiceSlot serviceSlot = serviceSlotFacade.getServiceSlot(getBookingService.getSlotServiceID(), "GetServiceSlotWithId");
+                                slotList.add(slotFacade.getSlot(serviceSlot.getSlotID(), "GetSlotWithID"));
+                            }
+
+                            if (bookingList.get(i).getBookingStatus() == 3) {
+                                if (feedBackFacade.getFeedBack(bookingList.get(i).getBookingID(), bookingList.get(i).getUserID()) == null) {
+                                    request.setAttribute(FEEDBACK, bookingList.get(i).getBookingID());
+                                }
+                            }
+
+                            historyBooking = new HistoryBooking(bookingList.get(i).getBookingID(), userID, fullName, phoneNumber, address, bookingList.get(i).getBookingNote(), servicesList, slotList, dateList, bookingList.get(i).getBookingStatus(), bookingList.get(i).getBookingCreated());
+                            historyBookingList.add(historyBooking);
+                        }
+
+                        request.setAttribute(BOOKING_LIST, historyBookingList);
+                    }
+
+                    request.setAttribute(COUNT_ALL_BOOKING, bookingFacade.countBooking(null, "CountBookingWithUserID", booking.getUserID()));
+                    request.setAttribute(COUNT_PROCESS_BOOKING, bookingFacade.countBooking("0", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_CONFIRMED_BOOKING, bookingFacade.countBooking("1", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_CANCEL_BOOKING, bookingFacade.countBooking("2", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(COUNT_COMPLETED_BOOKING, bookingFacade.countBooking("3", "CountBookingWithStatus", booking.getUserID()));
+                    request.setAttribute(TOTAL_BOOKING_LIST, bookingFacade.countBooking(null, "CountBookingWithUserID", booking.getUserID()));
+
+                    RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/HistoryBooking.jsp");
+                    requestDispatcher.forward(request, response);
+                }
             }
 
         } catch (IOException | SQLException | ServletException e) {
@@ -130,7 +300,7 @@ public class HistoryBookingController extends HttpServlet {
                     + "                        <div class=\"top--content\">\n"
                     + "                            <p>Booking ID: <span class=\"maId\">" + historyBooking.getBookingID() + "</span></p>\n"
                     + "                            <p>|</p>\n"
-                    + "                            <p>Book Date: <span>" + simpleDateFormat.format(historyBooking.getBookingDate()) + "</span></p>\n"
+                    + "                            <p>Book Create: <span>" + simpleDateFormat.format(historyBooking.getBookingCreated()) + "</span></p>\n"
                     + "                        </div>\n"
                     + "                        " + returnButton(historyBooking, request) + "\n"
                     + "                    </div>\n"
@@ -145,6 +315,8 @@ public class HistoryBookingController extends HttpServlet {
                     + "                            <p>Phone Number: <span>" + historyBooking.getPhoneNumber() + "</span></p>\n"
                     + "                            <p>Address: <span>" + historyBooking.getAddress() + "</span></p>\n"
                     + "                            <p>Service: <span>" + returnNameService(historyBooking.getServiceList()) + "</span></p>\n"
+                    + "                            <p>Slot: <span>" + returnSlotTime(historyBooking.getSlotList()) + "</span></p>\n"
+                    + "                            <p>Date: <span>" + returnBookingDate(historyBooking.getBookingDateList()) + "</span></p>\n"
                     + "                        </div>\n"
                     + "                        <div class=\"status--cover\">\n"
                     + "                            " + returnStatus(historyBooking.getBookingStatus()) + ""
@@ -169,6 +341,26 @@ public class HistoryBookingController extends HttpServlet {
 
         for (Services services : serviceList) {
             stringTMP = services.getServiceName();
+        }
+
+        return stringTMP;
+    }
+
+    private String returnSlotTime(List<Slot> slotList) {
+        String stringTMP = "";
+
+        for (Slot slot : slotList) {
+            stringTMP = slot.getSlotStart().toString();
+        }
+
+        return stringTMP;
+    }
+
+    private String returnBookingDate(List<Date> dateList) {
+        String stringTMP = "";
+
+        for (Date date : dateList) {
+            stringTMP = simpleDateFormat.format(date);
         }
 
         return stringTMP;

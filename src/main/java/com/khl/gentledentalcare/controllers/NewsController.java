@@ -3,10 +3,13 @@ package com.khl.gentledentalcare.controllers;
 import com.khl.gentledentalcare.dbo.NewsFacade;
 import com.khl.gentledentalcare.models.News;
 import com.khl.gentledentalcare.models.NewsError;
+import com.khl.gentledentalcare.models.Services;
 import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,6 +34,7 @@ public class NewsController extends HttpServlet {
     private static final String DETAIL_NEWS = "DETAIL_NEWS";
     private static final String NEWS_ERROR = "NEWS_ERROR";
     private static final String SEARCH = "SEARCH";
+    private static final String SEARCH_LIST = "SEARCH_LIST";
     private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
     private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
 
@@ -40,12 +44,12 @@ public class NewsController extends HttpServlet {
         } else {
             for (News news : newsList) {
                 printWriter.println("<div class=\"col-sm-4 mb-5 mb-sm-2 news-amount\">\n"
-                        + "                                        <a href=\"\" class=\"popular-news-link\">\n"
+                        + "                                        <a href=\"" + request.getContextPath() + "/news-detail?nid=" + news.getNewsID() + "\" class=\"popular-news-link\">\n"
                         + "                                            <div class=\"position-relative image-hover\">\n"
-                        + "                                                <img src=\"data:image/png;base64,${news.imageNews}\" class=\"img-fluid\" alt=\"${news.nameOfNews}\"/>\n"
+                        + "                                                <img src=\"data:image/png;base64," + news.getImageNews() + "\" class=\"img-fluid\" alt=\"" + news.getNameOfNews() + "\"/>\n"
                         + "                                                <span class=\"thumb-title\">NEWS</span>\n"
                         + "                                            </div>\n"
-                        + "                                            <h5 class=\"font-weight-600 my-3\">${news.nameOfNews}</h5>\n"
+                        + "                                            <h5 class=\"font-weight-600 my-3\">" + news.getNameOfNews() + "</h5>\n"
                         + "                                        </a>\n"
                         + "                                    </div>");
             }
@@ -87,6 +91,7 @@ public class NewsController extends HttpServlet {
                     request.setAttribute(NEWS_LATEST_LIST, newsLatestList);
                     request.setAttribute(NEWS_LIST, newsList);
                     request.setAttribute(NOT_EMPTY, NOT_EMPTY);
+                    request.setAttribute(SEARCH_LIST, SEARCH_LIST);
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/user/News.jsp");
                     requestDispatcher.forward(request, response);
@@ -130,7 +135,7 @@ public class NewsController extends HttpServlet {
                     News news = new News();
                     news.setNewsID(newsID);
 
-                    if (actionButton.equals("EditStatus")) {
+                    if (actionButton.equals("Disable")) {
                         news.setStatusNews(1);
                     } else {
                         news.setStatusNews(0);
@@ -148,6 +153,12 @@ public class NewsController extends HttpServlet {
                     if (newsList.isEmpty()) {
                         request.setAttribute(NEWS_LIST, null);
                     } else {
+                        Collections.sort(newsList, new Comparator<News>() {
+                            @Override
+                            public int compare(News news1, News news2) {
+                                return news1.getNameOfNews().compareTo(news2.getNameOfNews());
+                            }
+                        });
                         JSONArray jsArray = new JSONArray(newsList);
                         request.setAttribute(NEWS_LIST, jsArray.toString());
                     }
@@ -209,13 +220,17 @@ public class NewsController extends HttpServlet {
 
                 if (hasError) {
                     request.setAttribute(NAME_NEWS, getNewsName);
-                    if (getNewsImage != null) {
+                    if (!getNewsImage.equals("")) {
                         String[] cutCodeImage = getNewsImage.split("\\,");
                         request.setAttribute(IMAGE_NEWS, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(IMAGE_NEWS, null);
                     }
                     request.setAttribute(SUBTITLE_NEWS, getSubtitleNews);
                     request.setAttribute(DETAIL_NEWS, getNewsDetailContent);
                     request.setAttribute(NEWS_ERROR, newsError);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                     request.setAttribute(BUTTON_ACTION, "Add News");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-news");
 
@@ -225,7 +240,7 @@ public class NewsController extends HttpServlet {
                     news = new News();
                     news.setNewsID(newsID);
                     news.setNameOfNews(getNewsName);
-                    if (getNewsImage != null) {
+                    if (!getNewsImage.equals("")) {
                         String[] cutCodeImage = getNewsImage.split("\\,");
                         news.setImageNews(cutCodeImage[1]);
                     }
@@ -266,13 +281,17 @@ public class NewsController extends HttpServlet {
 
                 if (hasError) {
                     request.setAttribute(NAME_NEWS, getNewsName);
-                    if (getNewsImage != null) {
+                    if (!getNewsImage.equals("")) {
                         String[] cutCodeImage = getNewsImage.split("\\,");
                         request.setAttribute(IMAGE_NEWS, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(IMAGE_NEWS, null);
                     }
                     request.setAttribute(SUBTITLE_NEWS, getSubtitleNews);
                     request.setAttribute(DETAIL_NEWS, getNewsDetailContent);
                     request.setAttribute(NEWS_ERROR, newsError);
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
                     request.setAttribute(BUTTON_ACTION, "Edit News");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-news?nid=" + newsID + "");
 
@@ -282,7 +301,7 @@ public class NewsController extends HttpServlet {
                     news = new News();
                     news.setNewsID(newsID);
                     news.setNameOfNews(getNewsName);
-                    if (getNewsImage != null) {
+                    if (!getNewsImage.equals("")) {
                         String[] cutCodeImage = getNewsImage.split("\\,");
                         news.setImageNews(cutCodeImage[1]);
                     }

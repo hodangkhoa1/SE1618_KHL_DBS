@@ -87,11 +87,11 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        <c:if test="${NOT_EMPTY == null}">
+                        <c:if test="${NOT_EMPTY != null}">
                             <div class="row g-5">
                                 <div class="col-12 pt-4">
                                     <div class="view-more">
-                                        <button onclick="loadMore('<%=totalNews%>', '${pageContext.request.contextPath}/news')" class="button-view">Load more</button>
+                                        <button onclick="loadMore('<%=totalNews%>', '${pageContext.request.contextPath}/service')" class="button-view">Load more</button>
                                     </div>
                                 </div>
                             </div>

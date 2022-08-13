@@ -1,0 +1,47 @@
+.bookingHistory p {
+    margin-bottom: unset;
+}
+
+.bookingHistory .history__title{
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.bookingHistory .history__click{
+    border-bottom: 1px solid rgba(0,0,0,.0785);
+    position: relative;
+}
+
+.bookingHistory .history__click a{
+    font-size: 15px;
+    line-height: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 4px;
+    color: black;
+    position: relative;
+}
+
+.bookingHistory .history__click a.active{
+    border-bottom: #ccc solid 1px;
+    border-width: 2px;
+    height: 40px;
+    display: inline-block;
+}
+
+.bookingHistory .history__link .cover{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bookingHistory .history__link a{
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.bookingHistory .history__link .link--cover{
+    background-color: #ECEBEB;
+    border-radius: 20px;
+    padding: 6px 10px;
+}

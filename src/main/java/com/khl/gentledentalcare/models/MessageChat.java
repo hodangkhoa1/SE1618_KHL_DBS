@@ -12,15 +12,17 @@ import lombok.Setter;
 @Setter
 public class MessageChat {
 
-    private String roomID, chatContent;
+    private String roomID, chatContent, employeeID, userID;
     private Timestamp chatDate;
 
     public MessageChat() {
     }
 
-    public MessageChat(String roomID, String chatContent, Timestamp chatDate) {
+    public MessageChat(String roomID, String chatContent, String employeeID, String userID, Timestamp chatDate) {
         this.roomID = roomID;
         this.chatContent = chatContent;
+        this.employeeID = employeeID;
+        this.userID = userID;
         this.chatDate = chatDate;
     }
 }

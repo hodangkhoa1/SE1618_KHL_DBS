@@ -36,6 +36,7 @@
         <link rel="stylesheet" href="./css/ScrollBackToTop.css">
         <link rel="stylesheet" href="./css/user/BoxChat.css">
         <link rel="stylesheet" href="./css/user/NavBar.css">
+        <link rel="stylesheet" href="./css/user/NavHistory.css" />
         <link rel="stylesheet" href="./css/user/HistoryBooking.css">
         <link rel="stylesheet" href="./css/user/FooterPage.css">
         <link rel="stylesheet" href="./css/user/SupportOnline.css">
@@ -45,82 +46,154 @@
         <jsp:include page="../../layouts/ScrollBackToTop.html"></jsp:include>
         <jsp:include page="../../layouts/user/BoxChat.jsp"></jsp:include>
         
+        <c:if test="${FEEDBACK != null}">
+            <section class="feedback">
+                <div class="wrapper">
+                    <button onclick="closePopupFeedback()" style="border: none" class="btn-exit">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <input type="radio" name="rate" id="star-1" value="1">
+                    <input type="radio" name="rate" id="star-2" value="2">
+                    <input type="radio" name="rate" id="star-3" value="3">
+                    <input type="radio" name="rate" id="star-4" value="4">
+                    <input type="radio" name="rate" id="star-5" value="5">
+                    <div class="content">
+                        <div class="outer">
+                            <div class="emojis">
+                                <li class="slideImg"><img src="./images/emoji-1.png" alt=""></li>
+                                <li><img src="./images/emoji-2.png" alt=""></li>
+                                <li><img src="./images/emoji-3.png" alt=""></li>
+                                <li><img src="./images/emoji-4.png" alt=""></li>
+                                <li><img src="./images/emoji-5.png" alt=""></li>
+                            </div>
+                        </div>
+                        <div class="stars">
+                            <label for="star-1" class="star-1 fas fa-star"></label>
+                            <label for="star-2" class="star-2 fas fa-star"></label>
+                            <label for="star-3" class="star-3 fas fa-star"></label>
+                            <label for="star-4" class="star-4 fas fa-star"></label>
+                            <label for="star-5" class="star-5 fas fa-star"></label>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <span class="text"></span>
+                        <span class="numb"></span>
+                    </div>
+
+                    <div class="feedback--content">
+                        <textarea name="" id="feedback-content" rows="5"
+                            placeholder="Please share your experience of the service at your Gentle Dental Care clinic!"></textarea>
+                    </div>
+
+                    <div class="btn-sent">
+                        <button type="button" onclick="SentFeedBack()" class="button-29" role="button">Send</button>
+                    </div>
+                </div>
+            </section>
+        </c:if>
+        
         <header class="header-background">
             <jsp:include page="../../layouts/user/NavBar.jsp"></jsp:include>
         </header>
         
-        <section class="history my-5">
-            <div class="container">
-                <div class="history--title">
-                    <h2>Booking | ${sessionScope.LOGIN_USER.fullName}</h2>
-                </div>
-                <div class="row" id="return-list">
-                    <c:if test="${HISTORY_BOOKING_LIST == null}">
+        <section class="bookingHistory mt-5">
+            <div class="container-fluid">
+                <jsp:include page="../../layouts/user/NavHistory.jsp"></jsp:include>
+
+                <div class="pb-3 mb-2">
+                    <c:if test="${BOOKING_LIST == null}">
                         <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_GlZGOi.json" background="transparent" speed="1" loop autoplay style="width: 30%; position: relative; left: 50%; transform: translateX(-50%);"></lottie-player>
                     </c:if>
-                    <c:if test="${HISTORY_BOOKING_LIST != null}">
-                        <c:forEach items="${HISTORY_BOOKING_LIST}" var="booking">
-                            <div class="col-12 history__card mb-4">
-                                <div class="card--top">
-                                    <div class="top--content">
-                                        <p>Booking ID: <span class="maId">${booking.bookingID}</span></p>
-                                        <p>|</p>
-                                        <p>Book Date: <span><fmt:formatDate value="${booking.bookingDate}" pattern="dd-MM-yyyy"/></span></p>
-                                    </div>
-                                    <c:if test="${booking.bookingStatus == 0}">
-                                        <button class="btn-delete" onclick="confirmDelete('${pageContext.request.contextPath}/history-booking', '${booking.bookingID}', '${booking.userId}')">
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </c:if>
-                                </div>
+                    <c:if test="${BOOKING_LIST != null}">
+                        <div class="row" id="return-list">
+                            <c:forEach items="${BOOKING_LIST}" var="booking">
+                                <div class="col-12 my-2 booking-amount">
+                                    <div class="card-booking">
+                                        <div class="booking--top">
+                                            <div class="booking--id ps-2">
+                                                <p>Booking ID: <span class="id">${booking.bookingID}</span></p>
+                                                <p>|</p>
+                                                <p>Book Create: <span><fmt:formatDate value="${booking.bookingCreated}" pattern="dd-MM-yyyy"/></span></p>
+                                            </div>
+                                            <c:if test="${booking.bookingStatus == 0}">
+                                                <button class="btn-delete" onclick="confirmDelete('${pageContext.request.contextPath}/history-booking-all', '${booking.bookingID}', '${booking.userId}')" style="outline: none; border: none;">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </c:if>
+                                            <c:if test="${FEEDBACK != null}">
+                                                <button onclick="openPopupFeedback()" id="btnFeedback" class="btn-comment" data-bs-toggle="tooltip" data-bs-placement="top" title="Feedback">
+                                                    <i class="fa-solid fa-comment-dots"></i>
+                                                </button>
+                                            </c:if>
+                                        </div>
 
-                                <div class="card--bottom">
-                                    <div class="cb__img">
-                                        <c:forEach items="${booking.serviceList}" var="bookingService">
-                                            <img src="data:image/png;base64,${bookingService.imageService}" alt="">
-                                        </c:forEach>
-                                    </div>
+                                        <div class="booking--bottom p-3">
+                                            <div class="bottom-img">
+                                                <div class="booking--img">
+                                                    <c:forEach items="${booking.serviceList}" var="bookingService">
+                                                        <img src="data:image/png;base64,${bookingService.imageService}" alt="">
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                            <div class="bottom-content">
+                                                <p>Full Name: <span class="name-booking">${booking.fullName}</span></p>
+                                                <p>Phone Number: <span class="phone">${booking.phoneNumber}</span></p>
+                                                <p>Address: <span class="address">${booking.address}</span></p>
+                                                <p>Service: 
+                                                    <span class="service">
+                                                        <c:forEach items="${booking.serviceList}" var="bookingService">
+                                                            ${bookingService.serviceName}, 
+                                                        </c:forEach>
+                                                    </span>
+                                                </p>
+                                                <p>Slot Time: 
+                                                    <span class="service">
+                                                        <c:forEach items="${booking.slotList}" var="bookingSlot">
+                                                            <fmt:formatDate type="time" value="${bookingSlot.slotStart}"/>, 
+                                                        </c:forEach>
+                                                    </span>
+                                                </p>
+                                                <p>Date: 
+                                                    <span>
+                                                        <c:forEach items="${booking.bookingDateList}" var="bookingDate">
+                                                            <fmt:formatDate value="${bookingDate}" pattern="dd-MM-yyyy"/>, 
+                                                        </c:forEach>
+                                                    </span>
+                                                </p>
+                                                <c:if test="${booking.bookingNote != null}">
+                                                    <p>
+                                                        Note: <span class="note">${booking.bookingNote}</span>
+                                                    </p>
+                                                </c:if>
+                                            </div>
+                                        </div>
 
-                                    <div class="cb__content">
-                                        <p>Full Name: <span class="name">${booking.fullName}</span></p>
-                                        <p>Phone Number: <span>${booking.phoneNumber}</span></p>
-                                        <p>Address: <span>${booking.address}</span></p>
-                                        <p>Service: 
-                                            <span>
-                                                <c:forEach items="${booking.serviceList}" var="bookingService">
-                                                    ${bookingService.serviceName}
-                                                </c:forEach>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="status--cover">
                                         <c:choose>
                                             <c:when test = "${booking.bookingStatus == 0}">
-                                                <div class="status" style="background-color: green;">
+                                               <div class="status pending">
                                                     <p>Pending</p>
                                                 </div>
                                             </c:when>
 
                                             <c:when test = "${booking.bookingStatus == 1}">
-                                                <div class="status">
-                                                    <p>Confirm</p>
+                                                <div class="status confirm">
+                                                    <p>Confirmed</p>
                                                 </div>
                                             </c:when>
                                             <c:when test = "${booking.bookingStatus == 2}">
-                                                <div class="status cancelled" style="background-color: red;">
+                                                <div class="status cancelled">
                                                     <p>Cancelled</p>
+                                                </div>
+                                            </c:when>
+                                            <c:when test = "${booking.bookingStatus == 3}">
+                                                <div class="status completed">
+                                                    <p>Completed</p>
                                                 </div>
                                             </c:when>
                                         </c:choose>
                                     </div>
                                 </div>
-                            </div>
-                        </c:forEach>
-                    </c:if>
-                    
-                    <c:if test="<%=totalCourses > 0%>">
-                        <div class="btn--loadMore col-12 mt-3" style="display: flex; align-items: center; justify-content: center;">
-                            <button type="button" class="btn btn-primary" width="100px" onclick="LoadMoreButton('<%=totalCourses%>', '${pageContext.request.contextPath}/history-booking')">Load More</button>
+                            </c:forEach>
                         </div>
                     </c:if>
                 </div>
@@ -143,14 +216,52 @@
         <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <!-- Sweet Alert -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!-- LINK JS -->
+        <!-- LINK JavaScript -->
         <script src="./js/user/UserRoot.js"></script>
         <script src="./js/ScrollBackToTop.js"></script>
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
+        <script src="./js/user/NavHistory.js"></script>
         <script src="./js/user/HistoryBooking.js"></script>
         <script>
             setActiveMenuBar();
+            setActiveMenuBarHistory();
+            
+            <c:if test="${FEEDBACK != null}">
+                window.onload = function () {
+                    setTimeout(function () {
+                        document.querySelector('.feedback').classList.add('open');
+                    }, 1);
+                };
+                
+                window.onclick = function (event) {
+                    var modal = document.querySelector(".feedback");
+
+                    if (event.target === modal) {
+                        modal.classList.remove('open');
+                    }
+                };
+                
+                function closePopupFeedback() {
+                    document.querySelector('.feedback').classList.remove('open');
+                }
+
+                function SentFeedBack() {
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/history-booking-completed",
+                        type: "get",
+                        data: {
+                            ServiceID: "${FEEDBACK}",
+                            UserID: "${sessionScope.LOGIN_USER.userID}",
+                            ValueRate: $('.feedback input[name=rate]:checked').val(),
+                            FeedbackContent: $('#feedback-content').val()
+                        },
+                        complete: function () {
+                            closePopupFeedback();
+                        }
+                    });
+                }
+            </c:if>
         </script>
     </body>
 </html>

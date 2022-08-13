@@ -2,22 +2,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="d-none d-xxl-flex">
     <div class="navbar">
-        <a href="${pageContext.request.contextPath}/employee/appointment" class="logo">
-            <img src=".././images/favicon-100x100.png" alt="">
+        <a href="${pageContext.request.contextPath}/employee/appointment/all" class="logo">
+            <img src="${pageContext.request.contextPath}/images/favicon-100x100.png" alt="">
         </a>
 
         <div class="header__menu">
             <ul class="menu">
                 <li class="nav-item active">
-                    <a href="${pageContext.request.contextPath}/employee/appointment">Appointment</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/employee/appointment/all">Appointment</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Message</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/employee/feedback">FeedBack</a>
                 </li>
             </ul>
         </div>
 
-        <div class="header__tool">
+<!--        <div class="header__tool">
             <div id="searchBox">
                 <div class="button-search">
                     <i class="btn-search fa-solid fa-magnifying-glass"></i>
@@ -68,53 +68,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="header__notify">
-            <div class="notification has-notification">
-                <div style="position: relative;">
-                    <div class="bell" id="bell">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                    <div class="bell-number" id="bell-number">99+</div>
-                </div>
-                <div class="notification-box">
-                    <div class="notification-box-header">
-                        <h3>Notification</h3>
-                    </div>
-                    <c:if test="${sessionScope.LOGIN_EMPLOYEE != null}">
-                        <c:if test="${sessionScope.NOTIFICATION_LIST == null}">
-                            <div class="notification-empty">
-                                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_buhby0ug.json" background="transparent" speed="1" loop autoplay class="notification-empty_image"></lottie-player>
-                            </div>
-                        </c:if>
-                        <c:if test="${sessionScope.NOTIFICATION_LIST != null}">
-                            <div class="notification-box-body">
-                                <ul>
-                                    <c:forEach items="${sessionScope.NOTIFICATION_LIST}" var="notification">
-                                        <c:if test="${notification.notifyType.equals('NewAccount')}">
-                                            <li id="notification-box-list">
-                                                <div class="notification-logo">
-                                                    <img src="./images/favicon-100x100.png" alt="logo">
-                                                </div>
-                                                <div class="notification-message-wrapper">
-                                                    <div>
-                                                        Welcome <span class="name">${sessionScope.LOGIN_USER.fullName}</span> to Gentle Dental Care.
-                                                        Always be passionate, persistent and pursue your goals
-                                                        together ❤️
-                                                    </div>
-                                                    <div class="notification-created">${sessionScope.TIME_NOTIFICATION}</div>
-                                                </div>
-                                            </li>
-                                        </c:if>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </c:if>
-                    </c:if>
-                </div>
-            </div>
-        </div>
+        </div>-->
 
         <div class="header__action">
             <c:if test="${sessionScope.LOGIN_EMPLOYEE != null}">
@@ -130,11 +84,11 @@
                         <ul>
                             <li>
                                 <i class="uil uil-user-circle"></i>
-                                <a href="">My Profile</a>
+                                <a href="${pageContext.request.contextPath}/employee/info-profile">My Profile</a>
                             </li>
                             <li>
                                 <i class="uil uil-padlock"></i>
-                                <a href="">Change Password</a>
+                                <a href="${pageContext.request.contextPath}/employee/change-password">Change Password</a>
                             </li>
                             <li>
                                 <i class="uil uil-signout"></i>
@@ -151,10 +105,10 @@
 <div class="d-flex d-xxl-none nav__bar-mobile pt-3 pb-3 container-fluid">
     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4 nav__bar-mobile-logo">
         <a href="${pageContext.request.contextPath}/employee/appointment" class="nav__bar-logo-mobile-link">
-            <img src=".././images/favicon-100x100.png" alt="">
+            <img src="${pageContext.request.contextPath}/images/favicon-100x100.png" alt="">
         </a>
     </div>
-    <div class="col-xl-10 col-lg-10 col-md-9 col-sm-8 col-7 nav__bar-mobile-tool">
+<!--    <div class="col-xl-10 col-lg-10 col-md-9 col-sm-8 col-7 nav__bar-mobile-tool">
         <div class="tool-button">
             <div onclick="showSearchBox()" id="button-icon-search" class="d-lg-none">
                 <div class="tool-search">
@@ -247,7 +201,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 nav__bar-mobile-menu">
         <label for="mobile-menu-checkbox" class="nav__bar-mobile-menu-label">
             <i class="fa-solid fa-bars"></i>
@@ -280,14 +234,14 @@
             <ul class="user__mobile-list">
                 <c:if test="${sessionScope.LOGIN_EMPLOYEE != null}">
                     <li class="user__mobile-item">
-                        <a href="" class="user__mobile-link">
+                        <a href="${pageContext.request.contextPath}/employee/info-profile" class="user__mobile-link">
                             <i class="fa-solid fa-user"></i>
                             <span class="user__mobile-name">My Profile</span>
                         </a>
                     </li>
 
                     <li class="user__mobile-item item-border">
-                        <a href="" class="user__mobile-link">
+                        <a href="${pageContext.request.contextPath}/employee/change-password" class="user__mobile-link">
                             <i class="fa-solid fa-lock"></i>
                             <span class="user__mobile-name">Change Password</span>
                         </a>
@@ -295,16 +249,16 @@
                 </c:if>
 
                 <li class="user__mobile-item">
-                    <a href="#" class="user__mobile-link">
+                    <a href="${pageContext.request.contextPath}/employee/appointment" class="user__mobile-link">
                         <i class="fa-solid fa-house"></i>
                         <span class="user__mobile-name">Appointment</span>
                     </a>
                 </li>
 
                 <li class="user__mobile-item">
-                    <a href="#" class="user__mobile-link">
+                    <a href="${pageContext.request.contextPath}/employee/feedback" class="user__mobile-link">
                         <i class="fa-solid fa-wrench"></i>
-                        <span class="user__mobile-name">Message</span>
+                        <span class="user__mobile-name">FeedBack</span>
                     </a>
                 </li>
                         

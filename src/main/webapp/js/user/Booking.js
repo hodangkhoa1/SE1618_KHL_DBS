@@ -9,7 +9,6 @@ function getValueId() {
 function getValue() {
     var sel = document.getElementById("selService");
     var text = sel.options[sel.selectedIndex].text;
-
     return text;
 }
 
@@ -44,7 +43,7 @@ function getSlotValue() {
     return slotValue;
 }
 
-function CheckValueUser(userID, urlServlet) {
+function CheckValueUser(userID, urlServlet, homeUrl) {
     var inputFullName = document.getElementById("fullName");
     var inputEmail = document.getElementById("email");
     var inputPhoneNumber = document.getElementById("phoneNumber");
@@ -64,6 +63,7 @@ function CheckValueUser(userID, urlServlet) {
                         <p>You are not logged in. Please login to use all website functions.</p>
                         <div class="buttons">
                             <button onclick="window.location.href='${urlServlet}';" id="login-btn">Login</button>
+                            <button onclick="window.location.href='${homeUrl}';" id="cancel-btn">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -119,15 +119,29 @@ $(function () {
     }
 });
 
+function checkToday() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0");
+    var yyyy = today.getFullYear();
+
+    today = yyyy + "-" + mm + "-" + dd;
+    if (getDate() < today) {
+        return 1;
+    }
+}
+
 index = 0;
+countIndex = 0;
 timeService = 0;
 checkDate = 0;
-dateArray = [];
+const dateArray = [];
 function addLi() {
     var txtVal = getValue();
     var txtDate = getDate();
     var txtSlot = getSlotValue();
     const inputBookService = document.getElementById("bookService");
+    const slotCatch = document.getElementById("slotCatchQ");
 
     listNode = document.getElementById('list');
     liNode = document.createElement('li');
@@ -136,16 +150,24 @@ function addLi() {
     input3 = document.createElement("input");
 
     const countDay = {};
-    console.log(getValue());
+
+    if (checkToday() === 1) {
+        slotCatch.style.display = "block";
+        slotCatch.innerHTML = "Please choose another date";
+        return;
+    }
+
     if (index > 0) {
         for (let i = 0; i < index; i++) {
             if (document.getElementById('date' + i) !== null || document.getElementById('lot' + i) !== null || document.getElementById('service' + i) !== null) {
                 if (getDate() === document.getElementById('date' + i).value) {
-                    if (getValue() === document.getElementById('service' + i).value) {
-                        document.getElementById('slotCatch').innerHTML = "Please choose another service";
+                    if (getValueId() === document.getElementById('service' + i).value) {
+                        slotCatch.style.display = "block";
+                        slotCatch.innerHTML = "Please choose another service";
                         return;
                     } else if (getSlotValue() === document.getElementById('lot' + i).value) {
-                        document.getElementById('slotCatch').innerHTML = "Please choose another slot";
+                        slotCatch.style.display = "block";
+                        slotCatch.innerHTML = "Please choose another slot";
                         return;
                     }
                 }
@@ -169,7 +191,8 @@ function addLi() {
 
     if (countDay[getDate()] > 2) {
         dateArray.pop();
-        document.getElementById('slotCatch').innerHTML = "Only can choose 2 service per day";
+        slotCatch.style.display = "block";
+        slotCatch.innerHTML = "Only can choose 2 service per day";
         return;
     }
 
@@ -214,31 +237,26 @@ function addLi() {
     document.getElementById("hospital").setAttribute("onfocus", "this.setAttribute('data-value', this.value)");
     document.getElementById("hospital").setAttribute("onchange", "this.value = this.getAttribute('data-value');");
     index++;
+    countIndex++;
     timeService++;
-    document.getElementById('slotCatch').innerHTML = "";
+    slotCatch.style.display = "none";
+    slotCatch.innerHTML = "";
     $('#modalForm').modal('toggle');
     removeValue();
 }
 
-$(function () {
-    var todayTime = new Date().toLocaleTimeString("en-GB", {
-        hour: "numeric",
-        minute: "numeric"
-    });
-});
-
 $("#buttonService").on("click", function () {
     const bookCatch = document.getElementById("bookCatch");
 
-    if (index >= 5) {
+    if (countIndex >= 3) {
         bookCatch.style.display = "block";
-        bookCatch.innerHTML = "Only can choose 5 service per appointment";
+        bookCatch.innerHTML = "Only can choose 3 service per appointment";
         return;
     }
 });
 
 $("#buttonSubmit").on("click", function () {
-    if (index >= 5) {
+    if (countIndex >= 3) {
         var element = document.getElementById("modalForm");
         element.setAttribute("id", "modalForm2");
         return;
@@ -250,41 +268,60 @@ function removeValue() {
     var getDate = document.getElementById("dateService");
     var buttonSubmit = document.getElementById("buttonSubmit");
     var option = document.querySelector('input[name="options-outlined"]:checked');
-    const slotCatch = document.getElementById("slotCatch");
+    const slotCatch = document.getElementById("slotCatchQ");
     const myNode = document.querySelector(".foo");
 
     selectedValue.value = "";
     getDate.value = "";
+
     if (option) {
         option.checked = false;
     }
+
     buttonSubmit.setAttribute("disabled", "");
-    slotCatch.style.display = "none";
     slotCatch.innerHTML = "";
-    myNode.innerHTML = "";
+    slotCatch.style.display = "none";
 }
+
+$('#dateService').change(function () {
+    var buttonService = document.getElementById("buttonSubmit");
+
+    buttonService.disabled = true;
+});
 
 $('.container').on('click', function () {
     if ($('#modalForm').hasClass('show') === false) {
-        const myNode = document.getElementById("foo");
-        while (myNode.firstElementChild) {
-            myNode.removeChild(myNode.lastChild);
-        }
+        $("#return-list").empty();
     }
+});
+
+$('#selService').change(function () {
+    $("#return-list").empty();
+    
+    var getDate = document.getElementById("dateService");
+    var buttonService = document.getElementById("buttonSubmit");
+    const slotCatch = document.getElementById("slotCatchQ");
+    
+    getDate.value = "";
+    slotCatch.innerHTML = "";
+    slotCatch.style.display = "none";
+    buttonService.disabled = true;
 });
 
 function removeLi() {
     const bookCatch = document.getElementById("bookCatch");
+    const inputBookService = document.getElementById("bookService");
 
-    $('body').on('click', '.deleData', function () {
+    $('body').unbind('click').on('click', '.deleData', function () {
         var a = $(this).attr('id');
         var b = dateArray.indexOf(a);
         dateArray.splice(b, 1);
         $(this).parent().remove();
-        index--;
+        countIndex--;
 
-        bookCatch.style.display = "none";
         bookCatch.innerHTML = "";
+        bookCatch.style.display = "none";
+        inputBookService.setAttribute("value", countIndex);
 
         var element = document.getElementById('modalForm2');
         if (element !== null) {
@@ -294,16 +331,57 @@ function removeLi() {
 }
 
 function getServiceSlot(urlServer) {
+    $("#return-list").empty();
+
     $.ajax({
-        URL: urlServer,
+        url: urlServer,
         type: "get",
         data: {
-            DataService: getValue(),
+            DataService: getValueId(),
             DataDate: getDate()
         },
         success: function (data) {
             const newsListSlot = document.querySelector("#return-list");
             newsListSlot.innerHTML += data;
+        },
+        complete: function () {
+            var co = $("#return-list").find("*").length;
+
+            for (var i = 0; i <= co / 2; i++) {
+                $("#success-outlined").attr("id", "success-outlined" + i);
+                $("#slot").attr("for", "success-outlined" + i);
+                $("#slot").attr("id", "slot" + i);
+            }
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, "0");
+            var mm = String(today.getMonth() + 1).padStart(2, "0");
+            var yyyy = today.getFullYear();
+            today = yyyy + "-" + mm + "-" + dd;
+            var count = $("body").find(".btn-check").length;
+            var todayTime = new Date();
+            todayTime.setHours(todayTime.getHours() + 5);
+            var todayTimeString = todayTime.toLocaleTimeString("en-GB", {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric"
+            });
+
+            for (let i = 0; i < count; i++) {
+                var timePicked = document.getElementById("success-outlined" + i);
+                var timePickedValue = document.getElementById("success-outlined" + i).value;
+
+                if (timePicked.disabled === true) {
+                    timePicked.removeAttribute("disabled");
+                }
+                if (getDate() !== null) {
+                    if (getDate() === today) {
+                        if (timePickedValue < todayTimeString) {
+                            timePicked.disabled = true;
+                        }
+                    }
+                }
+            }
         }
     });
 }

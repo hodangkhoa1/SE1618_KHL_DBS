@@ -16,7 +16,7 @@ public class DBUtils {
 
             String urlDataConnection = "jdbc:sqlserver://localhost;databaseName=GentalCareDental";
 
-            Connection dataConn = DriverManager.getConnection(urlDataConnection, "sa", Encrypt.decrypt("u+X+On2XQDymkX7xtpuohQ==", "ssshhhhhhhhhhh!!!!"));
+            Connection dataConn = DriverManager.getConnection(urlDataConnection, "sa", Encrypt.decrypt("nRTXd5P75WfODslaS0/TfA==", "ssshhhhhhhhhhh!!!!"));
 
             return dataConn;
         } catch (ClassNotFoundException | SQLException e) {

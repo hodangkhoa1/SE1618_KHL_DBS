@@ -1,11 +1,14 @@
 package com.khl.gentledentalcare.controllers;
 
 import com.khl.gentledentalcare.dbo.HospitalFacade;
+import com.khl.gentledentalcare.models.Dentist;
 import com.khl.gentledentalcare.models.Hospital;
 import com.khl.gentledentalcare.models.HospitalError;
 import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +27,7 @@ public class HospitalManagementController extends HttpServlet {
     private static final String HOSPITAL_NAME = "HOSPITAL_NAME";
     private static final String HOSPITAL_PHONE = "HOSPITAL_PHONE";
     private static final String HOSPITAL_ADDRESS = "HOSPITAL_ADDRESS";
+    private static final String HOSPITAL_ERROR = "HOSPITAL_ERROR";
     private static final String SEARCH = "SEARCH";
     private static final String NAV_BAR_PROFILE = "NAV_BAR_PROFILE";
     private static final String NAV_BAR_ICON = "NAV_BAR_ICON";
@@ -55,13 +59,13 @@ public class HospitalManagementController extends HttpServlet {
                 request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                 request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
                 request.setAttribute(BUTTON_ACTION, "Edit Hospital");
-                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital?hid=" + hospitalID + "");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
                 requestDispatcher.forward(request, response);
             } else {
                 String indexPage = request.getParameter("page");
-                String hospitalID = request.getParameter("hospitalID");
+                String hospitalID = request.getParameter("HospitalID");
 
                 if (indexPage == null) {
                     indexPage = "1";
@@ -70,7 +74,17 @@ public class HospitalManagementController extends HttpServlet {
                 List<Hospital> hospitalList;
 
                 if (hospitalID != null) {
+                    String actionButton = request.getParameter("Action");
+                    Hospital hospital = new Hospital();
+                    hospital.setHospitalID(hospitalID);
 
+                    if (actionButton.equals("Disable")) {
+                        hospital.setHospitalStatus(1);
+                    } else {
+                        hospital.setHospitalStatus(0);
+                    }
+
+                    hospitalFacade.updateHospital(hospital, "EditStatus");
                 } else {
                     int countHospital = hospitalFacade.countHospital();
                     int endPage = countHospital / 5;
@@ -82,6 +96,12 @@ public class HospitalManagementController extends HttpServlet {
                     if (hospitalList.isEmpty()) {
                         request.setAttribute(HOSPITAL_LIST, null);
                     } else {
+                        Collections.sort(hospitalList, new Comparator<Hospital>() {
+                            @Override
+                            public int compare(Hospital hospital1, Hospital hospital2) {
+                                return hospital1.getHospitalName().compareTo(hospital2.getHospitalName());
+                            }
+                        });
                         JSONArray jsArray = new JSONArray(hospitalList);
                         request.setAttribute(HOSPITAL_LIST, jsArray.toString());
                     }
@@ -131,6 +151,9 @@ public class HospitalManagementController extends HttpServlet {
                 } else if (getHospitalPhone.equals("")) {
                     hasError = true;
                     hospitalError.setHospitalPhone("Please enter hospital phone!");
+                } else if (getHospitalPhone.length() > 10 || getHospitalPhone.length() < 10) {
+                    hasError = true;
+                    hospitalError.setHospitalPhone("Phone number must be 10 digits!");
                 } else if (getHospitalAddress.equals("")) {
                     hasError = true;
                     hospitalError.setHospitalAddress("Please choose hospital address!");
@@ -140,6 +163,9 @@ public class HospitalManagementController extends HttpServlet {
                     request.setAttribute(HOSPITAL_NAME, getHospitalName);
                     request.setAttribute(HOSPITAL_PHONE, getHospitalPhone);
                     request.setAttribute(HOSPITAL_ADDRESS, getHospitalAddress);
+                    request.setAttribute(HOSPITAL_ERROR, hospitalError);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                     request.setAttribute(BUTTON_ACTION, "Add Hospital");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-hospital");
 
@@ -174,6 +200,9 @@ public class HospitalManagementController extends HttpServlet {
                 } else if (getHospitalPhone.equals("")) {
                     hasError = true;
                     hospitalError.setHospitalPhone("Please enter hospital phone!");
+                } else if (getHospitalPhone.length() > 10 || getHospitalPhone.length() < 10) {
+                    hasError = true;
+                    hospitalError.setHospitalPhone("Phone number must be 10 digits!");
                 } else if (getHospitalAddress.equals("")) {
                     hasError = true;
                     hospitalError.setHospitalAddress("Please choose hospital address!");
@@ -183,8 +212,9 @@ public class HospitalManagementController extends HttpServlet {
                     request.setAttribute(HOSPITAL_NAME, getHospitalName);
                     request.setAttribute(HOSPITAL_PHONE, getHospitalPhone);
                     request.setAttribute(HOSPITAL_ADDRESS, getHospitalAddress);
+                    request.setAttribute(HOSPITAL_ERROR, hospitalError);
                     request.setAttribute(BUTTON_ACTION, "Edit Hospital");
-                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-hospital?hid=" + hospitalID + "");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddHospital.jsp");
                     requestDispatcher.forward(request, response);

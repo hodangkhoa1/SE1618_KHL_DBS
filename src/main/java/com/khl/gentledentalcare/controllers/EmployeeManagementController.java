@@ -6,10 +6,13 @@ import com.khl.gentledentalcare.models.Account;
 import com.khl.gentledentalcare.models.AccountError;
 import com.khl.gentledentalcare.models.Employee;
 import com.khl.gentledentalcare.models.EmployeeError;
+import com.khl.gentledentalcare.models.News;
 import com.khl.gentledentalcare.utils.FunctionRandom;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -79,7 +82,7 @@ public class EmployeeManagementController extends HttpServlet {
                 request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                 request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
                 request.setAttribute(BUTTON_ACTION, "Edit Employee");
-                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-employee?eid="+ employeeID +"");
+                request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-employee?eid=" + employeeID + "");
 
                 RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddEmployee.jsp");
                 requestDispatcher.forward(request, response);
@@ -106,7 +109,7 @@ public class EmployeeManagementController extends HttpServlet {
 
                     accountFacade.updateAccount(account, "EditStatus");
                 } else {
-                    int countAccount = accountFacade.countAccount("2");
+                    int countAccount = accountFacade.countAccount("2", "GetTotalAccountWithRole");
                     int endPage = countAccount / 5;
                     if (countAccount % 5 != 0) {
                         endPage++;
@@ -116,6 +119,12 @@ public class EmployeeManagementController extends HttpServlet {
                     if (accountList.isEmpty()) {
                         request.setAttribute(EMPLOYEE_LIST, null);
                     } else {
+                        Collections.sort(accountList, new Comparator<Account>() {
+                            @Override
+                            public int compare(Account account1, Account account2) {
+                                return account1.getFullName().compareTo(account2.getFullName());
+                            }
+                        });
                         JSONArray jsArray = new JSONArray(accountList);
                         request.setAttribute(EMPLOYEE_LIST, jsArray.toString());
                     }
@@ -148,9 +157,14 @@ public class EmployeeManagementController extends HttpServlet {
             EmployeeFacade employeeFacade = new EmployeeFacade();
 
             if (urlServlet.equals("/admin/add-employee")) {
-                String employeeID = FunctionRandom.randomID(10);
+                String employeeID = FunctionRandom.randomID(21);
                 String getFullName = request.getParameter("fullName");
                 String getGender = request.getParameter("gender");
+                if (getGender == null) {
+                    getGender = "";
+                } else {
+                    getGender = request.getParameter("gender");
+                }
                 String getEmail = request.getParameter("email");
                 String getDateOfBirth = request.getParameter("dateOfBirth");
                 String getPhoneNumber = request.getParameter("phoneNumber");
@@ -189,6 +203,9 @@ public class EmployeeManagementController extends HttpServlet {
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     accountError.setPhoneNumberError("Please enter phone number!");
+                } else if (getPhoneNumber.length() > 10 || getPhoneNumber.length() < 10) {
+                    hasError = true;
+                    accountError.setPhoneNumberError("Phone number must be 10 digits!");
                 } else if (getEmployeeImage.equals("")) {
                     hasError = true;
                     accountError.setImageAvatarError("Please choose image avatar!");
@@ -209,14 +226,18 @@ public class EmployeeManagementController extends HttpServlet {
                     request.setAttribute(EMAIL, getEmail);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
                     request.setAttribute(ADDRESS, getAddress);
-                    if (getEmployeeImage != null) {
+                    if (!getEmployeeImage.equals("")) {
                         String[] cutCodeImage = getEmployeeImage.split("\\,");
                         request.setAttribute(EMPLOYEE_IMAGE, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(EMPLOYEE_IMAGE, null);
                     }
                     request.setAttribute(SALARY, getSalary);
                     request.setAttribute(INSURANCE, getInsurance);
                     request.setAttribute(ACCOUNT_ERROR, accountError);
                     request.setAttribute(EMPLOYEE_ERROR, employeeError);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-plus icon\"></i>");
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
                     request.setAttribute(BUTTON_ACTION, "Add Employee");
                     request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/add-employee");
 
@@ -234,10 +255,15 @@ public class EmployeeManagementController extends HttpServlet {
                     account.setUserAddress(getAddress);
                     account.setUserPhone(getPhoneNumber);
                     account.setGender(getGender);
-                    if (getEmployeeImage != null) {
+                    if (!getEmployeeImage.equals("")) {
                         String[] cutCodeImage = getEmployeeImage.split("\\,");
                         account.setImageAvatar(cutCodeImage[1]);
                     }
+                    String colorAvatar = FunctionRandom.colorAvatar();
+                    char getFirstCharacter = getFullName.charAt(0);
+
+                    account.setColorAvatar(colorAvatar);
+                    account.setDefaultAvatar(Character.toString(getFirstCharacter));
                     Date convertDateOfBirth = Date.valueOf(getDateOfBirth);
                     account.setDateOfBirth(convertDateOfBirth);
                     account.setUserRole(2);
@@ -253,6 +279,11 @@ public class EmployeeManagementController extends HttpServlet {
                 String employeeID = request.getParameter("eid");
                 String getFullName = request.getParameter("fullName");
                 String getGender = request.getParameter("gender");
+                if (getGender == null) {
+                    getGender = "";
+                } else {
+                    getGender = request.getParameter("gender");
+                }
                 String getEmail = request.getParameter("email");
                 String getDateOfBirth = request.getParameter("dateOfBirth");
                 String getPhoneNumber = request.getParameter("phoneNumber");
@@ -291,6 +322,9 @@ public class EmployeeManagementController extends HttpServlet {
                 } else if (getPhoneNumber.equals("")) {
                     hasError = true;
                     accountError.setPhoneNumberError("Please enter phone number!");
+                } else if (getPhoneNumber.length() > 10 || getPhoneNumber.length() < 10) {
+                    hasError = true;
+                    accountError.setPhoneNumberError("Phone number must be 10 digits!");
                 } else if (getEmployeeImage.equals("")) {
                     hasError = true;
                     accountError.setImageAvatarError("Please choose image avatar!");
@@ -311,16 +345,20 @@ public class EmployeeManagementController extends HttpServlet {
                     request.setAttribute(EMAIL, getEmail);
                     request.setAttribute(PHONE_NUMBER, getPhoneNumber);
                     request.setAttribute(ADDRESS, getAddress);
-                    if (getEmployeeImage != null) {
+                    if (!getEmployeeImage.equals("")) {
                         String[] cutCodeImage = getEmployeeImage.split("\\,");
                         request.setAttribute(EMPLOYEE_IMAGE, cutCodeImage[1]);
+                    } else {
+                        request.setAttribute(EMPLOYEE_IMAGE, null);
                     }
                     request.setAttribute(SALARY, getSalary);
                     request.setAttribute(INSURANCE, getInsurance);
                     request.setAttribute(ACCOUNT_ERROR, accountError);
                     request.setAttribute(EMPLOYEE_ERROR, employeeError);
+                    request.setAttribute(NAV_BAR_PROFILE, NAV_BAR_PROFILE);
+                    request.setAttribute(NAV_BAR_ICON, "<i class=\"fa-solid fa-pen-to-square icon\"></i>");
                     request.setAttribute(BUTTON_ACTION, "Edit Employee");
-                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-employee?eid="+ employeeID +"");
+                    request.setAttribute(ACTION_URL, "" + request.getContextPath() + "/admin/edit-employee?eid=" + employeeID + "");
 
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/admin/AddEmployee.jsp");
                     requestDispatcher.forward(request, response);
@@ -333,7 +371,7 @@ public class EmployeeManagementController extends HttpServlet {
                     account.setUserAddress(getAddress);
                     account.setUserPhone(getPhoneNumber);
                     account.setGender(getGender);
-                    if (getEmployeeImage != null) {
+                    if (!getEmployeeImage.equals("")) {
                         String[] cutCodeImage = getEmployeeImage.split("\\,");
                         account.setImageAvatar(cutCodeImage[1]);
                     }

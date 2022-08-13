@@ -20,6 +20,7 @@ public class ForgotPasswordController extends HttpServlet {
     private static final String CURRENT_PAGE = "CURRENT_PAGE";
     private static final String CHANGE_PAGE_PASSWORD = "CHANGE_PAGE_PASSWORD";
     private static final String CHANGE_PAGE_VERIFY = "CHANGE_PAGE_VERIFY";
+    private static final String ACTIVE_AGAIN_ACCOUNT = "ACTIVE_AGAIN_ACCOUNT";
     private static final String EMAIL = "EMAIL";
     private String codeVerify;
 
@@ -104,11 +105,12 @@ public class ForgotPasswordController extends HttpServlet {
                 if (email != null) {
                     if (account.getUserStatus() == 1) {
                         request.setAttribute(CHANGE_PAGE_PASSWORD, CHANGE_PAGE_PASSWORD);
+                    } else if (account.getUserStatus() == 0) {
+                        request.setAttribute(ACTIVE_AGAIN_ACCOUNT, ACTIVE_AGAIN_ACCOUNT);
+                        FunctionSendEmail functionSendEmail = new FunctionSendEmail(account, "Verify Account");
+                        functionSendEmail.sendMailActiveAgainAccount();
                     }
-                    
-                    
-                    
-                    
+
                     request.removeAttribute(CURRENT_PAGE);
                     RequestDispatcher requestDispatcher = this.getServletContext().getRequestDispatcher("/views/ForgotPassword.jsp");
                     requestDispatcher.forward(request, response);

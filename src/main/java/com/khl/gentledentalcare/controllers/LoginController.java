@@ -59,8 +59,13 @@ public class LoginController extends HttpServlet {
                 GoogleAccount googleAccount = RestGoogle.getGoogleUserInfo(accessToken);
                 Account account = new Account();
                 
-                account.setUserID(FunctionRandom.randomID(10));
+                account.setUserID(googleAccount.getId());
                 account.setUserEmail(googleAccount.getEmail());
+                account.setColorAvatar(FunctionRandom.colorAvatar());
+                char getFirstCharacter = googleAccount.getEmail().charAt(0);
+                account.setDefaultAvatar(Character.toString(getFirstCharacter));
+                account.setUserRole(0);
+                account.setUserStatus(1);
 
                 AccountFacade accountFacade = new AccountFacade();
                 Account checkLearnerAccount = accountFacade.checkAccount(account, "Login");
@@ -80,8 +85,6 @@ public class LoginController extends HttpServlet {
             }
 
         } catch (IOException | SQLException | ServletException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }
@@ -188,7 +191,6 @@ public class LoginController extends HttpServlet {
 
                         session.setAttribute(LOGIN_USER, account);
                         session.removeAttribute(VALUE_LOGIN);
-                        session.setMaxInactiveInterval(500);
                         String uri = (String) session.getAttribute("uri");
                         if (uri != null) {
                             response.sendRedirect(uri);
@@ -204,7 +206,7 @@ public class LoginController extends HttpServlet {
                     case 2:
                         session.setAttribute(LOGIN_EMPLOYEE, account);
                         session.setMaxInactiveInterval(500);
-                        response.sendRedirect(request.getContextPath() + "/employee/appointment");
+                        response.sendRedirect(request.getContextPath() + "/employee/appointment/all");
                         break;
                 }
             }

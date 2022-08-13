@@ -43,7 +43,7 @@
         
         <!--********************* Change Password BODY *********************-->
         <div class="container pt-5 pb-5">
-            <form action="" method="post">
+            <form action="${pageContext.request.contextPath}/change-password" method="post">
                 <div class="row gutters">
                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                         <div class="card h-100">
@@ -86,8 +86,10 @@
                                         <div class="setting-form_content">
                                             <label for="oldPassword" class="setting-form_label">Old Password</label>
                                             <div class="setting-form_input">
-                                                <input type="text" oninput="CheckFullName()" onblur="CheckFullName()"
-                                                    name="oldPassword" id="oldPassword" placeholder="Enter Old Password">
+                                                <input type="password" oninput="CheckOldPassword()" onblur="CheckOldPassword()" onkeyup="OldPasswordKeyUp()" name="oldPassword" id="oldPassword" placeholder="Enter Old Password">
+                                                <span class="showBtn" id="show-old-password">
+                                                    <i class="fas fa-eye-slash" id="show-old-password-icon"></i>
+                                                </span>
                                                 <i class='bx bx-check-circle' id="oldPassword-icon-check"></i>
                                                 <i class='bx bx-error-circle' id="oldPassword-icon-error"></i>
                                             </div>
@@ -100,8 +102,10 @@
                                         <div class="setting-form_content">
                                             <label for="newPassword" class="setting-form_label">New Password</label>
                                             <div class="setting-form_input">
-                                                <input type="text" oninput="CheckFullName()" onblur="CheckFullName()"
-                                                    name="newPassword" id="newPassword" placeholder="Enter New Password">
+                                                <input type="password" oninput="CheckNewPassword()" onblur="CheckNewPassword()" onkeyup="NewPasswordKeyUp()" name="newPassword" id="newPassword" placeholder="Enter New Password">
+                                                <span class="showBtn" id="show-new-password">
+                                                    <i class="fas fa-eye-slash" id="show-new-password-icon"></i>
+                                                </span>
                                                 <i class='bx bx-check-circle' id="newPassword-icon-check"></i>
                                                 <i class='bx bx-error-circle' id="newPassword-icon-error"></i>
                                             </div>
@@ -114,8 +118,10 @@
                                         <div class="setting-form_content">
                                             <label for="confirmPassword" class="setting-form_label">Confirm Password</label>
                                             <div class="setting-form_input">
-                                                <input type="text" oninput="CheckFullName()" onblur="CheckFullName()"
-                                                    name="confirmPassword" id="confirmPassword" placeholder="Enter Confirm Password">
+                                                <input type="password" oninput="CheckConfirmPassword()" onblur="CheckConfirmPassword()" onkeyup="ConfirmPasswordKeyUp()" name="confirmPassword" id="confirmPassword" placeholder="Enter Confirm Password">
+                                                <span class="showBtn" id="show-confirm-password">
+                                                    <i class="fas fa-eye-slash" id="show-confirm-password-icon"></i>
+                                                </span>
                                                 <i class='bx bx-check-circle' id="confirmPassword-icon-check"></i>
                                                 <i class='bx bx-error-circle' id="confirmPassword-icon-error"></i>
                                             </div>
@@ -158,5 +164,6 @@
         <script src="./js/ScrollBackToTop.js"></script>
         <script src="./js/user/BoxChat.js"></script>
         <script src="./js/user/NavBar.js"></script>
+        <script src="./js/user/ChangePassword.js"></script>
     </body>
 </html>

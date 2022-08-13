@@ -93,7 +93,7 @@
                                         <div class="image-input">
                                             <input type="file" accept="image/*" id="imageInput">
                                             <img src="<%=concatStringImage%>" class="image-preview image-edit">
-                                            <input type="hidden" class="image-hidden" name="${DENTIST_IMAGE != null ? "dentistImage" : ""}" value="<%=concatStringImage%>">
+                                            <input type="hidden" class="image-hidden" name="dentistImage" value="<%=concatStringImage%>">
                                             <label for="imageInput" class="image-button add-button">
                                                 <i class="fa-solid fa-image"></i>Avatar Picture
                                             </label>
@@ -143,7 +143,10 @@
         <script src=".././js/admin/SideBar.js"></script>
         <script src=".././js/admin/AddDentist.js"></script>
         <script>
-            CKEDITOR.replace( 'editor' );
+            CKEDITOR.replace('editor', {
+                language: 'en',
+                editorplaceholder: 'Start typing here...'
+            });
             activeSidebarLink();
         </script>
     </body>

@@ -19,7 +19,7 @@ public abstract class AbstractRoomChat<T> {
 
     protected abstract boolean addRoomChat(Connection connection, T roomChat) throws SQLException;
 
-    protected abstract boolean updateRoomChat(Connection connection, Object roomID) throws SQLException;
+    protected abstract boolean updateRoomChat(Connection connection, T roomChat, Object action) throws SQLException;
 
     protected abstract int countRoomChat(Connection connection) throws SQLException;
     
@@ -68,16 +68,17 @@ public abstract class AbstractRoomChat<T> {
      * *
      * Update room chat
      *
-     * @param roomID
+     * @param roomChat
+     * @param action
      * @return
      * @throws SQLException
      */
-    public boolean updateRoomChat(Object roomID) throws SQLException {
+    public boolean updateRoomChat(T roomChat, Object action) throws SQLException {
         boolean check;
 
         try {
             connection = DBUtils.makeConnection();
-            check = updateRoomChat(connection, roomID);
+            check = updateRoomChat(connection, roomChat, action);
         } finally {
             connection.close();
         }

@@ -273,6 +273,59 @@
 
 /* End Popup Accept */
 
+/* Popup Done */
+#acceptappointment .bg-soft-success {
+    background-color: rgba(83, 199, 151, 0.1) !important;
+    border: 1px solid rgba(83, 199, 151, 0.1) !important;
+    color: #53c797 !important;
+    height: 95px;
+    width: 95px;
+}
+
+#acceptappointment .bg-soft-success i {
+    font-size: 42px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+#acceptappointment .modal-body .modal-body-title {
+    font-size: 24px;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+}
+
+#acceptappointment .modal-body .text-muted {
+    max-width: 600px;
+    color: #8492a6 !important;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+#acceptappointment .modal-body .btn {
+    padding: 8px 20px;
+    outline: none;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#acceptappointment .modal-body .btn-soft-success {
+    background-color: rgba(83, 199, 151, 0.1) !important;
+    border: 1px solid rgba(83, 199, 151, 0.1) !important;
+    color: #53c797 !important;
+    box-shadow: 0 3px 5px 0 rgb(83 199 151 / 30%);
+}
+
+#acceptappointment .modal-body .btn-soft-success:hover {
+    background-color: #53c797 !important;
+    border-color: #53c797 !important;
+    color: #fff !important;
+}
+/* End Popup Done */
+
 /* Popup Cancel */
 #cancelappointment .modal-body .bg-soft-danger {
     background-color: rgba(240, 115, 90, 0.1) !important;

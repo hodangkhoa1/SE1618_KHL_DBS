@@ -3,6 +3,7 @@ package com.khl.gentledentalcare.controllers;
 import com.khl.gentledentalcare.dbo.DentistFacade;
 import com.khl.gentledentalcare.models.Dentist;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +31,7 @@ public class DentistDetailController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/home");
             }
 
-        } catch (Exception e) {
+        } catch (IOException | SQLException | ServletException e) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }

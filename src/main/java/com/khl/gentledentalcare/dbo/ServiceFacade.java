@@ -15,15 +15,16 @@ public class ServiceFacade extends AbstractServices<Services> {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private static final String SQL_GET_ALL_SERVICES = "SELECT * FROM [Services] WHERE ServiceStatus = ?";
-    private static final String SQL_GET_TOP_6_SERVICES = "SELECT TOP 6 * FROM [Services]";
+    private static final String SQL_GET_TOP_6_SERVICES = "SELECT TOP 6 * FROM [Services] WHERE ServiceStatus = '0'";
     private static final String SQL_GET_TOP_4_SERVICES_RANDOM = "SELECT TOP 4 * FROM [Services] ORDER BY NEWID()";
     private static final String SQL_PAGING_SERVICES = "SELECT * FROM [Services] ORDER BY ServiceID OFFSET ? ROWS FETCH NEXT 5 ROWS ONLY;";
-    private static final String SQL_GET_NEXT_6_SERVICES = "SELECT * FROM [Services] ORDER BY ServiceID OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+    private static final String SQL_GET_NEXT_6_SERVICES = "SELECT * FROM [Services] WHERE ServiceStatus = '0' ORDER BY ServiceID OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
     private static final String SQL_ADD_SERVICES = "INSERT INTO [Services](ServiceID, ServiceName, ServicePrice, ImageService, DescriptionService, ServiceStatus) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_TOTAL_SERVICES = "SELECT COUNT(*) FROM [Services]";
     private static final String SQL_SERVICES_STATUS = "UPDATE [Services] SET ServiceStatus = ? WHERE ServiceID = ?";
     private static final String SQL_EDIT_SERVICES = "UPDATE [Services] SET ServiceName = ?, ServicePrice = ?, ImageService = ?, DescriptionService = ? WHERE ServiceID = ?";
     private static final String SQL_GET_SERVICES_DETAIL_BY_ID = "SELECT * FROM [Services] WHERE ServiceID = ?";
+    private static final String SQL_SEARCH_SERVICES_BY_NAME = "SELECT * FROM [Services] WHERE ServiceName LIKE ?";
 
     private Services getInfoServicesFromSQL(ResultSet resultSet) throws SQLException {
         String getServiceID = resultSet.getString("ServiceID");
@@ -62,11 +63,11 @@ public class ServiceFacade extends AbstractServices<Services> {
                         preparedStatement = connection.prepareStatement(SQL_PAGING_SERVICES);
                         preparedStatement.setInt(1, ((int) value - 1) * 5);
                         break;
-//                    case "SearchByName":
-//                        preparedStatement = connection.prepareStatement(SQL_SEARCH_NEWS_BY_NAME);
-//                        String[] cutText = value.toString().split("\\.");
-//                        preparedStatement.setString(1, "%" + cutText[0] + "%");
-//                        break;
+                    case "SearchByName":
+                        preparedStatement = connection.prepareStatement(SQL_SEARCH_SERVICES_BY_NAME);
+                        String[] cutText = value.toString().split("\\.");
+                        preparedStatement.setString(1, "%" + cutText[0] + "%");
+                        break;
                 }
 
                 resultSet = preparedStatement.executeQuery();

@@ -40,3 +40,17 @@ function CancelAppointment(urlServlet) {
         }
     });
 }
+
+function DoneAppointment(urlServlet) {
+    $.ajax({
+        url: urlServlet,
+        type: "get",
+        data: {
+            BookingID: appointmentID,
+            Action: "Done"
+        },
+        success: function () {
+            location.reload();
+        }
+    });
+}

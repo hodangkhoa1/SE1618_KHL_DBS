@@ -27,60 +27,62 @@
             </ul>
         </div>
 
-        <div class="header__tool">
-            <div id="searchBox">
-                <div class="button-search">
-                    <i class="btn-search fa-solid fa-magnifying-glass"></i>
+        <c:if test="${SEARCH_LIST != null}">
+            <div class="header__tool">
+                <div id="searchBox">
+                    <div class="button-search">
+                        <i class="btn-search fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input oninput="searchName(this)" onfocusout="showLoadMoreButton()" class="search-place" type="text" placeholder="Search...">
+                        <button onclick="showMicrophoneBox()" type="button" class="button-mic">
+                            <svg class="goxjub" focusable="false" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#4285f4"
+                                      d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z">
+                                </path>
+                                <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
+                                <path fill="#fbbc04"
+                                      d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z">
+                                </path>
+                                <path fill="#ea4335"
+                                      d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z">
+                                </path>
+                            </svg>
+                        </button>
                 </div>
-                <input oninput="searchName(this, '${pageContext.request.contextPath}/product')" onfocusout="showLoadMoreButton()" class="search-place" type="text" placeholder="Search service">
-                    <button onclick="showMicrophoneBox()" type="button" class="button-mic">
-                        <svg class="goxjub" focusable="false" viewBox="0 0 24 24"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#4285f4"
-                                  d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z">
-                            </path>
-                            <path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path>
-                            <path fill="#fbbc04"
-                                  d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z">
-                            </path>
-                            <path fill="#ea4335"
-                                  d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z">
-                            </path>
-                        </svg>
-                    </button>
-            </div>
-            <div class="microphone-wrapper" id="microphone-wrapper">
-                <div class="microphone-box" role="dialog" tabindex="-1">
-                    <div class="microphone-container" tabindex="-1">
-                        <div class="microphone-header">
-                            <div class="microphone-header__text">
-                                <div id="microphone-header__prompt" class="microphone-header__prompt"></div>
-                            </div>
-                            <div class="microphone-exit__button">
-                                <button onclick="hideMicrophoneBox()" class="icon-exit-button">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="microphone-body">
-                            <div id="microphone-body-text" class="microphone-body-text"></div>
-                        </div>
-                        <div class="microphone-footer-button">
-                            <div onclick="activeMicrophone()" class="microphone-footer-container">
-                                <div class="microphone-pulse"></div>
-                                <div class="microphone-levels"></div>
-                                <div class="microphone-circle" role="button" tabindex="0">
-                                    <i class="fa-solid fa-microphone-lines"></i>
+                <div class="microphone-wrapper" id="microphone-wrapper">
+                    <div class="microphone-box" role="dialog" tabindex="-1">
+                        <div class="microphone-container" tabindex="-1">
+                            <div class="microphone-header">
+                                <div class="microphone-header__text">
+                                    <div id="microphone-header__prompt" class="microphone-header__prompt"></div>
+                                </div>
+                                <div class="microphone-exit__button">
+                                    <button onclick="hideMicrophoneBox()" class="icon-exit-button">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div id="microphone-footer-label" class="microphone-footer-label"></div>
+                            <div class="microphone-body">
+                                <div id="microphone-body-text" class="microphone-body-text"></div>
+                            </div>
+                            <div class="microphone-footer-button">
+                                <div onclick="activeMicrophone()" class="microphone-footer-container">
+                                    <div class="microphone-pulse"></div>
+                                    <div class="microphone-levels"></div>
+                                    <div class="microphone-circle" role="button" tabindex="0">
+                                        <i class="fa-solid fa-microphone-lines"></i>
+                                    </div>
+                                </div>
+                                <div id="microphone-footer-label" class="microphone-footer-label"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </c:if>
                 
-        <div class="header__notify">
+        <div class="header__notify" style="${SEARCH_LIST != null ? "" : (LOGIN_USER != null ? "transform: translateX(170px);" : "transform: translateX(130px);")}">
             <div class="notification has-notification">
                 <div style="position: relative;">
                     <div class="bell" id="bell">
@@ -107,7 +109,7 @@
                         </div>
                         <div class="notification-footer">
                             <button type="button"
-                                onclick="window.location.href = '${pageContext.request.contextPath}/login';"
+                                onclick="window.location.href = '${pageContext.request.contextPath}/register';"
                                 class="footer-registration">Registration</button>
                             <button type="button"
                                 onclick="window.location.href = '${pageContext.request.contextPath}/login';"
@@ -134,6 +136,19 @@
                                                         Welcome <span class="name">${sessionScope.LOGIN_USER.fullName}</span> to Gentle Dental Care.
                                                         Always be passionate, persistent and pursue your goals
                                                         together ❤️
+                                                    </div>
+                                                    <div class="notification-created">${sessionScope.TIME_NOTIFICATION}</div>
+                                                </div>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${notification.notifyType.equals('BookingSuccessful')}">
+                                            <li>
+                                                <div class="notification-logo">
+                                                    <i class="fa-solid fa-calendar-plus"></i>
+                                                </div>
+                                                <div class="notification-message-wrapper">
+                                                    <div>
+                                                        Hello <span class="name">${sessionScope.LOGIN_USER.fullName}</span>, Gentle Dental Care has received your appointment information.
                                                     </div>
                                                     <div class="notification-created">${sessionScope.TIME_NOTIFICATION}</div>
                                                 </div>
@@ -181,7 +196,7 @@
                             </li>
                             <li>
                                 <i class="fa-solid fa-clock-rotate-left"></i>
-                                <a href="${pageContext.request.contextPath}/history-booking">History Booking</a>
+                                <a href="${pageContext.request.contextPath}/history-booking-all">History Booking</a>
                             </li>
                             <li>
                                 <i class="uil uil-edit"></i>

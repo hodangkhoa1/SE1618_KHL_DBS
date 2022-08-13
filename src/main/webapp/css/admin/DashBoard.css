@@ -177,3 +177,21 @@
 .main .content-data .chart::-webkit-scrollbar {
     display: none;
 }
+
+/* Chart */
+.graph-chart {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+}
+
+.graph-chart .chart-box {
+    position: relative;
+    background: var(--white);
+    padding: 20px;
+    width: 100%;
+    -webkit-box-shadow: 4px 4px 10px -1px rgb(118 183 243);
+    -moz-box-shadow: 4px 4px 10px -1px rgba(118, 183, 243, 1);
+    box-shadow: 4px 4px 10px -1px rgb(118 183 243);
+    border-radius: 20px;
+}

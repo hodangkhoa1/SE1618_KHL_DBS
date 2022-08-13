@@ -115,7 +115,7 @@
                                         <div class="image-input">
                                             <input type="file" accept="image/*" id="imageInput">
                                             <img src="<%=concatStringImage%>" class="image-preview image-edit">
-                                            <input type="hidden" class="image-hidden" name="${DENTIST_IMAGE != null ? "employeeImage" : ""}" value="<%=concatStringImage%>">
+                                            <input type="hidden" class="image-hidden" name="employeeImage" value="<%=concatStringImage%>">
                                             <label for="imageInput" class="image-button add-button">
                                                 <i class="fa-solid fa-image"></i>Avatar Picture
                                             </label>

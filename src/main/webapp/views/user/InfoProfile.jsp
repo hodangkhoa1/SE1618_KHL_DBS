@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="user-sidenav">
                                     <div class="user-sidenav__url">
-                                        <button onclick="DeleteAccount('${pageContext.request.contextPath}/info-profile', '${sessionScope.LOGIN_USER.userEmail}')" type="button" class="sidenav-url__title">Delete Account</button>
+                                        <button onclick="DeleteAccount('${pageContext.request.contextPath}/info-profile', '${sessionScope.LOGIN_USER.userEmail}', '${pageContext.request.contextPath}/home')" type="button" class="sidenav-url__title">Delete Account</button>
                                     </div>
                                 </div>
                             </div>

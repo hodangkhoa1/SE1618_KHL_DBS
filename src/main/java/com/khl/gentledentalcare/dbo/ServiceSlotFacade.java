@@ -16,7 +16,7 @@ public class ServiceSlotFacade extends AbstractServiceSlot<ServiceSlot> {
 
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    private static final String SQL_GET_ALL_SERVICE_SLOT = "SELECT * FROM ServiceSlot";
+    private static final String SQL_GET_ALL_SERVICE_SLOT = "SELECT * FROM ServiceSlot WHERE ServiceID = ?";
     private static final String SQL_GET_ALL_SERVICE_SLOT_EMPTY = "SELECT * FROM ServiceSlot WHERE NOT ServiceID = ?";
     private static final String SQL_ADD_SERVICE_SLOT = "INSERT INTO ServiceSlot(SlotServiceID, ServiceID, SlotID) VALUES(?, ?, ?)";
     private static final String SQL_GET_SERVICE_SLOT_BY_ID = "SELECT * FROM ServiceSlot WHERE SlotServiceID = ?";
@@ -44,6 +44,7 @@ public class ServiceSlotFacade extends AbstractServiceSlot<ServiceSlot> {
                         break;
                     case "GetAllServiceSlot":
                         preparedStatement = connection.prepareStatement(SQL_GET_ALL_SERVICE_SLOT);
+                        preparedStatement.setString(1, serviceSlot.getServiceID());
                         break;
                 }
 

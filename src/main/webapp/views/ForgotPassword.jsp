@@ -44,68 +44,87 @@
                                 <img src="./images/favicon-100x100.png" alt='Gentle Dental Care'>
                             </a>
                         </div>
-                        <h1 class="auth_title text-left">Password Reset</h1>
-                        <form action="${pageContext.request.contextPath}/forgot-password" method="post">
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT != null}">
+                            <h1 class="auth_title text-left">Reactive Account</h1>
+                        </c:if>
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT == null}">
+                            <h1 class="auth_title text-left">Password Reset</h1>
+                        </c:if>
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT != null}">
+                            <div class="alert alert-success bg-soft-primary border-0" role="alert">
+                                Enter the account for which you want to reactive account.
+                            </div>
+                        </c:if>
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT == null}">
                             <div class="alert alert-success bg-soft-primary border-0" role="alert">
                                 Enter the account for which you want to retrieve the password.
                             </div>
-                            <c:if test="${CURRENT_PAGE != null}">
-                                <div class="setting-form_content">
-                                    <label for="email" class="setting-form_label">Email</label>
-                                    <div class="setting-form_input">
-                                        <input type="text" name="email" id="email" value="${EMAIL != null ? EMAIL : ""}" placeholder="Enter Email">
-                                        <i class='bx bx-check-circle' id="email-icon-check"></i>
-                                        <i class='bx bx-error-circle' id="email-icon-error"></i>
-                                    </div>
-                                    <div class="message">
-                                        <span class="error-message" id="email-error"><%=accountError.getEmailError()%></span>
-                                    </div>
-                                </div>
-                            </c:if>
-                            <c:if test="${CHANGE_PAGE_PASSWORD != null}">
-                                <div class="setting-form_content">
-                                    <label for="newPassword" class="setting-form_label">New Password</label>
-                                    <div class="setting-form_input">
-                                        <input type="password" name="newPassword" id="newPassword" placeholder="Enter New Password">
-                                        <i class='bx bx-check-circle' id="newPassword-icon-check"></i>
-                                        <i class='bx bx-error-circle' id="newPassword-icon-error"></i>
-                                    </div>
-                                    <div class="message">
-                                        <span class="error-message" id="newPassword-error"><%=accountError.getNewPasswordError()%></span>
-                                    </div>
-                                </div>
-                                <div class="setting-form_content">
-                                    <label for="confirmPassword" class="setting-form_label">Confirm Password</label>
-                                    <div class="setting-form_input">
-                                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Enter Confirm Password">
-                                        <i class='bx bx-check-circle' id="confirmPassword-icon-check"></i>
-                                        <i class='bx bx-error-circle' id="confirmPassword-icon-error"></i>
-                                    </div>
-                                    <div class="message">
-                                        <span class="error-message" id="confirmPassword-error"><%=accountError.getConfirmPasswordError()%></span>
-                                    </div>
-                                </div>
-                            </c:if>
-                            <c:if test="${CHANGE_PAGE_VERIFY != null}">
-                                <div class="setting-form_content">
-                                    <label for="inputVerifyCode" class="setting-form_label">Verify Code</label>
-                                    <div class="setting-form_input">
-                                        <input type="text" name="verifySMS" id="inputVerifyCode" placeholder="Enter Your Verify Code">
-                                        <i class='bx bx-check-circle' id="verify-code-icon-check"></i>
-                                        <i class='bx bx-error-circle' id="verify-code-icon-error"></i>
-                                    </div>
-                                    <div class="message">
-                                        <span class="error-message" id="verify-code-error"><%=accountError.getVerifySMSError()%></span>
-                                    </div>
-                                </div>
-                            </c:if>
+                        </c:if>
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT != null}">
                             <div class="button-action">
-                                <button type="submit" class="reset-password">${CHANGE_PAGE_VERIFY == null ? "RESET PASSWORD" : "SEND CODE"}</button>
+                                <button type="submit" class="reset-password">Reactive</button>
                             </div>
-                            <p class="Login_dontHaveAcc">
-                                Already have an account ? <button type="button" onclick="window.location.href = '${pageContext.request.contextPath}/login'" class="sign_in_btn">Sign in</button>
-                            </p>
-                        </form>
+                        </c:if>
+                        <c:if test="${ACTIVE_AGAIN_ACCOUNT == null}">
+                            <form action="${pageContext.request.contextPath}/forgot-password" method="post">
+                                <c:if test="${CURRENT_PAGE != null}">
+                                    <div class="setting-form_content">
+                                        <label for="email" class="setting-form_label">Email</label>
+                                        <div class="setting-form_input">
+                                            <input type="text" name="email" id="email" value="${EMAIL != null ? EMAIL : ""}" placeholder="Enter Email">
+                                            <i class='bx bx-check-circle' id="email-icon-check"></i>
+                                            <i class='bx bx-error-circle' id="email-icon-error"></i>
+                                        </div>
+                                        <div class="message">
+                                            <span class="error-message" id="email-error"><%=accountError.getEmailError()%></span>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${CHANGE_PAGE_PASSWORD != null}">
+                                    <div class="setting-form_content">
+                                        <label for="newPassword" class="setting-form_label">New Password</label>
+                                        <div class="setting-form_input">
+                                            <input type="password" name="newPassword" id="newPassword" placeholder="Enter New Password">
+                                            <i class='bx bx-check-circle' id="newPassword-icon-check"></i>
+                                            <i class='bx bx-error-circle' id="newPassword-icon-error"></i>
+                                        </div>
+                                        <div class="message">
+                                            <span class="error-message" id="newPassword-error"><%=accountError.getNewPasswordError()%></span>
+                                        </div>
+                                    </div>
+                                    <div class="setting-form_content">
+                                        <label for="confirmPassword" class="setting-form_label">Confirm Password</label>
+                                        <div class="setting-form_input">
+                                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Enter Confirm Password">
+                                            <i class='bx bx-check-circle' id="confirmPassword-icon-check"></i>
+                                            <i class='bx bx-error-circle' id="confirmPassword-icon-error"></i>
+                                        </div>
+                                        <div class="message">
+                                            <span class="error-message" id="confirmPassword-error"><%=accountError.getConfirmPasswordError()%></span>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <c:if test="${CHANGE_PAGE_VERIFY != null}">
+                                    <div class="setting-form_content">
+                                        <label for="inputVerifyCode" class="setting-form_label">Verify Code</label>
+                                        <div class="setting-form_input">
+                                            <input type="text" name="verifySMS" id="inputVerifyCode" placeholder="Enter Your Verify Code">
+                                            <i class='bx bx-check-circle' id="verify-code-icon-check"></i>
+                                            <i class='bx bx-error-circle' id="verify-code-icon-error"></i>
+                                        </div>
+                                        <div class="message">
+                                            <span class="error-message" id="verify-code-error"><%=accountError.getVerifySMSError()%></span>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class="button-action">
+                                    <button type="submit" class="reset-password">${CHANGE_PAGE_VERIFY == null ? "RESET PASSWORD" : "SEND CODE"}</button>
+                                </div>
+                                <p class="Login_dontHaveAcc">
+                                    Already have an account ? <button type="button" onclick="window.location.href = '${pageContext.request.contextPath}/login'" class="sign_in_btn">Sign in</button>
+                                </p>
+                            </form>
+                        </c:if>
                     </div>
                 </div>
             </div>

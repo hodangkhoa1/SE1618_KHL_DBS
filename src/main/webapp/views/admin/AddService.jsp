@@ -81,7 +81,7 @@
                                         <div class="image-input">
                                             <input type="file" accept="image/*" id="imageInput">
                                             <img src="<%=concatStringImage%>" class="image-preview image-edit">
-                                            <input type="hidden" class="image-hidden" name="${SERVICE_IMAGE != null ? "serviceImage" : ""}" value="<%=concatStringImage%>">
+                                            <input type="hidden" class="image-hidden" name="serviceImage" value="<%=concatStringImage%>">
                                             <label for="imageInput" class="image-button add-button">
                                                 <i class="fa-solid fa-image"></i>Service Picture
                                             </label>

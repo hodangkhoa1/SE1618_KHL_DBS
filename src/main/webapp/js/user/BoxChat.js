@@ -155,6 +155,19 @@ function personalDate() {
     }
 }
 
+function sendMessage(value, urlServlet) {
+    $.ajax({
+        url: urlServlet,
+        type: "get",
+        data: {
+            serviceExits: serviceAmount
+        },
+        success: function (data) {
+            
+        }
+    });
+}
+
 function insertMessage() {
     msg = $(".message-input").val();
     if ($.trim(msg) == "") {

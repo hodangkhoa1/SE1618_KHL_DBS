@@ -157,9 +157,9 @@
                 <!-- SIGN IN CONTENT -->
                 <div class="container-col align-items-center flex-col">
                     <div class="content-text sign-in">
-                        <h2>Welcome back</h2>
+                        <h2>Join with us ?</h2>
                         <p>
-                            Horizon is the leading website selling computer components in Vietnam. Quickly create an account and let's explore Horizon!
+                            Create an account to explore more about Gentle Dental Care!
                         </p>
                     </div>
                     <div class="content-image sign-in">
@@ -174,11 +174,9 @@
                         <img src="./images/undraw_creative_team_r90h.svg" alt="welcome">
                     </div>
                     <div class="content-text sign-up">
-                        <h2>Join with us</h2>
+                        <h2>Join with us ?</h2>
                         <p>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit obcaecati, accusantium
-                            molestias, laborum, aspernatur deserunt officia voluptatum tempora dicta quo ab ullam. Assumenda
-                            enim harum minima possimus dignissimos deserunt rem.
+                            Sign in and visit Gentle Dental Care Website! Let's Go!
                         </p>
                     </div>
                 </div>
